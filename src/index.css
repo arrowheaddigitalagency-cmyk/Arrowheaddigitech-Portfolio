@@ -71,41 +71,46 @@
   h1, h2, h3, h4, h5, h6 {
     font-weight: 800; /* Poppins ExtraBold */
   }
+  h2 { font-weight: 700; } /* Poppins Bold for sections */
   p, span, div {
     font-weight: 500; /* Poppins Medium */
+  }
+  small, label {
+    font-weight: 400; /* Poppins Regular */
   }
 }
 
 /* Glassmorphism Classes for Bright Luxury */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: 
-    0 8px 32px 0 rgba(15, 23, 42, 0.05),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    0 24px 64px -12px rgba(15, 23, 42, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
   border-radius: 1.5rem;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow: 
-    0 10px 40px -10px rgba(15, 23, 42, 0.08),
-    inset 0 1px 2px rgba(255, 255, 255, 0.9);
-  border-radius: 1rem;
-  transition: all 0.3s ease;
+    0 16px 40px -10px rgba(15, 23, 42, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 0.7);
+  border-radius: 1.25rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   box-shadow: 
-    0 20px 50px -15px rgba(15, 23, 42, 0.12),
-    0 0 20px 0 rgba(255, 90, 31, 0.1),
+    0 32px 64px -15px rgba(15, 23, 42, 0.1),
+    0 0 32px 0 rgba(255, 90, 31, 0.08),
     inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 1);
 }
 
 .glass-pill {
