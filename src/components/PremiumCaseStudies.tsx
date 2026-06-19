@@ -13,8 +13,8 @@ interface CaseStudy {
   client: string;
   brandInfo: string;
   results: CaseMetric[];
-  image: string;
-  device: "macbook" | "iphone";
+  desktopImage: string;
+  mobileImage: string;
 }
 
 function CountingMetric({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -153,8 +153,8 @@ export default function PremiumCaseStudies() {
         { label: "Visibility", value: 160, suffix: "%" },
         { label: "Leads", value: 190, suffix: "%" },
       ],
-      image: "/src/assets/images/yalaride_macbook_screenshot.jpg.png",
-      device: "macbook",
+      desktopImage: "/src/assets/images/yalaride_macbook_screenshot.jpg.png",
+      mobileImage: "/src/assets/images/yalaride_mobile_screenshot.jpg.png",
     },
     {
       id: "america-needs-nurses",
@@ -164,8 +164,8 @@ export default function PremiumCaseStudies() {
         { label: "App Installs", value: 140, suffix: "%" },
         { label: "Job Applications", value: 110, suffix: "%" },
       ],
-      image: "/src/assets/images/america_needs_nurses_iphone_screenshot.jpg.png",
-      device: "iphone",
+      desktopImage: "/src/assets/images/america_needs_nurses_macbook_screenshot.jpg.png",
+      mobileImage: "/src/assets/images/america_needs_nurses_iphone_screenshot.jpg.png",
     },
     {
       id: "go-jetter",
@@ -175,8 +175,8 @@ export default function PremiumCaseStudies() {
         { label: "Travel Leads", value: 190, suffix: "%" },
         { label: "Bookings", value: 130, suffix: "%" },
       ],
-      image: "/src/assets/images/go_jetter_macbook_screenshot.jpg.png",
-      device: "macbook",
+      desktopImage: "/src/assets/images/go_jetter_macbook_screenshot.jpg.png",
+      mobileImage: "/src/assets/images/go_jetter_mobile_screenshot.jpg.png",
     },
   ];
 
@@ -207,12 +207,15 @@ export default function PremiumCaseStudies() {
               </h3>
             </div>
 
-            {/* Hardware Layer */}
-            {cs.device === "macbook" ? (
-              <CinematicMacBook image={cs.image} alt={cs.client} />
-            ) : (
-              <CinematicIPhone image={cs.image} alt={cs.client} />
-            )}
+            {/* Hardware Layer (Composite Desktop + Mobile) */}
+            <div className="relative w-full max-w-[1400px] flex justify-center items-center">
+              <div className="w-[85%] sm:w-[75%] lg:w-[65%] z-10">
+                <CinematicMacBook image={cs.desktopImage} alt={`${cs.client} Desktop`} />
+              </div>
+              <div className="absolute right-[5%] sm:right-[15%] lg:right-[20%] top-[40%] sm:top-[30%] w-[35%] sm:w-[25%] lg:w-[20%] z-20">
+                <CinematicIPhone image={cs.mobileImage} alt={`${cs.client} Mobile`} />
+              </div>
+            </div>
 
             {/* Floating Metric Badge 1 */}
             <motion.div 

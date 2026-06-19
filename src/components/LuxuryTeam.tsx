@@ -9,7 +9,7 @@ export default function LuxuryTeam() {
       name: "Waseeq Nauman",
       role: "Founder & Chief Executive Officer",
       desc: "Waseeq engineers the grand strategy behind Arrowhead's market dominance. With deep expertise in luxury positioning and enterprise growth, he transformed Arrowhead from a standard agency into a high-performance growth infrastructure company capable of scaling international brands.",
-      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=1200", // Placeholder for actual CEO portrait
+      image: "/src/assets/images/waseeq_photo.jpg", // Asset Placeholder
       linkedin: "#",
       accent: "text-brand-orange-500",
       bgAccent: "bg-brand-orange-500"
@@ -19,7 +19,7 @@ export default function LuxuryTeam() {
       name: "Usman Farooqi",
       role: "Operations Director & Systems Architect",
       desc: "Usman is the technical mastermind driving the Arrowhead Protocol. He oversees the seamless integration of advanced web architectures, AI autonomous pipelines, and high-latency data systems, ensuring that every strategic vision is executed with zero defects.",
-      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=1200", // Placeholder for actual Usman portrait
+      image: "/src/assets/images/usman_photo.jpg", // Asset Placeholder
       linkedin: "#",
       accent: "text-brand-blue-500",
       bgAccent: "bg-brand-blue-500"
@@ -67,14 +67,20 @@ export default function LuxuryTeam() {
                     <img 
                       src={founder.image} 
                       alt={founder.name}
-                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105"
+                      onError={(e) => { e.currentTarget.style.opacity = '0'; }}
+                      className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60" />
-                    <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                    <div className="absolute inset-0 bg-slate-800 flex items-center justify-center -z-10">
+                      <span className="text-slate-500 font-mono tracking-widest uppercase font-bold text-sm">
+                        [ Missing Asset: {founder.id} Photo ]
+                      </span>
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60 pointer-events-none" />
+                    <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end pointer-events-none">
                        <span className="text-xs font-mono font-bold tracking-widest text-white/70 uppercase">
                          [ Asset Slot: {founder.id} ]
                        </span>
-                       <div className="flex gap-2">
+                       <div className="flex gap-2 pointer-events-auto">
                          <a href={founder.linkedin} className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-[#0A66C2] transition-colors">
                            <Linkedin className="w-4 h-4" />
                          </a>

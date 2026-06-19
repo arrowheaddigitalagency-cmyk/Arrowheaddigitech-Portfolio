@@ -61,12 +61,24 @@ export default function InitiateProtocol() {
   const [submitted, setSubmitted] = useState(false);
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formState.name && formState.email) {
-      setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 8000);
-      setFormState({ name: "", email: "", budget: "", msg: "" });
+      try {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            access_key: "3f947f04-efd8-40d7-bf64-829010e2ae72",
+            ...formState
+          })
+        });
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 8000);
+        setFormState({ name: "", email: "", budget: "", msg: "" });
+      } catch (err) {
+        console.error("Submission failed", err);
+      }
     }
   };
 

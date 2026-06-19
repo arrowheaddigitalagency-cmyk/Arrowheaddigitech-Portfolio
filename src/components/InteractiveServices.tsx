@@ -117,11 +117,16 @@ export default function InteractiveServices() {
                 >
                   <div className="relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 shadow-2xl border border-slate-200 group">
                     {/* Placeholder structural element since we don't have real images yet */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center p-12">
-                      <div className="w-full h-full border-2 border-dashed border-slate-400 rounded-xl flex items-center justify-center bg-white/50 backdrop-blur-sm transition-transform duration-700 group-hover:scale-105">
-                         <span className="font-mono text-slate-500 font-bold uppercase tracking-widest text-sm text-center">
-                           [ CINEMATIC DEMO: {service.title} ]<br/>
-                           Waiting for High-Res Asset
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      onError={(e) => { e.currentTarget.style.opacity = '0'; }}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-slate-900 flex items-center justify-center p-12 -z-10">
+                      <div className="w-full h-full border border-slate-700 rounded-xl flex items-center justify-center bg-slate-800/50">
+                         <span className="font-mono text-slate-500 font-bold uppercase tracking-widest text-[10px] text-center">
+                           [ ASSET SLOT: {service.title} ]
                          </span>
                       </div>
                     </div>
