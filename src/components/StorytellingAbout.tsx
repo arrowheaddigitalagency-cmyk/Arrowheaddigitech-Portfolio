@@ -1,206 +1,142 @@
 import React, { useRef } from "react";
-import { ArrowRight, Compass, Shield, Zap, MessageSquare, Target } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 
 export default function StorytellingAbout() {
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Track scroll progress within the component
+  // Track scroll progress to fill the timeline line
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start center", "end end"]
   });
 
-  // Parallax translation curves
-  const yImage1 = useTransform(scrollYProgress, [0, 1], [-60, 60]);
-  const yImage2 = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  
-  // Opacity & movement triggers for sections
-  const aboutOpacity = useTransform(scrollYProgress, [0.1, 0.35, 0.55], [0, 1, 0]);
-  const aboutTranslateY = useTransform(scrollYProgress, [0.1, 0.35, 0.55], [40, 0, -30]);
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-  const mvOpacity = useTransform(scrollYProgress, [0.45, 0.7, 0.95], [0, 1, 0]);
-  const mvTranslateY = useTransform(scrollYProgress, [0.45, 0.7, 0.95], [40, 0, -30]);
-
-  const benefits = [
+  const journey = [
     {
-      title: "More Leads",
-      desc: "Quality prospects for your business",
-      icon: <Zap className="w-5 h-5 text-brand-orange-500" />
+      chapter: "01",
+      title: "The Genesis",
+      desc: "Arrowhead wasn't born in a boardroom. It started with a fundamental realization: agencies were charging premium retainers for vanity metrics, while businesses were starved for actual revenue. We set out to engineer systems that hunt for profit, not just clicks."
     },
     {
-      title: "Strong Brand",
-      desc: "A powerful presence people remember",
-      icon: <Shield className="w-5 h-5 text-brand-blue-500" />
+      chapter: "02",
+      title: "The Architecture",
+      desc: "We abandoned the traditional agency model. Instead of hiring generic account managers, we built an alliance of technical growth architects, data scientists, and luxury brand strategists. We built the Arrowhead Protocol."
     },
     {
-      title: "Real Results",
-      desc: "Marketing focused on growth",
-      icon: <Target className="w-5 h-5 text-emerald-500" />
+      chapter: "03",
+      title: "The Scale",
+      desc: "Our systems started dominating local markets, and soon, international campaigns. From deploying high-frequency trading principles into Google Ads algorithms to automating entire sales pipelines with AI, Arrowhead became the silent partner behind industry leaders."
     },
     {
-      title: "Clear Communication",
-      desc: "Simple updates and honest strategy",
-      icon: <MessageSquare className="w-5 h-5 text-indigo-500" />
+      chapter: "04",
+      title: "The Future",
+      desc: "We are no longer just an agency; we are a growth infrastructure company. The future belongs to brands that operate with zero latency, aggressive market positioning, and autonomous systems. We build those engines."
     }
   ];
 
-  const missionPillars = ["Attract", "Grow", "Convert", "Achieve"];
-  const visionValues = ["Lead", "Trust", "Impact", "Success"];
-
   return (
-    <section 
-      ref={containerRef} 
-      id="about" 
-      className="relative min-h-[130vh] bg-white overflow-hidden text-left py-20"
-    >
-      {/* Background Section Pin Layout */}
-      <div className="sticky top-0 w-full min-h-screen flex flex-col justify-center items-center overflow-hidden">
+    <section ref={containerRef} id="about" className="relative bg-[#050505] text-white py-32 lg:py-48 overflow-hidden">
+      
+      {/* Background Ambience */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand-orange-500/5 blur-[120px] rounded-full pointer-events-none" />
+      
+      <div className="max-w-[1000px] mx-auto px-6 sm:px-12 relative z-10">
         
-        {/* Subtle Watermark backdrop */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15rem] font-extrabold text-slate-100/50 select-none pointer-events-none tracking-tighter whitespace-nowrap z-0">
-          DOCTRINE
+        {/* Narrative Header */}
+        <div className="mb-32 text-center">
+          <span className="text-[10px] font-mono tracking-[0.4em] text-slate-500 uppercase block mb-6 font-bold">
+            // FOUNDER'S LOG
+          </span>
+          <h2 className="text-5xl sm:text-7xl font-extrabold text-white leading-[0.95] tracking-tighter">
+            OUR <br /> JOURNEY.
+          </h2>
         </div>
 
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        {/* Central Scroll-Linked Timeline Layout */}
+        <div className="relative">
           
-          {/* Left Column: Parallax Images & Graphics */}
-          <div className="lg:col-span-6 relative h-[450px] sm:h-[600px] w-full flex items-center justify-center">
-            
-            {/* Primary team visual with slow upward scroll-parallax */}
+          {/* Background Timeline Track */}
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-white/10 md:-translate-x-1/2" />
+          
+          {/* Glowing Animated Timeline Line */}
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px md:-translate-x-1/2">
             <motion.div 
-              style={{ y: yImage1 }}
-              className="absolute left-6 w-3/4 h-[350px] sm:h-[450px] bg-slate-100 overflow-hidden shadow-2xl rounded-sm border border-slate-200"
-            >
-              <img 
-                src="/src/assets/images/arrowhead_experts_team_1781816010797.jpg" 
-                alt="Arrowhead Marketing Operations" 
-                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000 scale-105"
-              />
-            </motion.div>
-
-            {/* Secondary geometric card with slow downward scroll-parallax */}
-            <motion.div 
-              style={{ y: yImage2 }}
-              className="absolute right-6 top-12 w-1/2 h-[200px] sm:h-[280px] bg-slate-950 shadow-2xl overflow-hidden flex flex-col justify-between p-8 border border-white/10 rounded-sm"
-            >
-              <div className="w-full flex justify-end">
-                <span className="w-2.5 h-2.5 rounded-full bg-brand-orange-500 animate-pulse" />
-              </div>
-              <div>
-                <Compass className="w-8 h-8 text-brand-blue-500 mb-4 animate-spin" style={{ animationDuration: '20s' }} />
-                <h4 className="text-white text-xs font-mono tracking-widest uppercase font-bold">DIRECTION SYSTEM</h4>
-                <p className="text-slate-400 text-[11px] font-mono mt-2">LATENCY // SECURE // OK</p>
-              </div>
-              {/* Architectural grid overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:1rem_1rem] pointer-events-none" />
-            </motion.div>
-
+              style={{ height: lineHeight }}
+              className="w-full bg-gradient-to-b from-brand-orange-500 via-amber-400 to-transparent shadow-[0_0_15px_rgba(255,90,31,0.8)]"
+            />
           </div>
 
-          {/* Right Column: Progressive Reveal content */}
-          <div className="lg:col-span-6 relative h-[600px] w-full">
-            
-            {/* Phase 1: About Us */}
-            <motion.div 
-              style={{ opacity: aboutOpacity, y: aboutTranslateY }}
-              className="absolute inset-0 flex flex-col justify-center"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <span className="w-8 h-px bg-brand-orange-500" />
-                <span className="text-[10px] font-mono tracking-[0.25em] text-brand-orange-500 font-bold uppercase">
-                  OPERATIONAL PROFILE
-                </span>
-              </div>
-              
-              <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tighter leading-[1.05] mb-6">
-                ABOUT US.
-              </h2>
-              
-              <div className="space-y-4 text-slate-500 font-medium text-base leading-relaxed">
-                <p>
-                  Arrowhead helps businesses grow faster with smart digital strategies, strong branding, and lead-focused campaigns.
-                </p>
-                <p>
-                  Beyond marketing, Arrowhead focuses on building brands, attracting customers, and supporting business growth.
-                </p>
-              </div>
+          {/* Journey Chapters */}
+          <div className="space-y-32">
+            {journey.map((chapter, idx) => {
+              const isEven = idx % 2 === 0;
+              return (
+                <div key={chapter.chapter} className="relative flex flex-col md:flex-row items-center justify-between w-full">
+                  
+                  {/* Glowing Node on Timeline */}
+                  <div className="absolute left-[24.5px] md:left-1/2 md:-translate-x-1/2 w-3 h-3 rounded-full bg-[#050505] border-2 border-brand-orange-500 z-10 shadow-[0_0_10px_rgba(255,90,31,0.5)]" />
 
-              {/* Core Benefits */}
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {benefits.map((b, i) => (
-                  <div key={i} className="flex gap-3 items-start border border-slate-100 p-3 rounded-md bg-slate-50/50">
-                    <div className="p-1.5 border border-slate-200 rounded bg-white">
-                      {b.icon}
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-900">{b.title}</h4>
-                      <p className="text-xs text-slate-400 mt-0.5">{b.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-            </motion.div>
-
-            {/* Phase 2: Mission & Vision */}
-            <motion.div 
-              style={{ opacity: mvOpacity, y: mvTranslateY }}
-              className="absolute inset-0 flex flex-col justify-center"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <span className="w-8 h-px bg-brand-blue-500" />
-                <span className="text-[10px] font-mono tracking-[0.25em] text-brand-blue-500 font-bold uppercase">
-                  MISSION & VISION
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                
-                {/* Mission */}
-                <div className="border border-slate-100 p-6 rounded bg-slate-50/50 backdrop-blur-sm relative">
-                  <h3 className="text-xl font-extrabold text-slate-900 tracking-tight mb-3">Our Mission</h3>
-                  <p className="text-sm text-slate-500 font-medium leading-relaxed">
-                    To help businesses grow with smart marketing, stronger branding, and high-quality leads that turn into real results.
-                  </p>
-                  <div className="mt-6">
-                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold block mb-2">// Mission Pillars</span>
-                    <div className="flex flex-wrap gap-2">
-                      {missionPillars.map((p, idx) => (
-                        <span key={idx} className="text-xs px-2.5 py-1 border border-brand-orange-500/20 text-brand-orange-600 rounded bg-brand-orange-50/50 font-bold">
-                          {p}
+                  {/* Left Side Content (Empty for odd on desktop, content for even) */}
+                  <div className={`w-full md:w-5/12 ${isEven ? 'md:text-right md:pr-12' : 'hidden md:block'}`}>
+                    {isEven && (
+                      <motion.div 
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                      >
+                        <span className="text-[10px] font-mono text-brand-orange-500 uppercase tracking-widest block mb-4">
+                          Chapter {chapter.chapter}
                         </span>
-                      ))}
-                    </div>
+                        <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6 text-white">{chapter.title}</h3>
+                        <p className="text-slate-400 text-base leading-relaxed">{chapter.desc}</p>
+                      </motion.div>
+                    )}
                   </div>
-                </div>
 
-                {/* Vision */}
-                <div className="border border-slate-100 p-6 rounded bg-slate-50/50 backdrop-blur-sm">
-                  <h3 className="text-xl font-extrabold text-slate-900 tracking-tight mb-3">Our Vision</h3>
-                  <p className="text-sm text-slate-500 font-medium leading-relaxed">
-                    To become a trusted marketing partner for brands that want to stand out, scale faster, and lead their market.
-                  </p>
-                  <div className="mt-6">
-                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold block mb-2">// Vision Values</span>
-                    <div className="flex flex-wrap gap-2">
-                      {visionValues.map((v, idx) => (
-                        <span key={idx} className="text-xs px-2.5 py-1 border border-brand-blue-500/20 text-brand-blue-600 rounded bg-brand-blue-50/50 font-bold">
-                          {v}
+                  {/* Right Side Content (Empty for even on desktop, content for odd) */}
+                  <div className={`w-full md:w-5/12 pl-16 md:pl-12 ${!isEven ? 'md:text-left' : 'hidden md:block'}`}>
+                    {!isEven && (
+                      <motion.div 
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                      >
+                        <span className="text-[10px] font-mono text-brand-orange-500 uppercase tracking-widest block mb-4">
+                          Chapter {chapter.chapter}
                         </span>
-                      ))}
-                    </div>
+                        <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6 text-white">{chapter.title}</h3>
+                        <p className="text-slate-400 text-base leading-relaxed">{chapter.desc}</p>
+                      </motion.div>
+                    )}
                   </div>
+
+                  {/* Mobile Fallback for Even (since they are hidden on right side for mobile) */}
+                  {isEven && (
+                    <div className="w-full pl-16 block md:hidden mt-[-10px]">
+                      <motion.div 
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                      >
+                        <span className="text-[10px] font-mono text-brand-orange-500 uppercase tracking-widest block mb-4">
+                          Chapter {chapter.chapter}
+                        </span>
+                        <h3 className="text-3xl font-extrabold tracking-tight mb-4 text-white">{chapter.title}</h3>
+                        <p className="text-slate-400 text-base leading-relaxed">{chapter.desc}</p>
+                      </motion.div>
+                    </div>
+                  )}
+
                 </div>
-
-              </div>
-
-            </motion.div>
-
+              );
+            })}
           </div>
 
         </div>
-
       </div>
     </section>
   );

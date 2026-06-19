@@ -1,179 +1,155 @@
 import React from "react";
-import { Linkedin, Mail } from "lucide-react";
+import { Linkedin, Mail, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
-interface TeamMember {
-  name: string;
-  role: string;
-  badge: string;
-  image: string;
-  linkedin: string;
-}
-
 export default function LuxuryTeam() {
-  const leaders: TeamMember[] = [
+  const founders = [
     {
+      id: "CEO",
       name: "Waseeq Nauman",
-      role: "Founder & CEO",
-      badge: "Founder & CEO // Executive Principal",
-      image: "/src/assets/images/arrowhead_experts_team_1781816010797.jpg",
-      linkedin: "#"
+      role: "Founder & Chief Executive Officer",
+      desc: "Waseeq engineers the grand strategy behind Arrowhead's market dominance. With deep expertise in luxury positioning and enterprise growth, he transformed Arrowhead from a standard agency into a high-performance growth infrastructure company capable of scaling international brands.",
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=1200", // Placeholder for actual CEO portrait
+      linkedin: "#",
+      accent: "text-brand-orange-500",
+      bgAccent: "bg-brand-orange-500"
     },
     {
+      id: "OPS",
       name: "Usman Farooqi",
-      role: "Operations Director",
-      badge: "Operations Director // Systems Architect",
-      image: "/src/assets/images/arrowhead_experts_team_1781816010797.jpg",
-      linkedin: "#"
+      role: "Operations Director & Systems Architect",
+      desc: "Usman is the technical mastermind driving the Arrowhead Protocol. He oversees the seamless integration of advanced web architectures, AI autonomous pipelines, and high-latency data systems, ensuring that every strategic vision is executed with zero defects.",
+      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=1200", // Placeholder for actual Usman portrait
+      linkedin: "#",
+      accent: "text-brand-blue-500",
+      bgAccent: "bg-brand-blue-500"
     }
   ];
 
-  const specialists: TeamMember[] = [
-    {
-      name: "Zulqarnain Jutt",
-      role: "Marketing Strategist",
-      badge: "Strategy Officer",
-      image: "/src/assets/images/arrowhead_experts_team_1781816010797.jpg",
-      linkedin: "#"
-    },
-    {
-      name: "Hammad Ahmad",
-      role: "Brand Growth Manager",
-      badge: "Brand Director",
-      image: "/src/assets/images/arrowhead_experts_team_1781816010797.jpg",
-      linkedin: "#"
-    },
-    {
-      name: "Abeer Khurram",
-      role: "Web & Software Expert",
-      badge: "Technical Lead",
-      image: "/src/assets/images/arrowhead_experts_team_1781816010797.jpg",
-      linkedin: "#"
-    },
-    {
-      name: "Mohammad Kashan",
-      role: "Creative Analyst / Video Editor",
-      badge: "Media Lead",
-      image: "/src/assets/images/arrowhead_experts_team_1781816010797.jpg",
-      linkedin: "#"
-    }
+  const specialists = [
+    { name: "Zulqarnain Jutt", role: "Marketing Strategist", badge: "Strategy" },
+    { name: "Hammad Ahmad", role: "Brand Growth Manager", badge: "Brand" },
+    { name: "Abeer Khurram", role: "Web & Software Expert", badge: "Technical" },
+    { name: "Mohammad Kashan", role: "Creative Analyst / Video Editor", badge: "Media" }
   ];
 
   return (
-    <section id="team" className="py-20 bg-white text-slate-900 border-t border-slate-200 text-left">
+    <section id="team" className="py-32 bg-white text-slate-900 overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-12 w-full">
         
         {/* Header Segment */}
-        <div className="mb-20 md:flex justify-between items-end border-b border-slate-100 pb-10">
-          <div className="max-w-2xl">
-            <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block mb-4 font-bold">
-              // EXECUTIVE LEADERSHIP
-            </span>
-            <h2 className="text-5xl sm:text-7xl font-extrabold leading-[0.95] tracking-tighter">
-              EXECUTIVE <br /> COMMAND.
-            </h2>
-          </div>
-          <p className="mt-8 md:mt-0 text-lg text-slate-500 font-medium max-w-sm">
-            A concentrated alliance of digital systems experts, strategists, and operations directors commanding strict execution.
-          </p>
+        <div className="mb-32 flex flex-col items-center text-center">
+          <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block mb-6 font-bold">
+            // EXECUTIVE COMMAND
+          </span>
+          <h2 className="text-5xl sm:text-7xl font-extrabold leading-[0.95] tracking-tighter max-w-3xl mx-auto">
+            THE ARCHITECTS OF <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-500">GROWTH.</span>
+          </h2>
         </div>
 
-        {/* Row 1: Executive Leaders (Larger Cards) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
-          {leaders.map((member, idx) => (
-            <motion.div
-              key={member.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="group cursor-pointer flex flex-col md:flex-row border border-slate-200/80 p-8 rounded-xl bg-slate-50/50 hover:bg-slate-50 hover:border-brand-orange-500/30 transition-all duration-500 gap-8"
-            >
-              {/* Larger Leader Image aspect ratio */}
-              <div className="relative w-full md:w-[45%] aspect-[4/5] overflow-hidden bg-slate-150 rounded-lg shrink-0">
-                <img 
-                  src={member.image} 
-                  alt={member.name} 
-                  className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-1000" />
+        {/* Founder Spotlights (Strict Hierarchy) */}
+        <div className="space-y-32">
+          {founders.map((founder, idx) => {
+            const isEven = idx % 2 === 0;
+            return (
+              <div key={founder.id} className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center`}>
                 
-                {/* Social Actions */}
-                <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-500">
-                  <a href={member.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/95 backdrop-blur text-slate-900 rounded-full flex items-center justify-center hover:bg-[#0A66C2] hover:text-white transition-colors">
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                  <a href="mailto:info@arrowheaddigitech.com" className="w-10 h-10 bg-white/95 backdrop-blur text-slate-900 rounded-full flex items-center justify-center hover:bg-brand-orange-500 hover:text-white transition-colors">
-                    <Mail className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
+                {/* Massive Portrait Container */}
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex-1 w-full"
+                >
+                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100 shadow-2xl group">
+                    <img 
+                      src={founder.image} 
+                      alt={founder.name}
+                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60" />
+                    <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                       <span className="text-xs font-mono font-bold tracking-widest text-white/70 uppercase">
+                         [ Asset Slot: {founder.id} ]
+                       </span>
+                       <div className="flex gap-2">
+                         <a href={founder.linkedin} className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-[#0A66C2] transition-colors">
+                           <Linkedin className="w-4 h-4" />
+                         </a>
+                       </div>
+                    </div>
+                  </div>
+                </motion.div>
 
-              {/* Text description details - Bigger font for executive profiles */}
-              <div className="flex flex-col justify-between py-2">
-                <div>
-                  <span className="text-[10px] font-mono tracking-widest text-brand-orange-500 font-bold uppercase mb-3 block">
-                    {member.badge}
-                  </span>
-                  <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tighter mb-2 group-hover:text-brand-orange-500 transition-colors">
-                    {member.name}
+                {/* Editorial Content */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex-1"
+                >
+                  <div className="flex items-center gap-4 mb-8">
+                    <span className={`w-12 h-1 ${founder.bgAccent}`} />
+                    <span className={`text-[10px] font-mono tracking-widest font-bold uppercase ${founder.accent}`}>
+                      {founder.id} Spotlight
+                    </span>
+                  </div>
+                  
+                  <h3 className="text-5xl sm:text-6xl font-extrabold tracking-tighter mb-4 text-slate-900">
+                    {founder.name}
                   </h3>
-                  <p className="text-base text-slate-600 font-bold mb-4">{member.role}</p>
-                  <p className="text-sm text-slate-400 font-medium leading-relaxed">
-                    Directing Arrowhead's business growth pipelines and high-end tech-consulting operations for enterprise scaling.
+                  <h4 className="text-xl sm:text-2xl font-bold text-slate-500 mb-8 tracking-tight">
+                    {founder.role}
+                  </h4>
+                  
+                  <p className="text-lg text-slate-600 font-medium leading-relaxed mb-12">
+                    {founder.desc}
                   </p>
-                </div>
-                <div className="mt-8 text-xs font-mono text-slate-400 font-bold uppercase tracking-wider">
-                  Status // ACTIVE DEPLOYER
-                </div>
+
+                  <a href="#contact" className="group inline-flex items-center gap-3 text-sm font-bold text-slate-900 uppercase tracking-widest hover:text-brand-orange-500 transition-colors">
+                    Request Consultation
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                  </a>
+                </motion.div>
+
               </div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Row 2: Specialists & Directors (Standard Cards) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {specialists.map((member, idx) => (
-            <motion.div
-              key={member.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
-              className="group cursor-pointer flex flex-col border border-slate-100 p-6 rounded-xl bg-slate-50/20 hover:bg-slate-50 transition-all duration-500"
-            >
-              {/* Standard Image container */}
-              <div className="relative w-full aspect-[4/3] overflow-hidden bg-slate-150 rounded-lg mb-5">
-                <img 
-                  src={member.image} 
-                  alt={member.name} 
-                  className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-1000" />
-                
-                {/* Social Actions */}
-                <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-500">
-                  <a href={member.linkedin} target="_blank" rel="noreferrer" className="w-8 h-8 bg-white/90 backdrop-blur text-slate-900 rounded-full flex items-center justify-center hover:bg-[#0A66C2] hover:text-white transition-colors">
-                    <Linkedin className="w-3.5 h-3.5" />
-                  </a>
-                  <a href="mailto:info@arrowheaddigitech.com" className="w-8 h-8 bg-white/90 backdrop-blur text-slate-900 rounded-full flex items-center justify-center hover:bg-brand-orange-500 hover:text-white transition-colors">
-                    <Mail className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </div>
+        {/* Supporting Leadership Team (Strictly separate from founders, tightly packed) */}
+        <div className="mt-40 border-t border-slate-200 pt-20">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div>
+              <h4 className="text-3xl font-extrabold tracking-tighter text-slate-900">Supporting Directors.</h4>
+              <p className="text-slate-500 mt-2 font-medium">The tactical specialists driving daily execution.</p>
+            </div>
+            <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase font-bold">
+              // TACTICAL SQUAD
+            </span>
+          </div>
 
-              {/* Text metadata */}
-              <div className="flex flex-col">
-                <span className="text-[9px] font-mono tracking-widest text-slate-400 font-bold uppercase mb-1.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+            {specialists.map((member, idx) => (
+              <motion.div 
+                key={member.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group border-l-2 border-slate-100 pl-6 hover:border-slate-900 transition-colors"
+              >
+                <span className="text-[9px] font-mono tracking-widest text-slate-400 font-bold uppercase mb-2 block">
                   {member.badge}
                 </span>
-                <h3 className="text-xl font-extrabold tracking-tighter mb-0.5 group-hover:text-brand-orange-500 transition-colors">
-                  {member.name}
-                </h3>
-                <p className="text-xs text-slate-500 font-bold">{member.role}</p>
-              </div>
-            </motion.div>
-          ))}
+                <h5 className="text-lg font-extrabold tracking-tight text-slate-900 mb-1">{member.name}</h5>
+                <p className="text-xs font-bold text-slate-500">{member.role}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
       </div>

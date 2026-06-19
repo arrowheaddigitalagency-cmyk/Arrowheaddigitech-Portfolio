@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ArrowRight, CheckCircle, Globe } from "lucide-react";
-import { motion, useInView } from "motion/react";
+import { ArrowRight, Globe } from "lucide-react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
 
 interface CaseMetric {
   label: string;
@@ -12,7 +12,6 @@ interface CaseStudy {
   id: string;
   client: string;
   brandInfo: string;
-  approach: string[];
   results: CaseMetric[];
   image: string;
   device: "macbook" | "iphone";
@@ -48,11 +47,10 @@ function CountingMetric({ target, suffix = "" }: { target: number; suffix?: stri
   );
 }
 
-// MacBook Pro CSS-Only Frame Mockup
-function MacBookMockup({ image, alt }: { image: string; alt: string }) {
+// Cinematic Full-Width MacBook Pro CSS-Only Frame Mockup
+function CinematicMacBook({ image, alt }: { image: string; alt: string }) {
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
+  
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY, currentTarget } = e;
     const { left, top, width, height } = currentTarget.getBoundingClientRect();
@@ -64,49 +62,41 @@ function MacBookMockup({ image, alt }: { image: string; alt: string }) {
   return (
     <div
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setCoords({ x: 0, y: 0 });
-      }}
-      className="relative w-full max-w-2xl mx-auto cursor-pointer"
-      style={{ perspective: 1200 }}
+      onMouseLeave={() => setCoords({ x: 0, y: 0 })}
+      className="relative w-full max-w-[1200px] mx-auto cursor-crosshair z-10"
+      style={{ perspective: 1500 }}
     >
       <motion.div
         animate={{
-          rotateY: coords.x * 12,
-          rotateX: -coords.y * 12,
-          scale: isHovered ? 1.02 : 1.0,
+          rotateY: coords.x * 10,
+          rotateX: -coords.y * 10,
         }}
-        transition={{ type: "spring", stiffness: 120, damping: 14 }}
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
         className="w-full"
       >
-        {/* Laptop Screen Bezel */}
-        <div className="bg-[#0f0f11] p-[3.2%] rounded-t-2xl border-t border-x border-slate-700 shadow-2xl relative">
-          {/* Camera Dot */}
-          <div className="absolute top-[2%] left-1/2 -translate-x-1/2 w-[8%] h-[2.5%] bg-black rounded-full z-30 flex items-center justify-center">
-            <div className="w-[2px] h-[2px] rounded-full bg-slate-900" />
+        <div className="bg-[#0f0f11] p-[2.5%] rounded-t-3xl border-t-2 border-x-2 border-slate-700 shadow-2xl relative">
+          <div className="absolute top-[1.5%] left-1/2 -translate-x-1/2 w-[6%] h-[2.5%] bg-black rounded-b-xl z-30 flex items-center justify-center">
+            <div className="w-[3px] h-[3px] rounded-full bg-blue-900/40" />
           </div>
-          {/* Inner Display screen */}
-          <div className="relative aspect-[16/10] bg-slate-950 overflow-hidden rounded-md border border-slate-900">
-            <img src={image} alt={alt} className="w-full h-full object-cover select-none pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 pointer-events-none z-10" />
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] pointer-events-none z-20" />
+          <div className="relative aspect-[16/10] bg-slate-950 overflow-hidden rounded-lg border-2 border-black">
+            <div className="absolute inset-0 bg-slate-800 flex items-center justify-center">
+               <span className="text-slate-500 font-mono tracking-widest uppercase font-bold">[ {alt} Screenshot Missing ]</span>
+            </div>
+            {/* Glossy Reflection overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 pointer-events-none z-10 mix-blend-overlay" />
           </div>
         </div>
-        {/* Laptop Base Bezel */}
-        <div className="relative h-4 bg-gradient-to-b from-[#4d5257] via-[#212325] to-[#121314] rounded-b-2xl border-b border-x border-slate-900 shadow-2xl flex justify-center">
-          <div className="w-[18%] h-[25%] bg-[#080808] rounded-b-md" />
+        <div className="relative h-6 sm:h-8 bg-gradient-to-b from-[#4d5257] via-[#212325] to-[#121314] rounded-b-3xl border-b border-x border-slate-900 shadow-[0_40px_100px_-10px_rgba(0,0,0,0.8)] flex justify-center">
+          <div className="w-[20%] h-[30%] bg-[#080808] rounded-b-lg shadow-inner" />
         </div>
       </motion.div>
     </div>
   );
 }
 
-// iPhone 15 Pro CSS-Only Frame Mockup
-function iPhoneMockup({ image, alt }: { image: string; alt: string }) {
+// Cinematic iPhone 15 Pro CSS-Only Frame Mockup
+function CinematicIPhone({ image, alt }: { image: string; alt: string }) {
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY, currentTarget } = e;
@@ -119,34 +109,24 @@ function iPhoneMockup({ image, alt }: { image: string; alt: string }) {
   return (
     <div
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setCoords({ x: 0, y: 0 });
-      }}
-      className="relative w-[270px] sm:w-[300px] mx-auto cursor-pointer"
+      onMouseLeave={() => setCoords({ x: 0, y: 0 })}
+      className="relative w-[320px] sm:w-[400px] mx-auto cursor-crosshair z-10"
       style={{ perspective: 1200 }}
     >
       <motion.div
         animate={{
-          rotateY: coords.x * 15,
-          rotateX: -coords.y * 15,
-          scale: isHovered ? 1.03 : 1.0,
+          rotateY: coords.x * 12,
+          rotateX: -coords.y * 12,
         }}
-        transition={{ type: "spring", stiffness: 120, damping: 14 }}
-        className="w-full bg-[#0d0d0f] border-[9px] border-[#383a3f] rounded-[3.2rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] p-2.5 relative aspect-[9/19.5]"
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+        className="w-full bg-[#0d0d0f] border-[12px] border-[#2a2c30] rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] p-3 relative aspect-[9/19.5]"
       >
-        {/* Ear Piece speaker */}
-        <div className="absolute top-[2.2%] left-1/2 -translate-x-1/2 w-[22%] h-[0.8%] bg-black rounded-full z-30" />
-        {/* Dynamic Island */}
-        <div className="absolute top-[4.2%] left-1/2 -translate-x-1/2 w-[32%] h-[3.2%] bg-black rounded-full z-30 flex items-center justify-end pr-2.5">
-          <div className="w-1.5 h-1.5 rounded-full bg-slate-900" />
+        <div className="absolute top-[3.5%] left-1/2 -translate-x-1/2 w-[30%] h-[3%] bg-black rounded-full z-30 flex items-center justify-end pr-3">
+          <div className="w-2 h-2 rounded-full bg-blue-900/40" />
         </div>
-        {/* Inner Phone Screen Display */}
-        <div className="w-full h-full bg-slate-950 overflow-hidden rounded-[2.6rem] relative border border-slate-900">
-          <img src={image} alt={alt} className="w-full h-full object-cover select-none pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 pointer-events-none z-10" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px),linear-gradient(to_bottom,#ffffff01_1px,transparent_1px)] bg-[size:1rem_1rem] pointer-events-none z-20" />
+        <div className="w-full h-full bg-slate-900 overflow-hidden rounded-[2.8rem] relative border border-black flex items-center justify-center">
+           <span className="text-slate-600 font-mono tracking-widest uppercase font-bold text-xs text-center px-4">[ {alt} Screenshot Missing ]</span>
+           <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none z-10 mix-blend-overlay" />
         </div>
       </motion.div>
     </div>
@@ -154,172 +134,108 @@ function iPhoneMockup({ image, alt }: { image: string; alt: string }) {
 }
 
 export default function PremiumCaseStudies() {
+  const containerRef = useRef(null);
+  
   const cases: CaseStudy[] = [
     {
       id: "yalaride",
       client: "YalaRide",
-      brandInfo: "Car Rental Marketplace | USA Brand",
-      approach: [
-        "Car Rental Portal",
-        "Google Ads & SEO",
-        "Mobile App Development",
-        "Campaign Strategy",
-        "Brand Awareness",
-      ],
+      brandInfo: "Car Rental Marketplace | USA",
       results: [
-        { label: "More Visibility", value: 160, suffix: "%" },
-        { label: "More Leads", value: 190, suffix: "%" },
-        { label: "More Bookings", value: 80, suffix: "%" },
+        { label: "Visibility", value: 160, suffix: "%" },
+        { label: "Leads", value: 190, suffix: "%" },
       ],
-      image: "/src/assets/images/yalaride_web_portal_1781815990359.jpg",
+      image: "",
       device: "macbook",
     },
     {
       id: "america-needs-nurses",
       client: "America Needs Nurses",
-      brandInfo: "Healthcare Professionals Marketplace | USA Brand",
-      approach: [
-        "Healthcare Marketplace",
-        "Nurse Job Opportunities",
-        "Employer & Nurse Dashboards",
-        "Free Healthcare Listings",
-        "Google Ads & Brand Awareness",
-        "Campaign Management",
-      ],
+      brandInfo: "Healthcare App | USA",
       results: [
-        { label: "More Healthcare Leads", value: 140, suffix: "%" },
-        { label: "More Job Applications", value: 110, suffix: "%" },
-        { label: "Stronger Brand Reach", value: 70, suffix: "%" },
+        { label: "App Installs", value: 140, suffix: "%" },
+        { label: "Job Applications", value: 110, suffix: "%" },
       ],
-      image: "/src/assets/images/nurses_recruiter_portal_1781816032234.jpg",
+      image: "",
       device: "iphone",
     },
     {
       id: "go-jetter",
       client: "Go Jetter Tours",
-      brandInfo: "Travel & Tours Brand | UAE & USA Registered",
-      approach: [
-        "Custom Travel Website",
-        "Mobile App Development",
-        "Google Ads & SEO",
-        "Meta Ads & Social Media Marketing",
-        "Brand Awareness",
-      ],
+      brandInfo: "Travel Brand | UAE",
       results: [
-        { label: "More Travel Leads", value: 190, suffix: "%" },
-        { label: "More Bookings", value: 130, suffix: "%" },
-        { label: "Stronger Brand Reach", value: 80, suffix: "%" },
+        { label: "Travel Leads", value: 190, suffix: "%" },
+        { label: "Bookings", value: 130, suffix: "%" },
       ],
-      image: "/src/assets/images/hero_dashboard_mockup_1781815970624.jpg",
+      image: "",
       device: "macbook",
     },
   ];
 
   return (
-    <section id="work" className="py-20 relative bg-white overflow-hidden text-left border-t border-slate-200">
-      
-      {/* Decorative Grid */}
-      <div className="absolute inset-0 bg-grid-bg-dark opacity-40 pointer-events-none" />
-
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-12 w-full relative z-10">
-        
-        {/* Editorial Brutalist Header */}
-        <div className="mb-20 flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b-2 border-slate-900 pb-12">
-          <div>
-            <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block mb-6 font-bold">
-              // CASE RECORDS & DEPLOYED SYSTEMS
-            </span>
-            <h2 className="text-5xl sm:text-7xl font-extrabold text-slate-900 leading-[0.95] tracking-tighter">
-              CASE <br /> STUDIES.
-            </h2>
-          </div>
-          <p className="text-lg text-slate-500 font-medium max-w-sm">
-            High-fidelity interactive platforms built to generate leads, scale attention, and establish market leadership.
-          </p>
+    <section id="work" ref={containerRef} className="relative bg-[#030712] text-white py-32 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-12 w-full relative z-10 mb-20">
+        <div className="flex flex-col items-center text-center">
+          <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block mb-6 font-bold">
+            // HARDWARE SHOWCASE
+          </span>
+          <h2 className="text-6xl sm:text-8xl font-extrabold text-white leading-[0.95] tracking-tighter">
+            CASE <br /> STUDIES.
+          </h2>
         </div>
+      </div>
 
-        {/* List layout of premium case records */}
-        <div className="flex flex-col gap-24">
-          {cases.map((cs, idx) => (
-            <div 
-              key={cs.id}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
-            >
-              {/* Left Column: Metrics & Approach Details (Spans 5) */}
-              <motion.div 
-                initial={{ opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="lg:col-span-5 flex flex-col justify-center order-2 lg:order-1"
-              >
-                <div className="flex items-center gap-3 mb-6">
-                  <Globe className="w-5 h-5 text-brand-orange-500" />
-                  <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
-                    {cs.brandInfo}
-                  </span>
-                </div>
+      <div className="w-full flex flex-col gap-40">
+        {cases.map((cs, idx) => (
+          <div key={cs.id} className="relative w-full min-h-screen flex items-center justify-center px-4">
+            
+            {/* Background Glows */}
+            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full blur-[120px] opacity-20 ${idx % 2 === 0 ? 'bg-brand-orange-500' : 'bg-brand-blue-500'} pointer-events-none`} />
 
-                <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tighter mb-4">
-                  {cs.client}
-                </h3>
-                
-                {/* Approach List */}
-                <div className="mt-6">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold block mb-3">// Our Approach</span>
-                  <div className="flex flex-wrap gap-2">
-                    {cs.approach.map((item, index) => (
-                      <span key={index} className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 border border-slate-100 rounded-full bg-slate-50 font-bold text-slate-700">
-                        <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Metrics Count upward */}
-                <div className="mt-10 grid grid-cols-3 gap-4 border-t border-slate-200 pt-8">
-                  {cs.results.map((m, index) => (
-                    <div key={index} className="flex flex-col">
-                      <span className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                        +<CountingMetric target={m.value} suffix={m.suffix} />
-                      </span>
-                      <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mt-1.5 leading-snug">
-                        {m.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* View project blueprint CTA */}
-                <div className="mt-10">
-                  <a href="#contact" className="group inline-flex items-center gap-3 text-xs font-mono font-bold text-slate-900 uppercase tracking-widest hover:text-brand-orange-500 transition-colors">
-                    Request Integration Blueprint
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-                  </a>
-                </div>
-
-              </motion.div>
-
-              {/* Right Column: Immersive Device Mockups (Spans 7) */}
-              <motion.div 
-                initial={{ opacity: 0, x: 40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="lg:col-span-7 w-full flex justify-center order-1 lg:order-2"
-              >
-                {cs.device === "macbook" ? (
-                  <MacBookMockup image={cs.image} alt={cs.client} />
-                ) : (
-                  <iPhoneMockup image={cs.image} alt={cs.client} />
-                )}
-              </motion.div>
-
+            {/* Massive Typography Behind Device */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none z-0 mix-blend-overlay opacity-30">
+              <h3 className="text-[15vw] font-extrabold tracking-tighter uppercase whitespace-nowrap">
+                {cs.client}
+              </h3>
             </div>
-          ))}
-        </div>
 
+            {/* Hardware Layer */}
+            {cs.device === "macbook" ? (
+              <CinematicMacBook image={cs.image} alt={cs.client} />
+            ) : (
+              <CinematicIPhone image={cs.image} alt={cs.client} />
+            )}
+
+            {/* Floating Metric Badge 1 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="absolute top-[20%] left-[10%] sm:left-[20%] z-20 p-5 border border-white/10 bg-black/60 backdrop-blur-xl rounded-xl shadow-2xl"
+            >
+               <span className="block text-[10px] font-mono text-slate-400 tracking-widest uppercase mb-1">{cs.results[0].label}</span>
+               <span className="text-4xl font-extrabold text-white">
+                 +<CountingMetric target={cs.results[0].value} suffix={cs.results[0].suffix} />
+               </span>
+            </motion.div>
+
+            {/* Floating Metric Badge 2 */}
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.7 }}
+              className="absolute bottom-[20%] right-[10%] sm:right-[20%] z-20 p-5 border border-white/10 bg-black/60 backdrop-blur-xl rounded-xl shadow-2xl"
+            >
+               <span className="block text-[10px] font-mono text-slate-400 tracking-widest uppercase mb-1">{cs.results[1].label}</span>
+               <span className="text-4xl font-extrabold text-white">
+                 +<CountingMetric target={cs.results[1].value} suffix={cs.results[1].suffix} />
+               </span>
+            </motion.div>
+            
+          </div>
+        ))}
       </div>
     </section>
   );
