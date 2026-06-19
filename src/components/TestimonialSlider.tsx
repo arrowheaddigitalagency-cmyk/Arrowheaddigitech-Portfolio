@@ -9,8 +9,8 @@ export default function ClientSuccessStories() {
       client: "YalaRide",
       author: "Mohammed Rizwan",
       role: "CEO",
-      logo: "/src/assets/images/yalaride_logo.png", // Asset Placeholder
-      photo: "/src/assets/images/rizwan_photo.jpg", // Asset Placeholder
+      logo: "/src/assets/images/yalaride_logo.png",
+      photo: "/src/assets/images/rizwan_photo.png",
       project: "Marketplace Architecture & Lead Acquisition",
       results: "Built a high-performance car rental portal and scaled operations via aggressive Google Ads, yielding a 190% increase in verified bookings within 90 days.",
       metrics: [
@@ -23,8 +23,8 @@ export default function ClientSuccessStories() {
       client: "America Needs Nurses",
       author: "Ray Washington",
       role: "Founder",
-      logo: "/src/assets/images/ann_logo.png", // Asset Placeholder
-      photo: "/src/assets/images/ray_photo.jpg", // Asset Placeholder
+      logo: "/src/assets/images/ann_logo.png",
+      photo: "/src/assets/images/ray_photo.png",
       project: "Healthcare Infrastructure & Recruitment",
       results: "Engineered a dual-sided marketplace with custom employer/nurse dashboards. Executed a brand awareness campaign that drove a 140% spike in healthcare lead volume.",
       metrics: [
@@ -67,7 +67,7 @@ export default function ClientSuccessStories() {
                   {/* Client Logo Slot */}
                   <div className="h-10 w-32 bg-slate-100 border border-slate-200 rounded flex items-center justify-center relative overflow-hidden">
                     <span className="text-[8px] font-mono font-bold text-slate-400 uppercase">[ LOGO: {story.client} ]</span>
-                    {/* <img src={story.logo} alt={story.client} className="absolute inset-0 w-full h-full object-contain p-2" /> */}
+                    <img src={story.logo} alt={story.client} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="absolute inset-0 w-full h-full object-contain p-2 transition-opacity duration-300" />
                   </div>
 
                   {/* Author Profile */}
@@ -79,7 +79,7 @@ export default function ClientSuccessStories() {
                     {/* Author Photo Slot */}
                     <div className="w-12 h-12 rounded-full bg-slate-100 border-2 border-slate-200 flex items-center justify-center overflow-hidden relative">
                       <span className="text-[8px] font-mono font-bold text-slate-400 uppercase text-center leading-none">[ PHOTO ]</span>
-                      {/* <img src={story.photo} alt={story.author} className="absolute inset-0 w-full h-full object-cover" /> */}
+                      <img src={story.photo} alt={story.author} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300" />
                     </div>
                   </div>
                 </div>

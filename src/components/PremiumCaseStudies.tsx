@@ -80,7 +80,7 @@ function CinematicMacBook({ image, alt }: { image: string; alt: string }) {
           </div>
           <div className="relative aspect-[16/10] bg-slate-950 overflow-hidden rounded-lg border-2 border-black">
             {image ? (
-              <img src={image} alt={alt} className="w-full h-full object-cover select-none pointer-events-none" />
+              <img src={image} alt={alt} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" />
             ) : (
               <div className="absolute inset-0 bg-slate-800 flex items-center justify-center">
                  <span className="text-slate-500 font-mono tracking-widest uppercase font-bold">[ {alt} Screenshot Missing ]</span>
@@ -130,7 +130,7 @@ function CinematicIPhone({ image, alt }: { image: string; alt: string }) {
         </div>
         <div className="w-full h-full bg-slate-900 overflow-hidden rounded-[2.8rem] relative border border-black flex items-center justify-center">
            {image ? (
-              <img src={image} alt={alt} className="w-full h-full object-cover select-none pointer-events-none" />
+              <img src={image} alt={alt} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" />
            ) : (
               <span className="text-slate-600 font-mono tracking-widest uppercase font-bold text-xs text-center px-4">[ {alt} Screenshot Missing ]</span>
            )}
@@ -153,7 +153,7 @@ export default function PremiumCaseStudies() {
         { label: "Visibility", value: 160, suffix: "%" },
         { label: "Leads", value: 190, suffix: "%" },
       ],
-      image: "/src/assets/images/yalaride_macbook_screenshot.jpg",
+      image: "/src/assets/images/yalaride_macbook_screenshot.jpg.png",
       device: "macbook",
     },
     {
@@ -164,7 +164,7 @@ export default function PremiumCaseStudies() {
         { label: "App Installs", value: 140, suffix: "%" },
         { label: "Job Applications", value: 110, suffix: "%" },
       ],
-      image: "/src/assets/images/america_needs_nurses_iphone_screenshot.jpg",
+      image: "/src/assets/images/america_needs_nurses_iphone_screenshot.jpg.png",
       device: "iphone",
     },
     {
@@ -175,7 +175,7 @@ export default function PremiumCaseStudies() {
         { label: "Travel Leads", value: 190, suffix: "%" },
         { label: "Bookings", value: 130, suffix: "%" },
       ],
-      image: "/src/assets/images/go_jetter_macbook_screenshot.jpg",
+      image: "/src/assets/images/go_jetter_macbook_screenshot.jpg.png",
       device: "macbook",
     },
   ];

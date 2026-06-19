@@ -18,7 +18,7 @@ export default function PremiumFooter() {
             {/* Asset placeholder for actual Arrowhead Logo */}
             <div className="w-64 h-20 bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden rounded">
               <span className="text-[10px] font-mono tracking-widest uppercase font-bold text-slate-500">[ ASSET: arrowhead_logo.png ]</span>
-              {/* <img src="/src/assets/images/arrowhead_logo.png" alt="Arrowhead DigiTech" className="absolute inset-0 w-full h-full object-contain p-4" /> */}
+              <img src="/src/assets/images/arrowhead_logo.png" alt="Arrowhead DigiTech" onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="absolute inset-0 w-full h-full object-contain p-4 transition-opacity duration-300" />
             </div>
             <p className="text-xl sm:text-2xl font-bold text-slate-400 max-w-lg tracking-tight">
               We engineer growth architecture and high-velocity acquisition systems for market leaders.
