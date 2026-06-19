@@ -1,94 +1,117 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Quote, Star } from "lucide-react";
+import React from "react";
+import { motion } from "motion/react";
+import { ArrowRight, BarChart, CheckCircle2 } from "lucide-react";
 
-export default function TestimonialSlider() {
-  const testimonials = [
+export default function ClientSuccessStories() {
+  const stories = [
     {
-      quote: "Arrowhead Marketing helped build a powerful car rental marketplace with a smooth website, mobile app, and strong marketing strategy. Their Google Ads, SEO, and brand awareness campaigns helped reach more customers and grow faster.",
+      id: "yalaride",
+      client: "YalaRide",
       author: "Mohammed Rizwan",
       role: "CEO",
-      company: "YalaRide"
+      logo: "/src/assets/images/yalaride_logo.png", // Asset Placeholder
+      photo: "/src/assets/images/rizwan_photo.jpg", // Asset Placeholder
+      project: "Marketplace Architecture & Lead Acquisition",
+      results: "Built a high-performance car rental portal and scaled operations via aggressive Google Ads, yielding a 190% increase in verified bookings within 90 days.",
+      metrics: [
+        { label: "Booking Volume", val: "+190%" },
+        { label: "CPA Reduction", val: "-42%" }
+      ]
     },
     {
-      quote: "Arrowhead Marketing turned our idea into a complete healthcare professional marketplace. From employer and nurse dashboards to campaign management and brand awareness, they helped create a platform that connects nurses with real job opportunities.",
+      id: "americaneedsnurses",
+      client: "America Needs Nurses",
       author: "Ray Washington",
       role: "Founder",
-      company: "America Needs Nurses"
+      logo: "/src/assets/images/ann_logo.png", // Asset Placeholder
+      photo: "/src/assets/images/ray_photo.jpg", // Asset Placeholder
+      project: "Healthcare Infrastructure & Recruitment",
+      results: "Engineered a dual-sided marketplace with custom employer/nurse dashboards. Executed a brand awareness campaign that drove a 140% spike in healthcare lead volume.",
+      metrics: [
+        { label: "Lead Volume", val: "+140%" },
+        { label: "Time-to-Hire", val: "-35%" }
+      ]
     }
   ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, [testimonials.length]);
-
   return (
-    <section className="py-20 bg-white relative overflow-hidden flex items-center min-h-[60vh] border-t border-slate-200">
-      
-      {/* Brutalist Watermark */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[15vw] font-extrabold text-slate-50 opacity-40 select-none pointer-events-none tracking-tighter whitespace-nowrap z-0">
-        VALIDATION.
-      </div>
-
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-12 relative z-10 w-full flex flex-col md:flex-row items-center gap-16">
+    <section className="py-32 bg-[#f8fafc] border-t border-slate-200 overflow-hidden relative">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-12 relative z-10 w-full">
         
-        {/* Navigation Dots */}
-        <div className="flex md:flex-col gap-4 order-2 md:order-1">
-          {testimonials.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`w-1.5 transition-all duration-500 rounded-full ${
-                idx === currentIndex ? "h-12 bg-brand-orange-500" : "h-4 bg-slate-200 hover:bg-slate-300"
-              }`}
-            />
-          ))}
+        {/* Header */}
+        <div className="mb-20">
+          <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block mb-6 font-bold">
+            // VERIFIED RECORDS
+          </span>
+          <h2 className="text-4xl sm:text-6xl font-extrabold text-slate-900 leading-[0.95] tracking-tighter">
+            CLIENT SUCCESS <br />
+            STORIES.
+          </h2>
         </div>
 
-        {/* Massive Pull Quote */}
-        <div className="flex-1 order-1 md:order-2 h-[400px] sm:h-[300px] flex items-center relative">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute w-full"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {stories.map((story, idx) => (
+            <motion.div 
+              key={story.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 shadow-xl flex flex-col justify-between"
             >
-              {/* Star Indicators */}
-              <div className="flex gap-1 mb-8 text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-amber-400" />
+              
+              <div>
+                {/* Header: Logo and Author */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10 pb-10 border-b border-slate-100">
+                  
+                  {/* Client Logo Slot */}
+                  <div className="h-10 w-32 bg-slate-100 border border-slate-200 rounded flex items-center justify-center relative overflow-hidden">
+                    <span className="text-[8px] font-mono font-bold text-slate-400 uppercase">[ LOGO: {story.client} ]</span>
+                    {/* <img src={story.logo} alt={story.client} className="absolute inset-0 w-full h-full object-contain p-2" /> */}
+                  </div>
+
+                  {/* Author Profile */}
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <h4 className="text-lg font-extrabold text-slate-900 tracking-tight">{story.author}</h4>
+                      <p className="text-[10px] font-mono tracking-widest uppercase text-slate-400 font-bold">{story.role}</p>
+                    </div>
+                    {/* Author Photo Slot */}
+                    <div className="w-12 h-12 rounded-full bg-slate-100 border-2 border-slate-200 flex items-center justify-center overflow-hidden relative">
+                      <span className="text-[8px] font-mono font-bold text-slate-400 uppercase text-center leading-none">[ PHOTO ]</span>
+                      {/* <img src={story.photo} alt={story.author} className="absolute inset-0 w-full h-full object-cover" /> */}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Project Scope */}
+                <div className="mb-6">
+                  <span className="text-[10px] font-mono tracking-widest text-slate-400 font-bold uppercase block mb-2">Project Scope</span>
+                  <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">{story.project}</h3>
+                </div>
+
+                {/* Results Text */}
+                <p className="text-base text-slate-600 font-medium leading-relaxed mb-10">
+                  "{story.results}"
+                </p>
+              </div>
+
+              {/* Hard Metrics */}
+              <div className="grid grid-cols-2 gap-4 bg-slate-50 p-6 rounded-xl border border-slate-100">
+                {story.metrics.map((metric, mIdx) => (
+                  <div key={mIdx}>
+                    <span className="text-[10px] font-mono tracking-widest text-brand-orange-500 font-bold uppercase block mb-1">
+                      {metric.label}
+                    </span>
+                    <span className="text-3xl font-extrabold text-slate-900 tracking-tighter">
+                      {metric.val}
+                    </span>
+                  </div>
                 ))}
               </div>
 
-              <Quote className="absolute -top-10 -left-6 w-20 h-20 text-brand-orange-500/5 -z-10" />
-
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 leading-relaxed tracking-tight mb-12">
-                "{testimonials[currentIndex].quote}"
-              </h2>
-
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-slate-950 text-white flex items-center justify-center font-bold">
-                  {testimonials[currentIndex].author.charAt(0)}
-                </div>
-                <div>
-                  <h4 className="text-lg font-extrabold text-slate-900 tracking-tight">
-                    {testimonials[currentIndex].author}
-                  </h4>
-                  <p className="text-[10px] font-mono tracking-widest uppercase text-slate-400 font-bold">
-                    {testimonials[currentIndex].role} of {testimonials[currentIndex].company}
-                  </p>
-                </div>
-              </div>
             </motion.div>
-          </AnimatePresence>
+          ))}
         </div>
 
       </div>

@@ -79,9 +79,13 @@ function CinematicMacBook({ image, alt }: { image: string; alt: string }) {
             <div className="w-[3px] h-[3px] rounded-full bg-blue-900/40" />
           </div>
           <div className="relative aspect-[16/10] bg-slate-950 overflow-hidden rounded-lg border-2 border-black">
-            <div className="absolute inset-0 bg-slate-800 flex items-center justify-center">
-               <span className="text-slate-500 font-mono tracking-widest uppercase font-bold">[ {alt} Screenshot Missing ]</span>
-            </div>
+            {image ? (
+              <img src={image} alt={alt} className="w-full h-full object-cover select-none pointer-events-none" />
+            ) : (
+              <div className="absolute inset-0 bg-slate-800 flex items-center justify-center">
+                 <span className="text-slate-500 font-mono tracking-widest uppercase font-bold">[ {alt} Screenshot Missing ]</span>
+              </div>
+            )}
             {/* Glossy Reflection overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 pointer-events-none z-10 mix-blend-overlay" />
           </div>
@@ -125,7 +129,11 @@ function CinematicIPhone({ image, alt }: { image: string; alt: string }) {
           <div className="w-2 h-2 rounded-full bg-blue-900/40" />
         </div>
         <div className="w-full h-full bg-slate-900 overflow-hidden rounded-[2.8rem] relative border border-black flex items-center justify-center">
-           <span className="text-slate-600 font-mono tracking-widest uppercase font-bold text-xs text-center px-4">[ {alt} Screenshot Missing ]</span>
+           {image ? (
+              <img src={image} alt={alt} className="w-full h-full object-cover select-none pointer-events-none" />
+           ) : (
+              <span className="text-slate-600 font-mono tracking-widest uppercase font-bold text-xs text-center px-4">[ {alt} Screenshot Missing ]</span>
+           )}
            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none z-10 mix-blend-overlay" />
         </div>
       </motion.div>
@@ -145,7 +153,7 @@ export default function PremiumCaseStudies() {
         { label: "Visibility", value: 160, suffix: "%" },
         { label: "Leads", value: 190, suffix: "%" },
       ],
-      image: "",
+      image: "/src/assets/images/yalaride_macbook_screenshot.jpg",
       device: "macbook",
     },
     {
@@ -156,7 +164,7 @@ export default function PremiumCaseStudies() {
         { label: "App Installs", value: 140, suffix: "%" },
         { label: "Job Applications", value: 110, suffix: "%" },
       ],
-      image: "",
+      image: "/src/assets/images/america_needs_nurses_iphone_screenshot.jpg",
       device: "iphone",
     },
     {
@@ -167,7 +175,7 @@ export default function PremiumCaseStudies() {
         { label: "Travel Leads", value: 190, suffix: "%" },
         { label: "Bookings", value: 130, suffix: "%" },
       ],
-      image: "",
+      image: "/src/assets/images/go_jetter_macbook_screenshot.jpg",
       device: "macbook",
     },
   ];
