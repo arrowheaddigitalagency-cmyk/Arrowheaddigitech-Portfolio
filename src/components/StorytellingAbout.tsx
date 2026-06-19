@@ -1,241 +1,115 @@
-import React, { useState } from "react";
-import { Compass, Eye, Sparkles, Target, Trophy, Award, CheckCircle2 } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import React from "react";
+import { ArrowRight, Target, Activity } from "lucide-react";
+import { motion } from "motion/react";
 
 export default function StorytellingAbout() {
-  const [activeTab, setActiveTab] = useState<"mission" | "vision">("mission");
-
-  const pillars = {
-    mission: {
-      title: "ACTIVATE OUTREACH.",
-      statement: "Supercharge client pipelines through high-precision Google & Meta conversion algorithms, high-impact branding, and targeted client flow architecture.",
-      tag: "CONVERSION ARCHITECTS",
-      icon: <Target className="w-6 h-6 text-brand-orange-500" />,
-      pillars: [
-        { num: "01", label: "MAGNETIZE INTENT", desc: "Target buyers looking for you." },
-        { num: "02", label: "MULTIPLY VALUE", desc: "Sleek UX to capture cart actions." },
-        { num: "03", label: "ACCELERATE DATA", desc: "Automated leads reporting, zero lag." },
-      ]
-    },
-    vision: {
-      title: "DOMINATE SEGMENTS.",
-      statement: "Establish absolute regional authority and measurable advertising ROI for ambitious enterprises seeking superior market positions.",
-      tag: "GLOBAL PIONEERS",
-      icon: <Eye className="w-6 h-6 text-brand-blue-500" />,
-      pillars: [
-        { num: "04", label: "PRECISE CONTROL", desc: "Build top-of-mind recall." },
-        { num: "05", label: "SCALABLE SYSTEMS", desc: "Modular, responsive API layouts." },
-        { num: "06", label: "VERIFIED STANDING", desc: "Continuous automated local rankings." },
-      ]
-    }
-  };
-
-  const current = pillars[activeTab];
-
   return (
-    <section id="about" className="py-32 relative overflow-hidden bg-transparent select-none text-left">
+    <section id="about" className="py-32 relative bg-white overflow-hidden text-left">
       
-      {/* Decorative vertical lines */}
-      <div className="absolute left-[8%] top-0 bottom-0 w-px bg-slate-200/50 hidden lg:block" />
-      <div className="absolute right-[8%] top-0 bottom-0 w-px bg-slate-200/50 hidden lg:block" />
-
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10 w-full space-y-32">
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10 w-full">
         
-        {/* TOP: Split Layout (Story & 3D Glass Office) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
           
-          {/* Left: Narrative */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
-          >
-            <div className="space-y-4">
-              <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block font-bold">
-                // INSTITUTIONAL STORY
-              </span>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.1] tracking-tight">
-                WE DO NOT CHASE CLICKS. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange-500 to-brand-blue-500">
-                  WE CAPTURE MARKETS.
-                </span>
-              </h2>
-            </div>
-
-            <p className="text-slate-600 text-lg font-medium leading-relaxed max-w-lg">
-              Arrowhead DigiTech operates at the intersection of quantitative search performance and luxury brand design. We construct persistent, verified scales for businesses that refuse average, standard template setups.
-            </p>
-
-            <div className="absolute top-8 right-8 z-20">
-              <div className="flex -space-x-4">
-                <div className="w-14 h-14 rounded-full border-4 border-white shadow-xl overflow-hidden bg-brand-orange-50">
-                 <img src="/src/assets/images/arrowhead_experts_team_1781816010797.jpg" alt="Team" className="w-full h-full object-cover"/>
-                </div>
-                <div className="w-14 h-14 rounded-full border-4 border-white shadow-xl overflow-hidden bg-brand-blue-50">
-                 <img src="/src/assets/images/arrowhead_experts_team_1781816010797.jpg" alt="Team" className="w-full h-full object-cover"/>
-                </div>
-                <div className="w-14 h-14 rounded-full border-4 border-white shadow-xl overflow-hidden bg-emerald-50">
-                 <img src="/src/assets/images/arrowhead_experts_team_1781816010797.jpg" alt="Team" className="w-full h-full object-cover"/>
-                </div>
-              </div>
-              <div className="w-12 h-12 rounded-full border-2 border-white bg-brand-orange-100 flex items-center justify-center">
-                <span className="text-xs font-bold text-brand-orange-600">+12</span>
-              </div>
-            </div>
-            <div className="text-sm font-bold text-slate-700">
-              Top-tier experts <br/><span className="text-slate-500 font-medium text-xs">driving your growth</span>
-            </div>
-          </motion.div>
-
-          {/* Right: 3D Glass Office Visualization */}
-          <div className="relative w-full h-[500px] flex items-center justify-center perspective-[1200px]">
-            <motion.div 
-              initial={{ opacity: 0, rotateY: 15, scale: 0.9 }}
-              whileInView={{ opacity: 1, rotateY: -5, scale: 1 }}
+          {/* Typographic Art Left Column (Spans 5) */}
+          <div className="lg:col-span-5 flex flex-col justify-center relative">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1, type: "spring" }}
-              className="relative w-full max-w-md h-full max-h-[400px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform-style-3d glass-card"
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img 
-                src="/src/assets/images/hero_dashboard_mockup_1781815970624.jpg" 
-                alt="Arrowhead Workspace" 
-                className="w-full h-full object-cover transition-transform duration-[20s] group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-orange-500/20 to-brand-blue-500/20 mix-blend-overlay" />
-            </motion.div>
+              <div className="flex items-center gap-4 mb-8">
+                <span className="w-12 h-px bg-slate-900" />
+                <span className="text-[10px] font-mono tracking-[0.3em] text-slate-900 font-bold uppercase">
+                  OPERATIONAL DOCTRINE
+                </span>
+              </div>
+              
+              <h2 className="text-5xl sm:text-6xl font-extrabold text-slate-900 leading-[1.05] tracking-tighter mb-8">
+                WE DO NOT GUESS. <br />
+                <span className="text-slate-400">WE COMPUTE.</span>
+              </h2>
+              
+              <div className="space-y-6 text-slate-600 font-medium text-lg leading-relaxed max-w-md">
+                <p>
+                  Most agencies rely on aesthetic subjectivity. Arrowhead operates on pure mathematical telemetry. We build digital infrastructure explicitly designed to capture market share and eliminate friction.
+                </p>
+                <p>
+                  Founded by engineers and scaling experts, our protocol merges deep React architecture with aggressive media buying algorithms.
+                </p>
+              </div>
 
-            {/* Floating Achievement Badges */}
-            <motion.div 
-              className="absolute -right-6 top-12 glass-panel p-4 flex items-center gap-3 z-20 animate-float"
-              style={{ animationDelay: '0.2s', transform: 'translateZ(50px)' }}
-            >
-              <div className="w-10 h-10 rounded-full bg-brand-orange-50 flex items-center justify-center">
-                <Trophy className="w-5 h-5 text-brand-orange-500" />
-              </div>
-              <div>
-                <span className="block text-[10px] text-slate-500 font-mono font-bold uppercase tracking-widest">Awarded</span>
-                <span className="block text-sm font-extrabold text-slate-900">Awwwards 2025</span>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              className="absolute -left-8 bottom-20 glass-panel p-4 flex items-center gap-3 z-20 animate-float"
-              style={{ animationDelay: '1.5s', transform: 'translateZ(80px)' }}
-            >
-              <div className="w-10 h-10 rounded-full bg-brand-blue-50 flex items-center justify-center">
-                <Award className="w-5 h-5 text-brand-blue-500" />
-              </div>
-              <div>
-                <span className="block text-[10px] text-slate-500 font-mono font-bold uppercase tracking-widest">Certified</span>
-                <span className="block text-sm font-extrabold text-slate-900">Google Partner</span>
+              <div className="mt-12 flex items-center gap-8">
+                <div className="space-y-1">
+                  <span className="text-3xl font-extrabold text-slate-900 font-mono tracking-tighter">99.2%</span>
+                  <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Retention</span>
+                </div>
+                <div className="w-px h-12 bg-slate-200" />
+                <div className="space-y-1">
+                  <span className="text-3xl font-extrabold text-slate-900 font-mono tracking-tighter">$15M+</span>
+                  <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Managed</span>
+                </div>
               </div>
             </motion.div>
           </div>
-        </div>
 
-        {/* BOTTOM: Mission & Vision Premium Cards with Animated Connectors */}
-        <div className="relative">
-          
-          <div className="text-center mb-16">
-            <h3 className="text-3xl font-extrabold text-slate-900 mb-4">OUR DIRECTIVES</h3>
-            <p className="text-slate-500 max-w-2xl mx-auto">The foundational principles that guide our enterprise-grade delivery.</p>
-          </div>
-
-          <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-12 relative z-20">
-            <button
-              onClick={() => setActiveTab("mission")}
-              className={`flex items-center gap-2 px-6 py-3 text-xs font-mono tracking-widest uppercase transition-all duration-300 rounded-xl cursor-pointer shadow-sm border ${
-                activeTab === "mission"
-                  ? "bg-slate-900 text-white border-slate-900"
-                  : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
-              }`}
-            >
-              <Target className={`w-4 h-4 ${activeTab === "mission" ? "text-brand-orange-500" : ""}`} />
-              Active Mission
-            </button>
-            <button
-              onClick={() => setActiveTab("vision")}
-              className={`flex items-center gap-2 px-6 py-3 text-xs font-mono tracking-widest uppercase transition-all duration-300 rounded-xl cursor-pointer shadow-sm border ${
-                activeTab === "vision"
-                  ? "bg-slate-900 text-white border-slate-900"
-                  : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
-              }`}
-            >
-              <Eye className={`w-4 h-4 ${activeTab === "vision" ? "text-brand-blue-500" : ""}`} />
-              Global Vision
-            </button>
-          </div>
-
-          {/* Animated Card Container */}
-          <div className="relative max-w-4xl mx-auto perspective-[1000px]">
-            {/* Animated background connecting line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-brand-orange-500/0 via-slate-300 to-brand-blue-500/0 -translate-x-1/2 z-0 hidden md:block">
-              <motion.div 
-                className="w-1 h-8 bg-brand-orange-500 rounded-full absolute left-1/2 -translate-x-1/2 shadow-[0_0_10px_#ff5a1f]"
-                animate={{ top: ["0%", "100%"] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              />
+          {/* Asymmetrical Image Composition Right Column (Spans 7) */}
+          <div className="lg:col-span-7 relative">
+            
+            {/* Background Massive Text Watermark */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12rem] font-extrabold text-slate-50 opacity-50 select-none pointer-events-none tracking-tighter whitespace-nowrap z-0">
+              SCALE
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, rotateX: -10, y: 20 }}
-                animate={{ opacity: 1, rotateX: 0, y: 0 }}
-                exit={{ opacity: 0, rotateX: 10, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="glass-card p-8 md:p-12 relative z-10 border-2 border-white"
+            <div className="relative z-10 w-full h-[600px] flex items-center justify-center">
+              
+              {/* Primary Image - Stark brutalist crop */}
+              <motion.div 
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="w-3/4 h-3/4 bg-slate-100 overflow-hidden relative shadow-2xl"
               >
-                <div className="flex flex-col md:flex-row gap-10 items-start">
-                  
-                  {/* Left Icon & Title */}
-                  <div className="w-full md:w-1/3 space-y-6">
-                    <div className="w-16 h-16 rounded-2xl bg-white shadow-xl flex items-center justify-center border border-slate-100 relative">
-                      {current.icon}
-                      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5" />
-                    </div>
-                    <div>
-                      <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full text-[9px] font-mono text-slate-600 uppercase mb-3 font-bold">
-                        <Sparkles className="w-3 h-3 text-brand-orange-500" />
-                        {current.tag}
-                      </div>
-                      <h4 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-                        {current.title}
-                      </h4>
-                    </div>
+                <img 
+                  src="/src/assets/images/arrowhead_experts_team_1781816010797.jpg" 
+                  alt="Arrowhead Team Operation" 
+                  className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100"
+                />
+                {/* Minimalist Overlay Box */}
+                <div className="absolute bottom-0 left-0 bg-white p-6 md:p-8 w-3/4 sm:w-2/3">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Target className="w-4 h-4 text-brand-orange-500" />
+                    <span className="text-[10px] font-mono tracking-widest text-slate-900 font-bold uppercase">Precision Targeted</span>
                   </div>
-
-                  {/* Right Content */}
-                  <div className="w-full md:w-2/3 space-y-8">
-                    <p className="text-slate-600 text-lg font-medium leading-relaxed">
-                      {current.statement}
-                    </p>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-8 border-t border-slate-200">
-                      {current.pillars.map((pil, idx) => (
-                        <div key={idx} className="flex gap-4">
-                          <CheckCircle2 className="w-5 h-5 text-brand-orange-500 shrink-0" />
-                          <div className="space-y-1">
-                            <span className="text-[10px] font-mono font-bold text-slate-900 uppercase block tracking-wider">
-                              {pil.num} // {pil.label}
-                            </span>
-                            <span className="text-sm text-slate-500 leading-relaxed block font-medium">
-                              {pil.desc}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
+                  <p className="text-sm text-slate-600 font-medium">Every line of code and ad dollar is mapped to acquisition.</p>
                 </div>
               </motion.div>
-            </AnimatePresence>
+
+              {/* Secondary Overlapping Abstract Element */}
+              <motion.div 
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute top-10 right-0 w-1/3 h-1/2 bg-slate-900 shadow-2xl overflow-hidden flex flex-col justify-between p-6"
+              >
+                <div className="w-full flex justify-end">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                </div>
+                <div>
+                  <Activity className="w-6 h-6 text-brand-orange-500 mb-4" />
+                  <p className="text-white font-mono text-xs uppercase tracking-widest opacity-80">System Live.</p>
+                </div>
+                {/* Abstract grid lines */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:1rem_1rem] pointer-events-none" />
+              </motion.div>
+
+            </div>
           </div>
 
         </div>
+
       </div>
     </section>
   );

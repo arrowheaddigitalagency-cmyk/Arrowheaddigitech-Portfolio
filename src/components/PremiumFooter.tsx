@@ -1,147 +1,73 @@
 import React from "react";
-import { Facebook, Instagram, Linkedin, ShieldCheck, ArrowUp } from "lucide-react";
+import { Linkedin, Mail, MapPin, Target } from "lucide-react";
 
 export default function PremiumFooter() {
-  const scrollBackToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
-    <footer className="bg-transparent text-slate-800 relative overflow-hidden pt-20 pb-10 border-t border-slate-100 font-sans">
+    <footer className="bg-slate-950 text-white pt-32 pb-10 overflow-hidden relative">
       
-      {/* Structural layout outlines */}
-      <div className="absolute left-[8%] top-0 bottom-0 w-px bg-slate-100 hidden lg:block" />
-      <div className="absolute right-[8%] top-0 bottom-0 w-px bg-slate-100 hidden lg:block" />
+      {/* Background Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10 w-full">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-12 relative z-10 w-full flex flex-col">
         
-        {/* Upper Column Stack */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-100 text-left">
+        {/* Top Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8 mb-32 border-b border-white/10 pb-20">
           
-          {/* Logo block */}
-          <div className="md:col-span-4 flex flex-col items-start space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-brand-orange-500 flex items-center justify-center shadow-md">
-                <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 text-white stroke-[2]" stroke="currentColor">
-                  <path d="M4 12l16-8-3 8 3 8-16-8z" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <span className="text-lg font-extrabold tracking-tight text-slate-800 flex items-center font-sans uppercase">
-                ARROWHEAD<span className="text-brand-orange-500 text-xl font-black">.</span>
-              </span>
+          <div className="col-span-1 md:col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <Target className="w-6 h-6 text-brand-orange-500" />
+              <span className="text-xl font-extrabold tracking-tight">Arrowhead DigiTech</span>
             </div>
-
-            <p className="text-slate-500 text-xs font-normal leading-relaxed max-w-xs font-sans">
-              Designing custom performance funnels and speed-optimized React directories to attract verified high-intent client traffic globally.
+            <p className="text-slate-500 font-medium max-w-sm mb-8">
+              We engineer growth architecture and high-velocity acquisition systems for market leaders.
             </p>
-
-            {/* Social channels */}
-            <div className="flex items-center gap-2 pt-2 select-none">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-brand-orange-500 hover:border-brand-orange-500/20 hover:bg-brand-orange-50 transition-all duration-300"
-                title="Arrowhead Facebook Channel"
-              >
-                <Facebook className="w-4 h-4 fill-current" />
+            <div className="flex items-center gap-4">
+              <a href="https://linkedin.com/company/arrowheaddigitech" target="_blank" rel="noreferrer" className="w-12 h-12 bg-white/5 hover:bg-brand-orange-500 hover:text-white rounded flex items-center justify-center transition-colors border border-white/10">
+                <Linkedin className="w-5 h-5" />
               </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-brand-orange-500 hover:border-brand-orange-500/20 hover:bg-brand-orange-50 transition-all duration-300"
-                title="Arrowhead Instagram Media"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-brand-orange-500 hover:border-brand-orange-500/20 hover:bg-brand-orange-50 transition-all duration-300"
-                title="Arrowhead LinkedIn Professional Network"
-              >
-                <Linkedin className="w-4 h-4 fill-current" />
+              <a href="mailto:info@arrowheaddigitech.com" className="w-12 h-12 bg-white/5 hover:bg-brand-orange-500 hover:text-white rounded flex items-center justify-center transition-colors border border-white/10">
+                <Mail className="w-5 h-5" />
               </a>
             </div>
           </div>
 
-          {/* Link grids (8 cols inside) */}
-          <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8 font-sans">
-            
-            {/* Services navigation links */}
-            <div className="space-y-3.5">
-              <h4 className="text-[10px] font-mono font-bold tracking-widest text-brand-orange-600 uppercase">
-                // SYSTEM DEPLOYMENTS
-              </h4>
-              <ul className="space-y-2 text-xs text-slate-500 font-semibold text-left">
-                {["Google Ads Campaigns", "Meta Ads Services", "Social Engagement", "Web & Software Dev", "Custom AI Chatbots"].map((link) => (
-                  <li key={link}>
-                    <a href="#services" className="hover:text-brand-orange-600 transition-colors">
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div>
+            <span className="text-[10px] font-mono tracking-widest text-slate-500 font-bold uppercase block mb-6">Operations</span>
+            <ul className="space-y-4">
+              <li><a href="#services" className="text-slate-300 hover:text-white font-medium transition-colors">Engineering</a></li>
+              <li><a href="#process" className="text-slate-300 hover:text-white font-medium transition-colors">Methodology</a></li>
+              <li><a href="#work" className="text-slate-300 hover:text-white font-medium transition-colors">Deployments</a></li>
+            </ul>
+          </div>
 
-            {/* Corporate profiles links */}
-            <div className="space-y-3.5">
-              <h4 className="text-[10px] font-mono font-bold tracking-widest text-brand-orange-600 uppercase">
-                // PLATFORM AUDITS
-              </h4>
-              <ul className="space-y-2 text-xs text-slate-500 font-semibold text-left">
-                {["Institutional About", "Coordinated Timeline", "Proven Metrics Board", "Interactive Estimator", "Subject Leaders"].map((link, i) => {
-                  const anchors = ["about", "process", "achievements", "estimate", "team"];
-                  return (
-                    <li key={link}>
-                      <a href={`#${anchors[i]}`} className="hover:text-brand-orange-600 transition-colors">
-                        {link}
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            {/* Direct legal guidelines */}
-            <div className="space-y-3.5">
-              <h4 className="text-[10px] font-mono font-bold tracking-widest text-brand-orange-600 uppercase">
-                // LEGAL COORDINATION
-              </h4>
-              <ul className="space-y-2 text-xs text-slate-500 font-semibold text-left">
-                {["Privacy Standards", "Terms of Engagement", "Citation Rules", "System Audit Logs", "Recruitment Pack"].map((link) => (
-                  <li key={link}>
-                    <a href="#estimate" className="hover:text-brand-orange-600 transition-colors">
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
+          <div>
+            <span className="text-[10px] font-mono tracking-widest text-slate-500 font-bold uppercase block mb-6">Headquarters</span>
+            <ul className="space-y-4 text-slate-300 font-medium">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-slate-500 mt-1 shrink-0" />
+                <span>Lahore, Pakistan<br />Operating Globally.</span>
+              </li>
+              <li><a href="mailto:info@arrowheaddigitech.com" className="hover:text-white transition-colors">info@arrowheaddigitech.com</a></li>
+              <li><a href="tel:+923000955490" className="hover:text-white transition-colors">+92 300 0955490</a></li>
+            </ul>
           </div>
 
         </div>
 
-        {/* Lower row details */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 select-none font-sans">
-          <div className="flex flex-wrap items-center gap-1.5 text-[10px] text-slate-450 font-mono font-bold">
-            <span>© {new Date().getFullYear()} ARROWHEAD DIGITECH. ALL PERFORMANCE METRICS RESERVED.</span>
-            <span className="hidden sm:inline">|</span>
-            <span className="flex items-center gap-1 text-emerald-600 uppercase">
-              <ShieldCheck className="w-3.5 h-3.5" /> SECURED HIGH-SPEED CONTAINER
-            </span>
-          </div>
+        {/* Massive Mega Text */}
+        <div className="w-full flex justify-center mb-10 overflow-hidden select-none">
+          <h1 className="text-[15vw] leading-none font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-900">
+            ARROWHEAD
+          </h1>
+        </div>
 
-          {/* Back to top button */}
-          <button
-            onClick={scrollBackToTop}
-            className="group flex items-center gap-1 px-4 py-2 bg-slate-50 border border-slate-200 hover:border-brand-orange-500/20 text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 hover:text-slate-800 transition-all cursor-pointer rounded-lg shadow-sm"
-          >
-            LAUNCH_TO_TOP <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform text-brand-orange-500" />
-          </button>
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-xs font-mono text-slate-600 uppercase tracking-widest gap-4">
+          <span>&copy; {new Date().getFullYear()} Arrowhead Digital Systems. All Systems Nominal.</span>
+          <div className="flex items-center gap-6">
+            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms</a>
+          </div>
         </div>
 
       </div>
