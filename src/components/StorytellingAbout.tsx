@@ -1,111 +1,202 @@
-import React from "react";
-import { ArrowRight, Target, Activity } from "lucide-react";
-import { motion } from "motion/react";
+import React, { useRef } from "react";
+import { ArrowRight, Compass, Shield, Zap, MessageSquare, Target } from "lucide-react";
+import { motion, useScroll, useTransform } from "motion/react";
 
 export default function StorytellingAbout() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Track scroll progress within the component
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Parallax translation curves
+  const yImage1 = useTransform(scrollYProgress, [0, 1], [-60, 60]);
+  const yImage2 = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  
+  // Opacity & movement triggers for sections
+  const aboutOpacity = useTransform(scrollYProgress, [0.1, 0.35, 0.55], [0, 1, 0]);
+  const aboutTranslateY = useTransform(scrollYProgress, [0.1, 0.35, 0.55], [40, 0, -30]);
+
+  const mvOpacity = useTransform(scrollYProgress, [0.45, 0.7, 0.95], [0, 1, 0]);
+  const mvTranslateY = useTransform(scrollYProgress, [0.45, 0.7, 0.95], [40, 0, -30]);
+
+  const benefits = [
+    {
+      title: "More Leads",
+      desc: "Quality prospects for your business",
+      icon: <Zap className="w-5 h-5 text-brand-orange-500" />
+    },
+    {
+      title: "Strong Brand",
+      desc: "A powerful presence people remember",
+      icon: <Shield className="w-5 h-5 text-brand-blue-500" />
+    },
+    {
+      title: "Real Results",
+      desc: "Marketing focused on growth",
+      icon: <Target className="w-5 h-5 text-emerald-500" />
+    },
+    {
+      title: "Clear Communication",
+      desc: "Simple updates and honest strategy",
+      icon: <MessageSquare className="w-5 h-5 text-indigo-500" />
+    }
+  ];
+
+  const missionPillars = ["Attract", "Grow", "Convert", "Achieve"];
+  const visionValues = ["Lead", "Trust", "Impact", "Success"];
+
   return (
-    <section id="about" className="py-32 relative bg-white overflow-hidden text-left">
-      
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10 w-full">
+    <section 
+      ref={containerRef} 
+      id="about" 
+      className="relative min-h-[160vh] bg-white overflow-hidden text-left py-20"
+    >
+      {/* Background Section Pin Layout */}
+      <div className="sticky top-0 w-full min-h-screen flex flex-col justify-center items-center overflow-hidden">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
+        {/* Subtle Watermark backdrop */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15rem] font-extrabold text-slate-100/50 select-none pointer-events-none tracking-tighter whitespace-nowrap z-0">
+          DOCTRINE
+        </div>
+
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
-          {/* Typographic Art Left Column (Spans 5) */}
-          <div className="lg:col-span-5 flex flex-col justify-center relative">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          {/* Left Column: Parallax Images & Graphics */}
+          <div className="lg:col-span-6 relative h-[450px] sm:h-[600px] w-full flex items-center justify-center">
+            
+            {/* Primary team visual with slow upward scroll-parallax */}
+            <motion.div 
+              style={{ y: yImage1 }}
+              className="absolute left-6 w-3/4 h-[350px] sm:h-[450px] bg-slate-100 overflow-hidden shadow-2xl rounded-sm border border-slate-200"
             >
-              <div className="flex items-center gap-4 mb-8">
-                <span className="w-12 h-px bg-slate-900" />
-                <span className="text-[10px] font-mono tracking-[0.3em] text-slate-900 font-bold uppercase">
-                  OPERATIONAL DOCTRINE
+              <img 
+                src="/src/assets/images/arrowhead_experts_team_1781816010797.jpg" 
+                alt="Arrowhead Marketing Operations" 
+                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000 scale-105"
+              />
+            </motion.div>
+
+            {/* Secondary geometric card with slow downward scroll-parallax */}
+            <motion.div 
+              style={{ y: yImage2 }}
+              className="absolute right-6 top-12 w-1/2 h-[200px] sm:h-[280px] bg-slate-950 shadow-2xl overflow-hidden flex flex-col justify-between p-8 border border-white/10 rounded-sm"
+            >
+              <div className="w-full flex justify-end">
+                <span className="w-2.5 h-2.5 rounded-full bg-brand-orange-500 animate-pulse" />
+              </div>
+              <div>
+                <Compass className="w-8 h-8 text-brand-blue-500 mb-4 animate-spin" style={{ animationDuration: '20s' }} />
+                <h4 className="text-white text-xs font-mono tracking-widest uppercase font-bold">DIRECTION SYSTEM</h4>
+                <p className="text-slate-400 text-[11px] font-mono mt-2">LATENCY // SECURE // OK</p>
+              </div>
+              {/* Architectural grid overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:1rem_1rem] pointer-events-none" />
+            </motion.div>
+
+          </div>
+
+          {/* Right Column: Progressive Reveal content */}
+          <div className="lg:col-span-6 relative h-[600px] w-full">
+            
+            {/* Phase 1: About Us */}
+            <motion.div 
+              style={{ opacity: aboutOpacity, y: aboutTranslateY }}
+              className="absolute inset-0 flex flex-col justify-center"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-8 h-px bg-brand-orange-500" />
+                <span className="text-[10px] font-mono tracking-[0.25em] text-brand-orange-500 font-bold uppercase">
+                  OPERATIONAL PROFILE
                 </span>
               </div>
               
-              <h2 className="text-5xl sm:text-6xl font-extrabold text-slate-900 leading-[1.05] tracking-tighter mb-8">
-                WE DO NOT GUESS. <br />
-                <span className="text-slate-400">WE COMPUTE.</span>
+              <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tighter leading-[1.05] mb-6">
+                ABOUT US.
               </h2>
               
-              <div className="space-y-6 text-slate-600 font-medium text-lg leading-relaxed max-w-md">
+              <div className="space-y-4 text-slate-500 font-medium text-base leading-relaxed">
                 <p>
-                  Most agencies rely on aesthetic subjectivity. Arrowhead operates on pure mathematical telemetry. We build digital infrastructure explicitly designed to capture market share and eliminate friction.
+                  Arrowhead helps businesses grow faster with smart digital strategies, strong branding, and lead-focused campaigns.
                 </p>
                 <p>
-                  Founded by engineers and scaling experts, our protocol merges deep React architecture with aggressive media buying algorithms.
+                  Beyond marketing, Arrowhead focuses on building brands, attracting customers, and supporting business growth.
                 </p>
               </div>
 
-              <div className="mt-12 flex items-center gap-8">
-                <div className="space-y-1">
-                  <span className="text-3xl font-extrabold text-slate-900 font-mono tracking-tighter">99.2%</span>
-                  <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Retention</span>
-                </div>
-                <div className="w-px h-12 bg-slate-200" />
-                <div className="space-y-1">
-                  <span className="text-3xl font-extrabold text-slate-900 font-mono tracking-tighter">$15M+</span>
-                  <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Managed</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Asymmetrical Image Composition Right Column (Spans 7) */}
-          <div className="lg:col-span-7 relative">
-            
-            {/* Background Massive Text Watermark */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12rem] font-extrabold text-slate-50 opacity-50 select-none pointer-events-none tracking-tighter whitespace-nowrap z-0">
-              SCALE
-            </div>
-
-            <div className="relative z-10 w-full h-[600px] flex items-center justify-center">
-              
-              {/* Primary Image - Stark brutalist crop */}
-              <motion.div 
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="w-3/4 h-3/4 bg-slate-100 overflow-hidden relative shadow-2xl"
-              >
-                <img 
-                  src="/src/assets/images/arrowhead_experts_team_1781816010797.jpg" 
-                  alt="Arrowhead Team Operation" 
-                  className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100"
-                />
-                {/* Minimalist Overlay Box */}
-                <div className="absolute bottom-0 left-0 bg-white p-6 md:p-8 w-3/4 sm:w-2/3">
-                  <div className="flex items-center gap-3 mb-2">
-                    <Target className="w-4 h-4 text-brand-orange-500" />
-                    <span className="text-[10px] font-mono tracking-widest text-slate-900 font-bold uppercase">Precision Targeted</span>
+              {/* Core Benefits */}
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {benefits.map((b, i) => (
+                  <div key={i} className="flex gap-3 items-start border border-slate-100 p-3 rounded-md bg-slate-50/50">
+                    <div className="p-1.5 border border-slate-200 rounded bg-white">
+                      {b.icon}
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900">{b.title}</h4>
+                      <p className="text-xs text-slate-400 mt-0.5">{b.desc}</p>
+                    </div>
                   </div>
-                  <p className="text-sm text-slate-600 font-medium">Every line of code and ad dollar is mapped to acquisition.</p>
-                </div>
-              </motion.div>
+                ))}
+              </div>
 
-              {/* Secondary Overlapping Abstract Element */}
-              <motion.div 
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute top-10 right-0 w-1/3 h-1/2 bg-slate-900 shadow-2xl overflow-hidden flex flex-col justify-between p-6"
-              >
-                <div className="w-full flex justify-end">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                </div>
-                <div>
-                  <Activity className="w-6 h-6 text-brand-orange-500 mb-4" />
-                  <p className="text-white font-mono text-xs uppercase tracking-widest opacity-80">System Live.</p>
-                </div>
-                {/* Abstract grid lines */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:1rem_1rem] pointer-events-none" />
-              </motion.div>
+            </motion.div>
 
-            </div>
+            {/* Phase 2: Mission & Vision */}
+            <motion.div 
+              style={{ opacity: mvOpacity, y: mvTranslateY }}
+              className="absolute inset-0 flex flex-col justify-center"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-8 h-px bg-brand-blue-500" />
+                <span className="text-[10px] font-mono tracking-[0.25em] text-brand-blue-500 font-bold uppercase">
+                  MISSION & VISION
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                
+                {/* Mission */}
+                <div className="border border-slate-100 p-6 rounded bg-slate-50/50 backdrop-blur-sm relative">
+                  <h3 className="text-xl font-extrabold text-slate-900 tracking-tight mb-3">Our Mission</h3>
+                  <p className="text-sm text-slate-500 font-medium leading-relaxed">
+                    To help businesses grow with smart marketing, stronger branding, and high-quality leads that turn into real results.
+                  </p>
+                  <div className="mt-6">
+                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold block mb-2">// Mission Pillars</span>
+                    <div className="flex flex-wrap gap-2">
+                      {missionPillars.map((p, idx) => (
+                        <span key={idx} className="text-xs px-2.5 py-1 border border-brand-orange-500/20 text-brand-orange-600 rounded bg-brand-orange-50/50 font-bold">
+                          {p}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Vision */}
+                <div className="border border-slate-100 p-6 rounded bg-slate-50/50 backdrop-blur-sm">
+                  <h3 className="text-xl font-extrabold text-slate-900 tracking-tight mb-3">Our Vision</h3>
+                  <p className="text-sm text-slate-500 font-medium leading-relaxed">
+                    To become a trusted marketing partner for brands that want to stand out, scale faster, and lead their market.
+                  </p>
+                  <div className="mt-6">
+                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold block mb-2">// Vision Values</span>
+                    <div className="flex flex-wrap gap-2">
+                      {visionValues.map((v, idx) => (
+                        <span key={idx} className="text-xs px-2.5 py-1 border border-brand-blue-500/20 text-brand-blue-600 rounded bg-brand-blue-50/50 font-bold">
+                          {v}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </motion.div>
+
           </div>
 
         </div>

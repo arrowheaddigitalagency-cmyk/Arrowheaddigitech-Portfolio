@@ -13,20 +13,59 @@ import ProjectEstimatorCTA from "./components/ProjectEstimatorCTA";
 import PremiumFooter from "./components/PremiumFooter";
 import AmbientBackground3D from "./components/AmbientBackground3D";
 
+import Lenis from "lenis";
+
 export default function App() {
   const [scrollPercent, setScrollPercent] = useState(0);
 
   useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+    });
+
+    let rafId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+
     const handleScroll = () => {
-      const h = document.documentElement, 
-            b = document.body,
-            st = 'scrollTop',
-            sh = 'scrollHeight';
+      const h = document.documentElement;
+      const b = document.body;
+      const st = 'scrollTop';
+      const sh = 'scrollHeight';
       const percent = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
       setScrollPercent(percent);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+    lenis.on("scroll", handleScroll);
+
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest("a");
+      if (anchor && anchor.hash && anchor.origin === window.location.origin) {
+        const targetElement = document.querySelector(anchor.hash);
+        if (targetElement) {
+          e.preventDefault();
+          lenis.scrollTo(targetElement as HTMLElement, {
+            offset: -80,
+            duration: 1.5,
+            immediate: false,
+          });
+        }
+      }
+    };
+    document.addEventListener("click", handleAnchorClick);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      document.removeEventListener("click", handleAnchorClick);
+    };
   }, []);
 
   return (
