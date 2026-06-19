@@ -77,7 +77,7 @@ export default function InteractiveServices() {
   ];
 
   return (
-    <section id="services" className="py-32 relative bg-white overflow-hidden text-left">
+    <section id="services" className="py-20 relative bg-white overflow-hidden text-left">
       
       {/* Decorative Blueprint Lines */}
       <div className="absolute inset-0 bg-grid-bg-dark opacity-30 pointer-events-none" />
@@ -85,7 +85,7 @@ export default function InteractiveServices() {
       <div className="max-w-[1400px] mx-auto px-6 sm:px-12 relative z-10 w-full">
         
         {/* Brutalist Header */}
-        <div className="mb-24 flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b-2 border-slate-900 pb-12">
+        <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b-2 border-slate-900 pb-12">
           <div>
             <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block mb-6 font-bold">
               // DEPLOYMENT VECTORS

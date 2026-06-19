@@ -97,7 +97,7 @@ export default function ProjectEstimatorCTA() {
   ];
 
   return (
-    <section id="contact" className="py-32 bg-[#0a0a0a] text-white relative overflow-hidden text-left border-t border-white/5">
+    <section id="contact" className="py-20 bg-[#0a0a0a] text-white relative overflow-hidden text-left border-t border-white/5">
       
       {/* 3D WebGL Canvas for background particles */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-60">

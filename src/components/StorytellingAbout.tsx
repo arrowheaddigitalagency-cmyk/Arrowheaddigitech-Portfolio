@@ -52,7 +52,7 @@ export default function StorytellingAbout() {
     <section 
       ref={containerRef} 
       id="about" 
-      className="relative min-h-[160vh] bg-white overflow-hidden text-left py-20"
+      className="relative min-h-[130vh] bg-white overflow-hidden text-left py-20"
     >
       {/* Background Section Pin Layout */}
       <div className="sticky top-0 w-full min-h-screen flex flex-col justify-center items-center overflow-hidden">

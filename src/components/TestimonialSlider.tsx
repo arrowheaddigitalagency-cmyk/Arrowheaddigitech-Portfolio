@@ -28,7 +28,7 @@ export default function TestimonialSlider() {
   }, [testimonials.length]);
 
   return (
-    <section className="py-40 bg-white relative overflow-hidden flex items-center min-h-[80vh] border-t border-slate-200">
+    <section className="py-20 bg-white relative overflow-hidden flex items-center min-h-[60vh] border-t border-slate-200">
       
       {/* Brutalist Watermark */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[15vw] font-extrabold text-slate-50 opacity-40 select-none pointer-events-none tracking-tighter whitespace-nowrap z-0">

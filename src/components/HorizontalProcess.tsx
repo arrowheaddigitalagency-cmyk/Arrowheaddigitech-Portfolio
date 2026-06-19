@@ -1,94 +1,213 @@
 import React, { useRef } from "react";
 import { useScroll, useTransform, motion } from "motion/react";
+import { CheckCircle2, ChevronRight } from "lucide-react";
 
 export default function HorizontalProcess() {
   const targetRef = useRef<HTMLDivElement>(null);
+  
+  // Track scroll progress of the entire section
   const { scrollYProgress } = useScroll({
     target: targetRef,
+    offset: ["start start", "end end"]
   });
-
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   const steps = [
     {
       id: "01",
-      title: "DISCOVERY & AUDIT",
-      desc: "Deep forensic analysis of current pipelines, tracking setups, and code architecture.",
-      detail: "Identify massive friction points."
+      title: "DISCOVER",
+      desc: "Analyze business goals, audit current platforms, and map target audience profiles.",
+      bullets: ["Analyze business", "Understand market", "Identify ideal customers"],
+      detail: "Phase 01 // Deep Audit"
     },
     {
       id: "02",
-      title: "STRATEGY FORMULATION",
-      desc: "Mapping specific acquisition loops, media buying logic, and UX overhaul requirements.",
-      detail: "Zero aesthetic bias."
+      title: "STRATEGIZE",
+      desc: "Build growth models, establish advertising campaigns strategy, and design positioning.",
+      bullets: ["Build growth strategy", "Marketing planning", "Brand positioning"],
+      detail: "Phase 02 // Strategic Blueprint"
     },
     {
       id: "03",
-      title: "ENGINEERING PHASE",
-      desc: "Deployment of sub-second React frontends and integrated CRM routing mechanisms.",
-      detail: "Absolute code precision."
+      title: "EXECUTE",
+      desc: "Launch performance marketing campaigns, optimize website UI, and activate chatbots.",
+      bullets: ["Launch campaigns", "Implement solutions", "Generate leads"],
+      detail: "Phase 03 // Precision Execution"
     },
     {
       id: "04",
-      title: "SCALING PROTOCOL",
-      desc: "Activating aggressive programmatic ad spend, strictly optimizing for target CPA and ROAS.",
-      detail: "Continuous algorithmic tuning."
+      title: "SCALE",
+      desc: "Amplify search visibility, scale paid budgets based on ROI loops, and maximize margins.",
+      bullets: ["Optimize results", "Expand reach", "Increase revenue"],
+      detail: "Phase 04 // Continuous Growth"
     }
   ];
 
+  // Opacity transforms for the 4 stages
+  const opacity1 = useTransform(scrollYProgress, [0, 0.20, 0.26], [1, 1, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 0.20, 0.26], [0, 0, -40]);
+
+  const opacity2 = useTransform(scrollYProgress, [0.20, 0.26, 0.46, 0.52], [0, 1, 1, 0]);
+  const y2 = useTransform(scrollYProgress, [0.20, 0.26, 0.46, 0.52], [40, 0, 0, -40]);
+
+  const opacity3 = useTransform(scrollYProgress, [0.46, 0.52, 0.72, 0.78], [0, 1, 1, 0]);
+  const y3 = useTransform(scrollYProgress, [0.46, 0.52, 0.72, 0.78], [40, 0, 0, -40]);
+
+  const opacity4 = useTransform(scrollYProgress, [0.72, 0.78, 0.95], [0, 1, 1]);
+  const y4 = useTransform(scrollYProgress, [0.72, 0.78, 0.95], [40, 0, 0]);
+
+  // Indicator highlighters
+  const activeDot1 = useTransform(scrollYProgress, [0, 0.22], ["#FF5A1F", "#334155"]);
+  const activeDot2 = useTransform(scrollYProgress, [0.22, 0.48], ["#FF5A1F", "#334155"]);
+  const activeDot3 = useTransform(scrollYProgress, [0.48, 0.74], ["#FF5A1F", "#334155"]);
+  const activeDot4 = useTransform(scrollYProgress, [0.74, 1.0], ["#FF5A1F", "#334155"]);
+
+  // Vertical timeline line height transform
+  const progressLineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
-    <section ref={targetRef} id="process" className="relative h-[300vh] bg-[#0a0a0a] text-white">
+    <section ref={targetRef} id="process" className="relative h-[240vh] bg-[#0a0a0a] text-white">
       
+      {/* Top transition overlay */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-white to-[#0a0a0a] pointer-events-none z-20" />
+      
+      {/* Bottom transition overlay */}
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white to-[#0a0a0a] pointer-events-none z-20" />
+
+      {/* Pinned Viewport Container */}
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         
         {/* Background Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 w-full mb-12 flex justify-between items-end">
-          <div>
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+          
+          {/* Left Column: Title & Vertical Timeline Indicator (Spans 5) */}
+          <div className="lg:col-span-5 flex flex-col">
             <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block mb-4 font-bold">
-              // METHODOLOGY
+              // METHODOLOGY & DOCTRINE
             </span>
-            <h2 className="text-5xl sm:text-7xl font-extrabold leading-[0.95] tracking-tighter">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[0.95] tracking-tighter mb-12">
               THE ARROWHEAD <br /> PROTOCOL.
             </h2>
-          </div>
-          <p className="text-slate-400 font-medium max-w-sm hidden md:block">
-            Scroll to traverse our strict four-phase deployment cycle. 
-          </p>
-        </div>
 
-        {/* Horizontal Scrolling Track */}
-        <div className="w-full overflow-hidden">
-          <motion.div style={{ x }} className="flex gap-8 px-6 sm:px-12 w-[400vw] sm:w-[300vw] lg:w-[200vw]">
-            {steps.map((step, idx) => (
-              <div 
-                key={step.id} 
-                className="w-[85vw] sm:w-[60vw] lg:w-[45vw] flex-shrink-0 bg-white/5 border border-white/10 rounded-2xl p-10 md:p-16 flex flex-col justify-between h-[400px] relative overflow-hidden group hover:bg-white/10 transition-colors"
-              >
-                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange-500/10 blur-[80px] rounded-full transform translate-x-1/2 -translate-y-1/2 group-hover:bg-brand-orange-500/20 transition-colors" />
-                
-                <div>
-                  <span className="text-6xl md:text-8xl font-mono font-extrabold text-white/10 tracking-tighter block mb-6">
-                    {step.id}
-                  </span>
-                  <h3 className="text-3xl md:text-5xl font-extrabold tracking-tighter mb-4">
-                    {step.title}
-                  </h3>
-                  <p className="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-md">
-                    {step.desc}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-4 border-t border-white/10 pt-6 mt-8">
-                  <div className="w-2 h-2 rounded-full bg-brand-orange-500 animate-pulse" />
-                  <span className="text-xs font-mono tracking-widest uppercase font-bold text-slate-300">
-                    {step.detail}
-                  </span>
-                </div>
+            {/* Vertical Phase Indicator */}
+            <div className="relative pl-8 flex flex-col gap-6">
+              
+              {/* Vertical Track Line */}
+              <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-800">
+                <motion.div 
+                  className="w-full bg-brand-orange-500 origin-top"
+                  style={{ height: progressLineHeight }}
+                />
               </div>
-            ))}
-          </motion.div>
+
+              {/* Step dots */}
+              {steps.map((st, i) => {
+                const color = i === 0 ? activeDot1 : i === 1 ? activeDot2 : i === 2 ? activeDot3 : activeDot4;
+                return (
+                  <div key={st.id} className="flex items-center gap-4 relative">
+                    <motion.div 
+                      className="absolute left-[-32px] w-4 h-4 rounded-full border-2 border-[#0a0a0a] z-10 flex items-center justify-center"
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="text-xs font-mono font-bold text-slate-400">{st.id}.</span>
+                    <span className="text-sm font-bold tracking-tight text-slate-200 uppercase">{st.title}</span>
+                  </div>
+                );
+              })}
+
+            </div>
+          </div>
+
+          {/* Right Column: Stacked Transition Cards (Spans 7) */}
+          <div className="lg:col-span-7 h-[420px] relative flex items-center justify-center">
+            
+            {/* CARD 1 */}
+            <motion.div 
+              style={{ opacity: opacity1, y: y1 }}
+              className="absolute w-full border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-xl p-8 sm:p-12 flex flex-col justify-between h-[380px] pointer-events-auto"
+            >
+              <div className="absolute top-0 right-0 w-48 h-48 bg-brand-orange-500/5 blur-[60px] rounded-full pointer-events-none" />
+              <div>
+                <span className="text-xs font-mono text-brand-orange-500 tracking-widest font-bold uppercase mb-2 block">{steps[0].detail}</span>
+                <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tighter mb-4 text-white uppercase">{steps[0].title}</h3>
+                <p className="text-slate-400 font-medium text-base sm:text-lg leading-relaxed max-w-lg">{steps[0].desc}</p>
+              </div>
+              <div className="grid grid-cols-3 gap-2 border-t border-white/5 pt-6 mt-6">
+                {steps[0].bullets.map((b, i) => (
+                  <div key={i} className="flex items-center gap-1.5 text-xs text-slate-300 font-bold">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-orange-500 flex-shrink-0" />
+                    <span>{b}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* CARD 2 */}
+            <motion.div 
+              style={{ opacity: opacity2, y: y2 }}
+              className="absolute w-full border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-xl p-8 sm:p-12 flex flex-col justify-between h-[380px] pointer-events-auto"
+            >
+              <div className="absolute top-0 right-0 w-48 h-48 bg-brand-blue-500/5 blur-[60px] rounded-full pointer-events-none" />
+              <div>
+                <span className="text-xs font-mono text-brand-blue-500 tracking-widest font-bold uppercase mb-2 block">{steps[1].detail}</span>
+                <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tighter mb-4 text-white uppercase">{steps[1].title}</h3>
+                <p className="text-slate-400 font-medium text-base sm:text-lg leading-relaxed max-w-lg">{steps[1].desc}</p>
+              </div>
+              <div className="grid grid-cols-3 gap-2 border-t border-white/5 pt-6 mt-6">
+                {steps[1].bullets.map((b, i) => (
+                  <div key={i} className="flex items-center gap-1.5 text-xs text-slate-300 font-bold">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-blue-500 flex-shrink-0" />
+                    <span>{b}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* CARD 3 */}
+            <motion.div 
+              style={{ opacity: opacity3, y: y3 }}
+              className="absolute w-full border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-xl p-8 sm:p-12 flex flex-col justify-between h-[380px] pointer-events-auto"
+            >
+              <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 blur-[60px] rounded-full pointer-events-none" />
+              <div>
+                <span className="text-xs font-mono text-emerald-500 tracking-widest font-bold uppercase mb-2 block">{steps[2].detail}</span>
+                <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tighter mb-4 text-white uppercase">{steps[2].title}</h3>
+                <p className="text-slate-400 font-medium text-base sm:text-lg leading-relaxed max-w-lg">{steps[2].desc}</p>
+              </div>
+              <div className="grid grid-cols-3 gap-2 border-t border-white/5 pt-6 mt-6">
+                {steps[2].bullets.map((b, i) => (
+                  <div key={i} className="flex items-center gap-1.5 text-xs text-slate-300 font-bold">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                    <span>{b}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* CARD 4 */}
+            <motion.div 
+              style={{ opacity: opacity4, y: y4 }}
+              className="absolute w-full border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-xl p-8 sm:p-12 flex flex-col justify-between h-[380px] pointer-events-auto"
+            >
+              <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/5 blur-[60px] rounded-full pointer-events-none" />
+              <div>
+                <span className="text-xs font-mono text-indigo-500 tracking-widest font-bold uppercase mb-2 block">{steps[3].detail}</span>
+                <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tighter mb-4 text-white uppercase">{steps[3].title}</h3>
+                <p className="text-slate-400 font-medium text-base sm:text-lg leading-relaxed max-w-lg">{steps[3].desc}</p>
+              </div>
+              <div className="grid grid-cols-3 gap-2 border-t border-white/5 pt-6 mt-6">
+                {steps[3].bullets.map((b, i) => (
+                  <div key={i} className="flex items-center gap-1.5 text-xs text-slate-300 font-bold">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0" />
+                    <span>{b}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+          </div>
+
         </div>
 
       </div>
