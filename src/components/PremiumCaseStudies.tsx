@@ -82,15 +82,15 @@ function CinematicMacBook({ image, alt }: { image: string; alt: string }) {
             {image ? (
               <img src={image} alt={alt} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" />
             ) : (
-              <div className="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-8 -z-10">
-                <div className="w-full h-full border-2 border-dashed border-slate-600 rounded-lg flex flex-col items-center justify-center bg-slate-800/30 gap-3">
+              <div className="absolute inset-0 bg-[#050505] flex flex-col items-center justify-center p-8 -z-10">
+                <div className="w-full h-full border-2 border-dashed border-[#333] rounded-lg flex flex-col items-center justify-center bg-[#0a0a0a] gap-3">
                    <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
-                     <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                     <svg className="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                    </div>
-                   <span className="text-white font-mono tracking-widest uppercase font-bold text-center text-sm">
+                   <span className="text-slate-300 font-mono tracking-widest uppercase font-bold text-center text-sm">
                      {alt}
                    </span>
-                   <span className="text-slate-500 font-mono tracking-widest uppercase text-[10px] text-center">
+                   <span className="text-slate-600 font-mono tracking-widest uppercase text-[10px] text-center">
                      Drop Image Here
                    </span>
                 </div>
@@ -142,12 +142,12 @@ function CinematicIPhone({ image, alt }: { image: string; alt: string }) {
            {image ? (
               <img src={image} alt={alt} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" />
            ) : (
-              <div className="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-4 -z-10">
-                <div className="w-full h-full border-2 border-dashed border-slate-600 rounded-3xl flex flex-col items-center justify-center bg-slate-800/30 gap-2">
+              <div className="absolute inset-0 bg-[#050505] flex flex-col items-center justify-center p-4 -z-10">
+                <div className="w-full h-full border-2 border-dashed border-[#333] rounded-3xl flex flex-col items-center justify-center bg-[#0a0a0a] gap-2">
                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                     <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                     <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                    </div>
-                   <span className="text-white font-mono tracking-widest uppercase font-bold text-center text-[10px]">
+                   <span className="text-slate-300 font-mono tracking-widest uppercase font-bold text-center text-[10px]">
                      {alt}
                    </span>
                 </div>
