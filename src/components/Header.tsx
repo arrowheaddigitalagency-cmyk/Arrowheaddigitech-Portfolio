@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, ArrowRight, Zap } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 const NAV_LINKS = [
@@ -40,29 +40,13 @@ export default function Header() {
         <div className="container-xl flex items-center justify-between">
 
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 group shrink-0">
-            <div className="relative w-8 h-8">
-              <img
-                src="/src/assets/images/arrowhead_logo.png"
-                alt="Arrowhead DigiTech"
-                className="w-full h-full object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-              />
-              {/* fallback icon if logo missing */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 peer-[img:not([src])]:opacity-100">
-                <Zap className="w-6 h-6 text-brand-orange-500" />
-              </div>
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="font-extrabold text-base tracking-tight text-ink-900">
-                Arrowhead
-              </span>
-              <span className="text-[9px] font-semibold tracking-widest uppercase text-ink-400">
-                DigiTech
-              </span>
-            </div>
+          <a href="#" className="flex items-center gap-0 shrink-0">
+            <img
+              src="/src/assets/images/arrowhead_logo.png"
+              alt="Arrowhead DigiTech"
+              className="h-9 w-auto object-contain"
+              style={{ imageRendering: "crisp-edges" }}
+            />
           </a>
 
           {/* Desktop Nav */}
@@ -124,17 +108,12 @@ export default function Header() {
           >
             {/* Header row */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-ink-100">
-              <a href="#" className="flex items-center gap-2.5" onClick={() => setMobileOpen(false)}>
+              <a href="#" className="flex items-center" onClick={() => setMobileOpen(false)}>
                 <img
                   src="/src/assets/images/arrowhead_logo.png"
                   alt="Arrowhead DigiTech"
-                  className="w-8 h-8 object-contain"
-                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                  className="h-8 w-auto object-contain"
                 />
-                <div className="flex flex-col leading-none">
-                  <span className="font-extrabold text-base text-ink-900">Arrowhead</span>
-                  <span className="text-[9px] font-semibold tracking-widest uppercase text-ink-400">DigiTech</span>
-                </div>
               </a>
               <button
                 onClick={() => setMobileOpen(false)}

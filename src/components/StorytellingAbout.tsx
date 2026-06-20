@@ -72,26 +72,25 @@ function MilestoneRow({ m, index, isLast }: {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "start 35%"] });
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const x       = useTransform(scrollYProgress, [0, 1], [index % 2 === 0 ? -32 : 32, 0]);
+  const xLeft   = useTransform(scrollYProgress, [0, 1], [-28, 0]);
+  const xRight  = useTransform(scrollYProgress, [0, 1], [ 28, 0]);
 
-  const Icon = m.icon;
-  const isEven = index % 2 === 0;
+  const Icon   = m.icon;
+  const isEven = index % 2 === 0; /* even → card LEFT, odd → card RIGHT */
 
   return (
     <div ref={ref} className="relative grid grid-cols-1 md:grid-cols-[1fr_64px_1fr] items-start">
 
       {/* ── LEFT slot ── */}
-      <div className={`pb-10 md:pb-16 ${isEven ? "md:pr-10 flex justify-end" : "md:order-3 md:pl-10 flex justify-start"}`}>
+      <div className={`pb-10 md:pb-16 md:pr-10 flex justify-end`}>
         {isEven ? (
-          <motion.div style={{ opacity, x }} className="w-full max-w-[420px]">
+          <motion.div style={{ opacity, x: xLeft }} className="w-full max-w-[420px]">
             <MilestoneCard m={m} />
           </motion.div>
         ) : (
-          /* Year stamp on the empty side */
-          <div className="hidden md:flex items-start pt-3">
-            <div className="flex flex-col items-end gap-1">
-              <span className="text-5xl font-extrabold text-ink-100 leading-none select-none">{m.year}</span>
-            </div>
+          /* Year stamp on left for odd rows */
+          <div className="hidden md:flex items-start pt-3 justify-end">
+            <span className="text-5xl font-extrabold text-ink-100 leading-none select-none">{m.year}</span>
           </div>
         )}
       </div>
@@ -121,14 +120,14 @@ function MilestoneRow({ m, index, isLast }: {
       </div>
 
       {/* ── RIGHT slot ── */}
-      <div className={`pb-10 md:pb-16 ${!isEven ? "md:pl-10 flex justify-start" : "md:order-3 flex justify-end"}`}>
+      <div className={`pb-10 md:pb-16 md:pl-10 flex justify-start`}>
         {!isEven ? (
-          <motion.div style={{ opacity, x }} className="w-full max-w-[420px]">
+          <motion.div style={{ opacity, x: xRight }} className="w-full max-w-[420px]">
             <MilestoneCard m={m} />
           </motion.div>
         ) : (
-          /* Year stamp on empty side */
-          <div className="hidden md:flex items-start pt-3 pl-2">
+          /* Year stamp on right for even rows */
+          <div className="hidden md:flex items-start pt-3">
             <span className="text-5xl font-extrabold text-ink-100 leading-none select-none">{m.year}</span>
           </div>
         )}
