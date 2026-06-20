@@ -80,10 +80,10 @@ export default function ProjectEstimatorCTA() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 items-start">
 
           {/* ── Left: info + trust ─────────────────── */}
-          <div className="flex flex-col gap-6 h-full">
+          <div className="flex flex-col gap-6">
 
             {/* Contact details */}
             <div className="card-lifted rounded-2xl p-7">
@@ -137,7 +137,7 @@ export default function ProjectEstimatorCTA() {
           </div>
 
           {/* ── Right: form ────────────────────────── */}
-          <div className="card-lifted rounded-2xl overflow-hidden flex flex-col">
+          <div className="card-lifted rounded-2xl overflow-hidden">
             {/* Orange top bar */}
             <div className="h-1.5 bg-gradient-to-r from-brand-orange-500 via-brand-orange-400 to-brand-blue-500" />
 

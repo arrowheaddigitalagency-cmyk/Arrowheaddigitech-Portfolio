@@ -72,22 +72,29 @@ export default function PremiumFooter() {
       />
 
       {/* Huge low-opacity ARROWHEAD text */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2 }}
-      >
-        <motion.span
-          className="text-[clamp(5rem,18vw,16rem)] font-extrabold tracking-widest uppercase whitespace-nowrap"
-          style={{ color: "rgba(255,255,255,0.028)", letterSpacing: "0.15em" }}
-          animate={{ x: [-8, 8, -8] }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        {/* Fade-in wrapper */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 2.5, ease: "easeOut" }}
         >
-          ARROWHEAD
-        </motion.span>
-      </motion.div>
+          {/* Slow drift */}
+          <motion.span
+            className="block font-extrabold uppercase whitespace-nowrap"
+            style={{
+              fontSize: "clamp(4rem,16vw,14rem)",
+              color: "rgba(255,255,255,0.022)",
+              letterSpacing: "0.18em",
+            }}
+            animate={{ x: [-12, 12, -12] }}
+            transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
+          >
+            ARROWHEAD
+          </motion.span>
+        </motion.div>
+      </div>
 
       {/* Floating particles */}
       <FooterParticles />
