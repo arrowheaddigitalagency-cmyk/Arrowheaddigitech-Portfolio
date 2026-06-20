@@ -178,27 +178,26 @@ export default function InteractiveHero() {
           </motion.div>
         </div>
 
-        </div>
-
-        {/* Logo Ticker Bar */}
-        <div className="absolute bottom-0 left-0 w-full bg-[#050810] border-t border-slate-800/50 py-6 overflow-hidden">
-          <div className="flex w-fit animate-[marquee_40s_linear_infinite] whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">
-            {/* Doubled for seamless loop */}
-            {[...Array(2)].map((_, i) => (
-              <div key={i} className="flex items-center gap-16 px-8">
-                <img src="/src/assets/images/arrowhead_logo.png" alt="Arrowhead" className="h-6 object-contain filter grayscale invert" />
-                <img src="/src/assets/images/yalaride_logo.png" alt="YalaRide" className="h-6 object-contain filter grayscale invert" />
-                <img src="/src/assets/images/ann_logo.png" alt="America Needs Nurses" className="h-6 object-contain filter grayscale invert" />
-                {/* Additional placeholders to fill the marquee */}
-                <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Velocity</span>
-                <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Lumina</span>
-                <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Nexus Group</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
       </div>
+
+      {/* Logo Ticker Bar */}
+      <div className="absolute bottom-0 left-0 w-full bg-[#050810] border-t border-slate-800/50 py-6 overflow-hidden">
+        <div className="flex w-fit animate-[marquee_40s_linear_infinite] whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">
+          {/* Doubled for seamless loop */}
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="flex items-center gap-16 px-8">
+              <img src="/src/assets/images/arrowhead_logo.png" alt="Arrowhead" className="h-6 object-contain filter grayscale invert" />
+              <img src="/src/assets/images/yalaride_logo.png" alt="YalaRide" className="h-6 object-contain filter grayscale invert" />
+              <img src="/src/assets/images/ann_logo.png" alt="America Needs Nurses" className="h-6 object-contain filter grayscale invert" />
+              {/* Additional placeholders to fill the marquee */}
+              <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Velocity</span>
+              <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Lumina</span>
+              <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Nexus Group</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </section>
   );
 }
