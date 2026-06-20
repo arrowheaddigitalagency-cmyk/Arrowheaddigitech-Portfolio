@@ -9,7 +9,7 @@ export default function LuxuryTeam() {
       name: "Waseeq Nauman",
       role: "Founder & Chief Executive Officer",
       desc: "Waseeq engineers the grand strategy behind Arrowhead's market dominance. With deep expertise in luxury positioning and enterprise growth, he transformed Arrowhead from a standard agency into a high-performance growth infrastructure company capable of scaling international brands.",
-      image: "/src/assets/images/waseeq_photo.jpg", // Asset Placeholder
+      image: "/src/assets/images/rizwan_photo.png", // Asset Placeholder
       linkedin: "#",
       accent: "text-brand-orange-500",
       bgAccent: "bg-brand-orange-500"
@@ -19,7 +19,7 @@ export default function LuxuryTeam() {
       name: "Usman Farooqi",
       role: "Operations Director & Systems Architect",
       desc: "Usman is the technical mastermind driving the Arrowhead Protocol. He oversees the seamless integration of advanced web architectures, AI autonomous pipelines, and high-latency data systems, ensuring that every strategic vision is executed with zero defects.",
-      image: "/src/assets/images/usman_photo.jpg", // Asset Placeholder
+      image: "/src/assets/images/ray_photo.png", // Asset Placeholder
       linkedin: "#",
       accent: "text-brand-blue-500",
       bgAccent: "bg-brand-blue-500"

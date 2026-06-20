@@ -101,13 +101,17 @@ export default function InteractiveHero() {
                       <div className="w-2.5 h-2.5 rounded-full bg-slate-700" />
                     </div>
                   </div>
-                  {/* Content Area placeholder representing a high-end website */}
-                  <div className="flex-1 bg-gradient-to-br from-slate-900 to-black p-8 relative overflow-hidden">
-                     <div className="absolute top-8 left-8 w-32 h-6 bg-white/10 rounded" />
-                     <div className="absolute top-24 left-8 w-3/4 h-12 bg-white/5 rounded" />
-                     <div className="absolute top-40 left-8 w-1/2 h-8 bg-white/5 rounded" />
-                     <div className="absolute bottom-8 right-8 w-40 h-32 bg-brand-blue-500/20 rounded-lg border border-brand-blue-500/30" />
-                     <Globe className="absolute bottom-12 right-12 w-24 h-24 text-brand-blue-500/20" />
+                  {/* Content Area representation */}
+                  <div className="flex-1 bg-gradient-to-br from-slate-900 to-black p-0 relative overflow-hidden">
+                     <img src="/src/assets/images/hero_dashboard_mockup_1781815970624.jpg" alt="Arrowhead Dashboard" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.opacity = '0'; }} />
+                     {/* Fallback skeleton if image fails to load */}
+                     <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none -z-10">
+                       <div className="absolute top-8 left-8 w-32 h-6 bg-white/10 rounded" />
+                       <div className="absolute top-24 left-8 w-3/4 h-12 bg-white/5 rounded" />
+                       <div className="absolute top-40 left-8 w-1/2 h-8 bg-white/5 rounded" />
+                       <div className="absolute bottom-8 right-8 w-40 h-32 bg-brand-blue-500/20 rounded-lg border border-brand-blue-500/30" />
+                       <Globe className="absolute bottom-12 right-12 w-24 h-24 text-brand-blue-500/20" />
+                     </div>
                   </div>
                 </div>
               </div>

@@ -183,7 +183,7 @@ export default function PremiumCaseStudies() {
         { label: "App Installs", value: 140, suffix: "%" },
         { label: "Job Applications", value: 110, suffix: "%" },
       ],
-      desktopImage: "/src/assets/images/america_needs_nurses_macbook_screenshot.jpg.png",
+      desktopImage: "/src/assets/images/nurses_recruiter_portal_1781816032234.jpg",
       mobileImage: "/src/assets/images/america_needs_nurses_iphone_screenshot.jpg.png",
     },
     {
