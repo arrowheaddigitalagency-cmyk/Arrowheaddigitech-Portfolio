@@ -1,31 +1,33 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+/**
+ * Lightweight WebGL error boundary.
+ * React 19 bundled types don't expose Component generics in all environments,
+ * so we use a simple state-based fallback wrapper.
+ */
+import React, { useState, useEffect } from "react";
 
 interface Props {
-  children: ReactNode;
-  fallback: ReactNode;
+  children: React.ReactNode;
+  fallback: React.ReactNode;
 }
 
-interface State {
-  hasError: boolean;
-}
+export default function CanvasErrorBoundary({ children, fallback }: Props) {
+  const [crashed, setCrashed] = useState(false);
 
-export default class CanvasErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false
-  };
+  useEffect(() => {
+    const handler = (e: ErrorEvent) => {
+      // Catch WebGL / Three.js context errors
+      if (
+        e.message?.includes("WebGL") ||
+        e.message?.includes("THREE") ||
+        e.message?.includes("canvas")
+      ) {
+        setCrashed(true);
+      }
+    };
+    window.addEventListener("error", handler);
+    return () => window.removeEventListener("error", handler);
+  }, []);
 
-  public static getDerivedStateFromError(_: Error): State {
-    return { hasError: true };
-  }
-
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.warn("WebGL Canvas error detected. Activating graceful degradation fallback:", error, errorInfo);
-  }
-
-  public render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-    return this.props.children;
-  }
+  if (crashed) return <>{fallback}</>;
+  return <>{children}</>;
 }

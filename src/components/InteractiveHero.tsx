@@ -1,203 +1,430 @@
-import React from "react";
-import { ArrowRight, BarChart3, Globe, Smartphone, Monitor, ChevronRight } from "lucide-react";
-import { motion } from "motion/react";
+import React, { useRef } from "react";
+import {
+  ArrowRight, TrendingUp, Star, BarChart2,
+  Smartphone, Globe, MousePointer
+} from "lucide-react";
+import { motion, useScroll, useTransform } from "motion/react";
+
+/* ─────────────────────────────────────────────────────
+   KPI WIDGETS  — premium glass cards
+───────────────────────────────────────────────────── */
+
+function KpiLeadCard() {
+  return (
+    <div className="kpi-glass rounded-2xl px-4 py-3.5 w-[210px]">
+      <div className="flex items-center justify-between mb-2.5">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center">
+            <TrendingUp className="w-3 h-3 text-emerald-600" />
+          </div>
+          <span className="text-[10px] font-700 text-ink-400 uppercase tracking-widest">New Lead</span>
+        </div>
+        <span className="text-[9px] font-700 text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full">Qualified</span>
+      </div>
+      <p className="text-sm font-700 text-ink-900 mb-0.5">Dubai Car Rental Co.</p>
+      <div className="flex items-center justify-between mt-2 pt-2 border-t border-ink-100">
+        <span className="text-[10px] text-ink-400 font-500">via Google Ads</span>
+        <span className="text-[10px] font-600 text-brand-orange-500">2m ago</span>
+      </div>
+    </div>
+  );
+}
+
+function KpiRatingCard() {
+  return (
+    <div className="kpi-glass rounded-2xl px-4 py-3.5 w-[178px]">
+      <div className="flex gap-0.5 mb-1.5">
+        {[...Array(5)].map((_, i) => (
+          <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+        ))}
+      </div>
+      <p className="text-2xl font-extrabold text-ink-900 leading-none">5.0</p>
+      <p className="text-[10px] font-600 text-ink-400 mt-1">Google Rating</p>
+      <p className="text-[10px] font-500 text-ink-300">47 verified reviews</p>
+    </div>
+  );
+}
+
+function KpiRevenueCard() {
+  const bars = [38, 55, 42, 72, 50, 84, 62, 91, 56, 88, 70, 96];
+  return (
+    <div className="kpi-glass rounded-2xl px-4 py-4 w-[220px]">
+      <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center gap-1.5">
+          <BarChart2 className="w-3.5 h-3.5 text-brand-blue-500" />
+          <span className="text-[10px] font-700 text-ink-400 uppercase tracking-widest">Revenue</span>
+        </div>
+        <span className="text-[10px] font-700 text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full">↑ 145%</span>
+      </div>
+      <p className="text-xl font-extrabold text-ink-900 mb-3">$48,200 <span className="text-xs font-600 text-ink-400">/ mo</span></p>
+      <div className="flex items-end gap-[3px] h-9">
+        {bars.map((h, i) => (
+          <motion.div
+            key={i}
+            className="flex-1 rounded-sm transition-all"
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ delay: 0.8 + i * 0.04, duration: 0.4, ease: "easeOut" }}
+            style={{
+              height: `${h}%`,
+              transformOrigin: "bottom",
+              background: i >= bars.length - 3
+                ? "linear-gradient(180deg,#3B82F6,#60a5fa)"
+                : "linear-gradient(180deg,#dbeafe,#eff6ff)"
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function KpiLiveCard() {
+  return (
+    <div className="kpi-glass rounded-2xl px-4 py-3.5 w-[162px]">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="relative w-2.5 h-2.5">
+          <div className="absolute inset-0 rounded-full bg-emerald-500" />
+          <div className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
+        </div>
+        <span className="text-[10px] font-700 text-ink-400 uppercase tracking-widest">Active Now</span>
+      </div>
+      <p className="text-3xl font-extrabold text-ink-900 leading-none">24</p>
+      <p className="text-[10px] font-600 text-ink-400 mt-1">Live projects</p>
+    </div>
+  );
+}
+
+function KpiWebsiteCard() {
+  return (
+    <div className="kpi-glass rounded-2xl px-4 py-3.5 w-[178px]">
+      <div className="flex items-center gap-2 mb-2">
+        <MousePointer className="w-3.5 h-3.5 text-brand-orange-500" />
+        <span className="text-[10px] font-700 text-ink-400 uppercase tracking-widest">Conversion</span>
+      </div>
+      <p className="text-2xl font-extrabold text-ink-900 leading-none">3.2<span className="text-base">x</span></p>
+      <p className="text-[10px] font-600 text-ink-400 mt-1">Avg. lift delivered</p>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────
+   DEVICE MOCKUPS
+───────────────────────────────────────────────────── */
+
+function MacBookFrame({ image }: { image: string }) {
+  return (
+    <div className="w-full select-none device-shadow">
+      {/* Lid */}
+      <div className="w-full bg-gradient-to-b from-[#e0e1e3] to-[#d2d3d5] rounded-t-[14px] p-[2.2%] border-t border-x border-[#c0c1c3]">
+        {/* Camera dot */}
+        <div className="absolute top-[1.2%] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full bg-[#b0b1b3] z-10" />
+        {/* Screen */}
+        <div className="w-full aspect-[16/10] bg-[#111827] rounded-[6px] overflow-hidden relative border border-black/20">
+          {/* Browser chrome */}
+          <div className="absolute top-0 left-0 right-0 h-[26px] bg-[#f5f5f7] border-b border-[#ddd] flex items-center px-3 gap-1.5 z-10">
+            <div className="w-[9px] h-[9px] rounded-full bg-[#ff5f57]" />
+            <div className="w-[9px] h-[9px] rounded-full bg-[#ffbd2e]" />
+            <div className="w-[9px] h-[9px] rounded-full bg-[#28c840]" />
+            <div className="flex-1 mx-3 bg-[#e9e9eb] rounded-full h-[14px] flex items-center px-2.5 border border-[#d0d0d2]">
+              <div className="w-2.5 h-2.5 rounded-sm bg-[#bbb] mr-1.5" />
+              <span className="text-[7px] text-[#888] font-500 truncate">arrowheaddigitech.com</span>
+            </div>
+          </div>
+          {/* Content */}
+          <img
+            src={image}
+            alt="Dashboard preview"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+            style={{ marginTop: "26px", height: "calc(100% - 26px)" }}
+            onError={(e) => { e.currentTarget.style.opacity = "0"; }}
+          />
+          {/* Gradient overlay at bottom for depth */}
+          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/20 to-transparent pointer-events-none z-10" />
+          {/* Fallback */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 -z-10 flex items-center justify-center" style={{ marginTop: "26px" }}>
+            <Globe className="w-10 h-10 text-blue-400 opacity-20" />
+          </div>
+        </div>
+      </div>
+      {/* Hinge */}
+      <div className="relative h-[10px] bg-gradient-to-b from-[#c8c9cb] to-[#b4b5b7] border-x border-[#b0b1b3]">
+        <div className="absolute inset-x-[10%] top-0 h-[3px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      </div>
+      {/* Base */}
+      <div className="h-[14px] bg-gradient-to-b from-[#b8b9bb] to-[#a8a9ab] rounded-b-[10px] border-x border-b border-[#a0a1a3]" />
+      <div className="h-[5px] w-[28%] bg-gradient-to-b from-[#b2b3b5] to-[#a2a3a5] rounded-b-[6px] mx-auto border-x border-b border-[#9a9b9d]" />
+    </div>
+  );
+}
+
+function IPhoneFrame({ image }: { image: string }) {
+  return (
+    <div className="w-[116px] select-none device-shadow-sm">
+      {/* Body */}
+      <div className="relative bg-gradient-to-b from-[#2a2a2c] to-[#1a1a1c] rounded-[2.4rem] p-[8px] border border-[#3a3a3c]">
+        {/* Side buttons */}
+        <div className="absolute left-[-3px] top-[22%] w-[3px] h-[28px] bg-[#3a3a3c] rounded-l-sm" />
+        <div className="absolute left-[-3px] top-[36%] w-[3px] h-[44px] bg-[#3a3a3c] rounded-l-sm" />
+        <div className="absolute right-[-3px] top-[28%] w-[3px] h-[52px] bg-[#3a3a3c] rounded-r-sm" />
+        {/* Dynamic island */}
+        <div className="absolute top-[12px] left-1/2 -translate-x-1/2 w-[38%] h-[16px] bg-[#1a1a1c] rounded-full z-20 flex items-center justify-center gap-1.5">
+          <div className="w-[5px] h-[5px] rounded-full bg-[#2c2c2e]" />
+          <div className="w-[8px] h-[8px] rounded-full bg-[#2c2c2e]" />
+        </div>
+        {/* Screen */}
+        <div className="rounded-[1.9rem] overflow-hidden aspect-[9/19.5] bg-[#0f172a] relative">
+          <img
+            src={image}
+            alt="Mobile preview"
+            className="w-full h-full object-cover object-top"
+            onError={(e) => { e.currentTarget.style.opacity = "0"; }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-950 to-slate-900 -z-10 flex items-center justify-center">
+            <Smartphone className="w-7 h-7 text-blue-400 opacity-20" />
+          </div>
+          {/* Screen glare */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-transparent pointer-events-none z-10" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────
+   MAIN HERO
+───────────────────────────────────────────────────── */
 
 export default function InteractiveHero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+
+  const stats = [
+    { value: "150+", label: "Clients" },
+    { value: "250+", label: "Projects" },
+    { value: "12+",  label: "Years"   },
+    { value: "98%",  label: "Retention"},
+  ];
+
   return (
-    <section className="relative min-h-screen w-full bg-[#02040a] overflow-hidden flex items-center pt-20 pb-20 lg:pt-0 lg:pb-0">
-      
-      {/* Subtle Background Gradients (Corporate / Executive) */}
-      <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-brand-blue-900/20 blur-[120px] rounded-full mix-blend-screen pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-brand-orange-900/10 blur-[120px] rounded-full mix-blend-screen pointer-events-none" />
-      
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)] pointer-events-none opacity-50" />
+    <section ref={heroRef} id="hero" className="relative min-h-screen w-full bg-white overflow-hidden flex flex-col">
 
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center">
-        
-        {/* LEFT SIDE: Copy & Call to Actions */}
-        <div className="flex flex-col justify-center max-w-2xl pt-10 lg:pt-0">
-          
-          {/* Badge */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md self-start mb-8 shadow-2xl"
-          >
-            <span className="w-2 h-2 rounded-full bg-brand-orange-500 animate-pulse" />
-            <span className="text-xs font-bold tracking-widest text-slate-300 uppercase">
-              Web Development &bull; AI Websites &bull; Digital Growth
-            </span>
-          </motion.div>
+      {/* ── Background depth layers ──────────────── */}
+      {/* Grid texture */}
+      <div className="absolute inset-0 grid-texture opacity-50 pointer-events-none" />
+      {/* Warm radial top-right */}
+      <div className="absolute -top-[10%] right-[-5%] w-[620px] h-[620px] rounded-full bg-gradient-radial from-brand-orange-100/70 to-transparent pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(255,220,195,0.55) 0%, transparent 70%)" }} />
+      {/* Cool radial bottom-left */}
+      <div className="absolute bottom-[5%] left-[-5%] w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(191,219,254,0.4) 0%, transparent 70%)" }} />
+      {/* Thin horizontal line accents */}
+      <div className="absolute top-[38%] left-0 right-0 h-px bg-gradient-to-r from-transparent via-ink-100 to-transparent pointer-events-none hidden lg:block" />
 
-          {/* Headline */}
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold text-white leading-[1.05] tracking-tight mb-8"
-          >
-            Building Digital Systems<br/>
-            That Actually<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange-500 to-amber-500">Grow Businesses.</span>
-          </motion.h1>
+      {/* ── Main content ─────────────────────────── */}
+      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="relative z-10 flex-1 flex items-center">
+        <div className="container-xl w-full grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-12 xl:gap-16 items-center pt-28 pb-12 lg:pt-20 lg:pb-12">
 
-          {/* Subheading */}
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg sm:text-xl text-slate-400 font-medium leading-relaxed mb-12 max-w-xl"
-          >
-            Custom Websites, AI-Powered Experiences, and Growth Infrastructure built to generate leads, increase credibility, and scale operations.
-          </motion.p>
+          {/* LEFT ── Copy */}
+          <div className="flex flex-col max-w-[540px]">
 
-          {/* Buttons */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row gap-5"
-          >
-            <a 
-              href="#work" 
-              className="group flex items-center justify-center gap-3 px-8 py-4 bg-white text-black font-extrabold text-sm tracking-widest uppercase hover:bg-slate-200 transition-colors"
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: [0.16,1,0.3,1] }}
+              className="pill-badge pill-orange self-start mb-5"
             >
-              View Case Studies
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a 
-              href="#contact" 
-              className="group flex items-center justify-center gap-3 px-8 py-4 bg-transparent border border-white/20 text-white font-extrabold text-sm tracking-widest uppercase hover:bg-white/5 hover:border-white/40 transition-colors"
-            >
-              Book Strategy Call
-            </a>
-          </motion.div>
-        </div>
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-orange-500 animate-pulse shrink-0" />
+              Web Development · AI Websites · Digital Growth
+            </motion.div>
 
-        {/* RIGHT SIDE: Floating Digital Ecosystem */}
-        <div className="relative h-[600px] lg:h-[800px] w-full hidden sm:block perspective-1000">
+            {/* Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.08, ease: [0.16,1,0.3,1] }}
+              className="text-[2.75rem] sm:text-5xl xl:text-[3.6rem] font-extrabold text-ink-900 leading-[1.07] tracking-tight mb-5"
+            >
+              Building Digital
+              <span className="block">Systems That</span>
+              <span className="block text-gradient-orange">Actually Grow.</span>
+            </motion.h1>
+
+            {/* Sub */}
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.18, ease: [0.16,1,0.3,1] }}
+              className="text-base sm:text-lg text-ink-500 leading-relaxed mb-7 max-w-[460px]"
+            >
+              Custom Websites, AI-Powered Experiences, and Growth Infrastructure designed to generate leads, increase credibility, and scale businesses.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.28, ease: [0.16,1,0.3,1] }}
+              className="flex flex-col sm:flex-row gap-3 mb-10"
+            >
+              <a href="#work" className="btn-primary btn-primary-shimmer py-3.5 px-7 text-sm">
+                View Case Studies
+                <ArrowRight className="w-4 h-4" />
+              </a>
+              <a href="#contact" className="btn-outline py-3.5 px-7 text-sm group">
+                Book Strategy Call
+                <ArrowRight className="w-4 h-4 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200" />
+              </a>
+            </motion.div>
+
+            {/* Stats row */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.42 }}
+              className="flex flex-wrap gap-x-7 gap-y-3 pt-5 border-t border-ink-100"
+            >
+              {stats.map((s, i) => (
+                <motion.div
+                  key={s.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.44 + i * 0.07 }}
+                >
+                  <p className="text-[1.6rem] font-extrabold text-ink-900 leading-none">{s.value}</p>
+                  <p className="text-[11px] text-ink-400 font-600 mt-0.5 uppercase tracking-wider">{s.label}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* RIGHT ── Device ecosystem */}
           <motion.div
-            initial={{ opacity: 0, rotateY: 15, x: 100 }}
-            animate={{ opacity: 1, rotateY: 0, x: 0 }}
-            transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0 w-full h-full transform-style-3d"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.1, delay: 0.22, ease: [0.16,1,0.3,1] }}
+            className="relative hidden lg:block"
+            style={{ height: "560px" }}
           >
-            
-            {/* Primary MacBook Mockup */}
-            <motion.div 
-              animate={{ y: [-10, 10, -10] }}
-              transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] w-[110%] max-w-[800px] z-20"
+            {/* Depth blob behind everything */}
+            <div className="absolute top-[15%] left-[8%] right-[8%] bottom-[10%] rounded-[32px] pointer-events-none"
+              style={{ background: "linear-gradient(135deg, rgba(255,220,200,0.35) 0%, rgba(191,219,254,0.3) 100%)", filter: "blur(40px)" }} />
+
+            {/* MacBook — main layer */}
+            <motion.div
+              className="absolute top-[4%] left-[2%] right-[2%] z-10"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="w-full aspect-[16/10] bg-[#0f0f11] rounded-t-2xl border-t-2 border-x-2 border-slate-700 shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] p-[2%] relative">
-                <div className="w-full h-full bg-slate-900 rounded border border-slate-800 overflow-hidden relative flex flex-col">
-                  {/* Faux Browser Header */}
-                  <div className="h-6 bg-slate-950 border-b border-slate-800 flex items-center px-3 gap-2 shrink-0">
-                    <div className="flex gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-slate-700" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-slate-700" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-slate-700" />
-                    </div>
-                  </div>
-                  {/* Content Area representation */}
-                  <div className="flex-1 bg-gradient-to-br from-slate-900 to-black p-0 relative overflow-hidden">
-                     <img src="/src/assets/images/hero_dashboard_mockup_1781815970624.jpg" alt="Arrowhead Dashboard" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.opacity = '0'; }} />
-                     {/* Fallback skeleton if image fails to load */}
-                     <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none -z-10">
-                       <div className="absolute top-8 left-8 w-32 h-6 bg-white/10 rounded" />
-                       <div className="absolute top-24 left-8 w-3/4 h-12 bg-white/5 rounded" />
-                       <div className="absolute top-40 left-8 w-1/2 h-8 bg-white/5 rounded" />
-                       <div className="absolute bottom-8 right-8 w-40 h-32 bg-brand-blue-500/20 rounded-lg border border-brand-blue-500/30" />
-                       <Globe className="absolute bottom-12 right-12 w-24 h-24 text-brand-blue-500/20" />
-                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="w-[110%] -ml-[5%] h-4 bg-gradient-to-b from-slate-600 to-slate-900 rounded-b-xl border-b border-slate-950 shadow-2xl" />
+              <MacBookFrame image="/src/assets/images/hero_dashboard_mockup_1781815970624.jpg" />
             </motion.div>
 
-            {/* Mobile Device Overlay */}
-            <motion.div 
-              animate={{ y: [10, -10, 10] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 }}
-              className="absolute top-[20%] right-[5%] w-[180px] z-30"
+            {/* iPhone — overlapping bottom-right */}
+            <motion.div
+              className="absolute bottom-[1%] right-[6%] z-20"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
             >
-              <div className="w-full aspect-[9/19.5] bg-[#0d0d0f] border-8 border-slate-800 rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,1)] p-2 relative">
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1/3 h-4 bg-black rounded-b-xl z-10" />
-                <div className="w-full h-full bg-gradient-to-b from-slate-900 to-black rounded-[1.8rem] overflow-hidden relative border border-slate-700/50 p-4">
-                  <div className="w-full h-24 bg-brand-orange-500/20 rounded-xl border border-brand-orange-500/30 mb-4 mt-8 flex items-center justify-center">
-                    <Smartphone className="text-brand-orange-500/50 w-8 h-8" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="w-full h-4 bg-white/10 rounded" />
-                    <div className="w-3/4 h-4 bg-white/5 rounded" />
-                    <div className="w-5/6 h-4 bg-white/5 rounded" />
-                  </div>
-                </div>
-              </div>
+              <IPhoneFrame image="/src/assets/images/america_needs_nurses_iphone_screenshot.jpg.png" />
             </motion.div>
 
-            {/* Floating Lead Generation Card */}
-            <motion.div 
-              animate={{ y: [-5, 5, -5], rotate: [-2, 2, -2] }}
-              transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 0.5 }}
-              className="absolute bottom-[20%] left-[-5%] w-[220px] bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 z-40 shadow-2xl"
+            {/* KPI: Revenue — top-left, overlapping MacBook */}
+            <motion.div
+              className="absolute top-[3%] left-[-6%] z-30"
+              animate={{ y: [0, -7, 0] }}
+              transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+              initial={{ opacity: 0, x: -20, y: 10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true }}
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                  <ArrowRight className="w-4 h-4 text-emerald-500" />
-                </div>
-                <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">New Lead</span>
-              </div>
-              <div className="space-y-2">
-                <div className="h-3 w-full bg-white/10 rounded" />
-                <div className="h-3 w-2/3 bg-white/10 rounded" />
-              </div>
-              <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                <span className="text-[10px] text-slate-500 uppercase font-mono">Status</span>
-                <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider">Qualified</span>
-              </div>
+              <KpiRevenueCard />
             </motion.div>
 
-            {/* Floating Analytics Widget */}
-            <motion.div 
-              animate={{ y: [8, -8, 8], x: [5, -5, 5] }}
-              transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 1.5 }}
-              className="absolute top-[10%] left-[5%] w-[200px] bg-gradient-to-br from-slate-900 to-black border border-slate-700/50 rounded-2xl p-5 z-10 shadow-2xl"
+            {/* KPI: Rating — top-right */}
+            <motion.div
+              className="absolute top-[8%] right-[-2%] z-30"
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
             >
-              <div className="flex justify-between items-start mb-6">
-                <BarChart3 className="w-5 h-5 text-brand-blue-500" />
-                <span className="text-[10px] font-mono text-emerald-400 font-bold">+145%</span>
-              </div>
-              <span className="block text-2xl font-extrabold text-white tracking-tighter mb-1">24.8k</span>
-              <span className="block text-xs font-medium text-slate-500 uppercase tracking-widest">Active Users</span>
+              <KpiRatingCard />
             </motion.div>
 
-          </motion.div>
-        </div>
+            {/* KPI: New Lead — mid-left */}
+            <motion.div
+              className="absolute top-[44%] left-[-7%] z-30"
+              animate={{ y: [0, -9, 0] }}
+              transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <KpiLeadCard />
+            </motion.div>
 
-      </div>
+            {/* KPI: Live Projects — overlapping phone top */}
+            <motion.div
+              className="absolute bottom-[26%] right-[-3%] z-30"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <KpiLiveCard />
+            </motion.div>
 
-      {/* Logo Ticker Bar */}
-      <div className="absolute bottom-0 left-0 w-full bg-[#050810] border-t border-slate-800/50 py-6 overflow-hidden">
-        <div className="flex w-fit animate-[marquee_40s_linear_infinite] whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">
-          {/* Doubled for seamless loop */}
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex items-center gap-16 px-8">
-              <img src="/src/assets/images/arrowhead_logo.png" alt="Arrowhead" className="h-6 object-contain filter grayscale invert" />
-              <img src="/src/assets/images/yalaride_logo.png" alt="YalaRide" className="h-6 object-contain filter grayscale invert" />
-              <img src="/src/assets/images/ann_logo.png" alt="America Needs Nurses" className="h-6 object-contain filter grayscale invert" />
-              {/* Additional placeholders to fill the marquee */}
-              <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Velocity</span>
-              <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Lumina</span>
-              <span className="text-xl font-bold font-mono tracking-widest text-slate-500 uppercase">Nexus Group</span>
+            {/* KPI: Conversion — bottom-left near base */}
+            <motion.div
+              className="absolute bottom-[3%] left-[2%] z-20"
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <KpiWebsiteCard />
+            </motion.div>
+
+            {/* Subtle dot cluster decoration */}
+            <div className="absolute top-[35%] right-[18%] grid grid-cols-4 gap-1.5 pointer-events-none z-0">
+              {[...Array(16)].map((_, i) => (
+                <div key={i} className="w-1 h-1 rounded-full bg-ink-200" />
+              ))}
             </div>
-          ))}
+          </motion.div>
+
+        </div>
+      </motion.div>
+
+      {/* ── Client ticker ─────────────────────────── */}
+      <div className="relative z-10 border-t border-ink-100 bg-surface-1 overflow-hidden">
+        <div className="py-3 text-center">
+          <span className="text-[10px] font-700 text-ink-300 uppercase tracking-[0.2em]">Trusted by businesses across 25+ industries</span>
+        </div>
+        <div className="pb-4 flex whitespace-nowrap overflow-hidden">
+          <div className="flex items-center animate-marquee shrink-0">
+            {[...Array(2)].map((_, pass) => (
+              <div key={pass} className="flex items-center gap-0 shrink-0">
+                {[
+                  "YalaRide","America Needs Nurses","Go Jetter Tours",
+                  "Priceless Rent-A-Car","Cars Compound","Atlanta Car Rental",
+                  "Drive Kleen","VIP Cars","Moiz & Sons Elevator",
+                ].map((name) => (
+                  <span key={`${pass}-${name}`} className="px-8 text-xs font-700 text-ink-300 hover:text-ink-600 transition-colors cursor-default uppercase tracking-widest">
+                    {name}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-
     </section>
   );
 }

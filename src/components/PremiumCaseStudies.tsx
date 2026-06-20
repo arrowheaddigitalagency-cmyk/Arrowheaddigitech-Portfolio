@@ -1,272 +1,398 @@
-import React, { useState, useEffect, useRef } from "react";
-import { ArrowRight, Globe } from "lucide-react";
-import { motion, useInView, useScroll, useTransform } from "motion/react";
+import React, { useState, useRef, useEffect } from "react";
+import { ArrowRight, Monitor, Smartphone, TrendingUp, Star } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
-interface CaseMetric {
-  label: string;
-  value: number;
-  suffix: string;
-}
-
-interface CaseStudy {
-  id: string;
-  client: string;
-  brandInfo: string;
-  results: CaseMetric[];
-  desktopImage: string;
-  mobileImage: string;
-}
-
-function CountingMetric({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-
+/* ─── Animated counter ──────────────────────────────── */
+function Counter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
+  const [val, setVal] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const fired = useRef(false);
   useEffect(() => {
-    if (!isInView) return;
-    let startTimestamp: number | null = null;
-    const duration = 2000;
-    
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !fired.current) {
+        fired.current = true;
+        let start: number | null = null;
+        const step = (ts: number) => {
+          if (!start) start = ts;
+          const p = Math.min((ts - start) / 1800, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          setVal(Math.round(ease * target));
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
       }
-    };
-    
-    window.requestAnimationFrame(step);
-  }, [isInView, target]);
-
-  return (
-    <span ref={ref} className="font-mono">
-      {count}
-      {suffix}
-    </span>
-  );
+    }, { threshold: 0.4 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target]);
+  return <span ref={ref}>{prefix}{val}{suffix}</span>;
 }
 
-// Cinematic Full-Width MacBook Pro CSS-Only Frame Mockup
-function CinematicMacBook({ image, alt }: { image: string; alt: string }) {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-  
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX, clientY, currentTarget } = e;
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    const x = (clientX - left) / width - 0.5;
-    const y = (clientY - top) / height - 0.5;
-    setCoords({ x, y });
-  };
-
+/* ─── Premium MacBook frame ──────────────────────────── */
+function MacFrame({ image, alt, accent }: { image: string; alt: string; accent: string }) {
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setCoords({ x: 0, y: 0 })}
-      className="relative w-full max-w-[1200px] mx-auto cursor-crosshair z-10"
-      style={{ perspective: 1500 }}
-    >
-      <motion.div
-        animate={{
-          rotateY: coords.x * 10,
-          rotateX: -coords.y * 10,
-        }}
-        transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        className="w-full"
-      >
-        <div className="bg-[#0f0f11] p-[2.5%] rounded-t-3xl border-t-2 border-x-2 border-slate-700 shadow-2xl relative">
-          <div className="absolute top-[1.5%] left-1/2 -translate-x-1/2 w-[6%] h-[2.5%] bg-black rounded-b-xl z-30 flex items-center justify-center">
-            <div className="w-[3px] h-[3px] rounded-full bg-blue-900/40" />
+    <div className="w-full select-none" style={{ filter: "drop-shadow(0 28px 56px rgba(10,13,20,0.18)) drop-shadow(0 6px 12px rgba(10,13,20,0.1))" }}>
+      <div className="bg-gradient-to-b from-[#e2e3e5] to-[#d4d5d7] rounded-t-[16px] p-[2.2%] border-t border-x border-[#c0c1c3]">
+        {/* Camera */}
+        <div className="flex justify-center mb-1">
+          <div className="w-[6px] h-[6px] rounded-full bg-[#b0b1b3]" />
+        </div>
+        {/* Screen */}
+        <div className="w-full aspect-[16/10] bg-[#0f172a] rounded-[6px] overflow-hidden relative border border-black/25">
+          {/* Browser bar */}
+          <div className="absolute top-0 left-0 right-0 h-[27px] bg-[#f5f5f7] border-b border-[#e0e0e2] flex items-center px-3 gap-1.5 z-20">
+            <div className="w-[9px] h-[9px] rounded-full bg-[#ff5f57]" />
+            <div className="w-[9px] h-[9px] rounded-full bg-[#ffbd2e]" />
+            <div className="w-[9px] h-[9px] rounded-full bg-[#28c840]" />
+            <div className="flex-1 mx-3 bg-[#e9e9eb] rounded-full h-[14px] flex items-center px-2.5 border border-[#d4d4d6]">
+              <div className="w-2 h-2 rounded-sm mr-1.5" style={{ background: accent + "80" }} />
+              <span className="text-[7px] text-[#888] truncate">{alt.toLowerCase().replace(/\s+/g, "")}.com</span>
+            </div>
           </div>
-          <div className="relative aspect-[16/10] bg-slate-950 overflow-hidden rounded-lg border-2 border-black">
-            {image ? (
-              <img src={image} alt={alt} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" />
-            ) : (
-              <div className="absolute inset-0 bg-[#050505] flex flex-col items-center justify-center p-8 -z-10">
-                <div className="w-full h-full border-2 border-dashed border-[#333] rounded-lg flex flex-col items-center justify-center bg-[#0a0a0a] gap-3">
-                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
-                     <svg className="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                   </div>
-                   <span className="text-slate-300 font-mono tracking-widest uppercase font-bold text-center text-sm">
-                     {alt}
-                   </span>
-                   <span className="text-slate-600 font-mono tracking-widest uppercase text-[10px] text-center">
-                     Drop Image Here
-                   </span>
-                </div>
-              </div>
-            )}
-            {/* Glossy Reflection overlay */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 pointer-events-none z-10 mix-blend-overlay" />
-          </div>
-        </div>
-        <div className="relative h-6 sm:h-8 bg-gradient-to-b from-[#4d5257] via-[#212325] to-[#121314] rounded-b-3xl border-b border-x border-slate-900 shadow-[0_40px_100px_-10px_rgba(0,0,0,0.8)] flex justify-center">
-          <div className="w-[20%] h-[30%] bg-[#080808] rounded-b-lg shadow-inner" />
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-// Cinematic iPhone 15 Pro CSS-Only Frame Mockup
-function CinematicIPhone({ image, alt }: { image: string; alt: string }) {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX, clientY, currentTarget } = e;
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    const x = (clientX - left) / width - 0.5;
-    const y = (clientY - top) / height - 0.5;
-    setCoords({ x, y });
-  };
-
-  return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setCoords({ x: 0, y: 0 })}
-      className="relative w-[320px] sm:w-[400px] mx-auto cursor-crosshair z-10"
-      style={{ perspective: 1200 }}
-    >
-      <motion.div
-        animate={{
-          rotateY: coords.x * 12,
-          rotateX: -coords.y * 12,
-        }}
-        transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        className="w-full bg-[#0d0d0f] border-[12px] border-[#2a2c30] rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] p-3 relative aspect-[9/19.5]"
-      >
-        <div className="absolute top-[3.5%] left-1/2 -translate-x-1/2 w-[30%] h-[3%] bg-black rounded-full z-30 flex items-center justify-end pr-3">
-          <div className="w-2 h-2 rounded-full bg-blue-900/40" />
-        </div>
-        <div className="w-full h-full bg-slate-900 overflow-hidden rounded-[2.8rem] relative border border-black flex items-center justify-center">
-           {image ? (
-              <img src={image} alt={alt} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" />
-           ) : (
-              <div className="absolute inset-0 bg-[#050505] flex flex-col items-center justify-center p-4 -z-10">
-                <div className="w-full h-full border-2 border-dashed border-[#333] rounded-3xl flex flex-col items-center justify-center bg-[#0a0a0a] gap-2">
-                   <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                     <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                   </div>
-                   <span className="text-slate-300 font-mono tracking-widest uppercase font-bold text-center text-[10px]">
-                     {alt}
-                   </span>
-                </div>
-              </div>
-           )}
-           <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none z-10 mix-blend-overlay" />
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-export default function PremiumCaseStudies() {
-  const containerRef = useRef(null);
-  
-  const cases: CaseStudy[] = [
-    {
-      id: "yalaride",
-      client: "YalaRide",
-      brandInfo: "Car Rental Marketplace | USA",
-      results: [
-        { label: "Visibility", value: 160, suffix: "%" },
-        { label: "Leads", value: 190, suffix: "%" },
-      ],
-      desktopImage: "/src/assets/images/yalaride_macbook_screenshot.jpg.png",
-      mobileImage: "/src/assets/images/yalaride_mobile_screenshot.jpg.png",
-    },
-    {
-      id: "america-needs-nurses",
-      client: "America Needs Nurses",
-      brandInfo: "Healthcare App | USA",
-      results: [
-        { label: "App Installs", value: 140, suffix: "%" },
-        { label: "Job Applications", value: 110, suffix: "%" },
-      ],
-      desktopImage: "/src/assets/images/nurses_recruiter_portal_1781816032234.jpg",
-      mobileImage: "/src/assets/images/america_needs_nurses_iphone_screenshot.jpg.png",
-    },
-    {
-      id: "go-jetter",
-      client: "Go Jetter Tours",
-      brandInfo: "Travel Brand | UAE",
-      results: [
-        { label: "Travel Leads", value: 190, suffix: "%" },
-        { label: "Bookings", value: 130, suffix: "%" },
-      ],
-      desktopImage: "/src/assets/images/go_jetter_macbook_screenshot.jpg.png",
-      mobileImage: "/src/assets/images/go_jetter_mobile_screenshot.jpg.png",
-    },
-  ];
-
-  return (
-    <section id="work" ref={containerRef} className="relative bg-[#030712] text-white py-32 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-12 w-full relative z-10 mb-20">
-        <div className="flex flex-col items-center text-center">
-          <span className="text-[10px] font-mono tracking-[0.3em] text-brand-orange-500 uppercase block mb-6 font-bold">
-            // HARDWARE SHOWCASE
-          </span>
-          <h2 className="text-6xl sm:text-8xl font-extrabold text-white leading-[0.95] tracking-tighter">
-            CASE <br /> STUDIES.
-          </h2>
+          {/* Screenshot */}
+          <img
+            src={image} alt={alt}
+            className="absolute inset-0 w-full h-full object-cover object-top"
+            style={{ marginTop: "27px", height: "calc(100% - 27px)" }}
+            onError={(e) => { e.currentTarget.style.opacity = "0"; }}
+          />
+          {/* Bottom gradient for depth */}
+          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black/30 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-blue-950 to-slate-900 -z-10" style={{ marginTop: "27px" }} />
         </div>
       </div>
+      {/* Hinge */}
+      <div className="h-[9px] bg-gradient-to-b from-[#c4c5c7] to-[#b0b1b3] border-x border-[#b0b1b3]">
+        <div className="h-[2px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      </div>
+      {/* Base */}
+      <div className="h-[13px] bg-gradient-to-b from-[#b4b5b7] to-[#a4a5a7] rounded-b-[10px] border-x border-b border-[#9e9fa1]" />
+      <div className="h-[5px] w-[28%] bg-gradient-to-b from-[#aeafb1] to-[#9ea0a2] rounded-b-[5px] mx-auto border-x border-b border-[#989a9c]" />
+    </div>
+  );
+}
 
-      {/* Stacked Case Studies Grid */}
-      <div className="w-full flex flex-col -space-y-16 lg:-space-y-32">
-        {cases.map((cs, idx) => (
-          <div key={cs.id} className="relative w-full min-h-screen flex items-center justify-center px-4">
-            
-            {/* Background Glows */}
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full blur-[120px] opacity-20 ${idx % 2 === 0 ? 'bg-brand-orange-500' : 'bg-brand-blue-500'} pointer-events-none`} />
-
-            {/* Massive Typography Behind Device */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none z-0 mix-blend-overlay opacity-30">
-              <h3 className="text-[15vw] font-extrabold tracking-tighter uppercase whitespace-nowrap">
-                {cs.client}
-              </h3>
-            </div>
-
-            {/* Hardware Layer (Composite Desktop + Mobile) */}
-            <div className="relative w-full max-w-[1400px] flex justify-center items-center">
-              <div className="w-[85%] sm:w-[75%] lg:w-[65%] z-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] rounded-t-3xl">
-                <CinematicMacBook image={cs.desktopImage} alt={`${cs.client} Desktop Screenshot`} />
+/* ─── Premium iPhone frame ───────────────────────────── */
+function PhoneFrame({ image, alt, accent }: { image: string; alt: string; accent: string }) {
+  return (
+    <div className="w-[130px] select-none mx-auto" style={{ filter: "drop-shadow(0 20px 44px rgba(10,13,20,0.22)) drop-shadow(0 4px 8px rgba(10,13,20,0.14))" }}>
+      <div className="relative bg-gradient-to-b from-[#2c2c2e] to-[#1a1a1c] rounded-[2.5rem] p-[9px] border border-[#3c3c3e]">
+        {/* Side buttons */}
+        <div className="absolute left-[-3px] top-[22%] w-[3px] h-6 bg-[#3c3c3e] rounded-l-sm" />
+        <div className="absolute left-[-3px] top-[34%] w-[3px] h-9 bg-[#3c3c3e] rounded-l-sm" />
+        <div className="absolute right-[-3px] top-[28%] w-[3px] h-12 bg-[#3c3c3e] rounded-r-sm" />
+        {/* Dynamic island */}
+        <div className="absolute top-[14px] left-1/2 -translate-x-1/2 w-[36%] h-[16px] bg-black rounded-full z-20 flex items-center justify-center gap-1.5">
+          <div className="w-[5px] h-[5px] rounded-full bg-[#2a2a2c]" />
+          <div className="w-[9px] h-[9px] rounded-full bg-[#2a2a2c]" />
+        </div>
+        {/* Screen */}
+        <div className="rounded-[2rem] overflow-hidden aspect-[9/19.5] bg-[#0f172a] relative">
+          <img src={image} alt={alt} className="w-full h-full object-cover object-top"
+            onError={(e) => { e.currentTarget.style.opacity = "0"; }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-950 to-slate-900 -z-10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-transparent pointer-events-none z-10" />
+          {/* Status bar */}
+          <div className="absolute top-[18px] left-0 right-0 flex items-center justify-between px-4 z-20">
+            <span className="text-[7px] text-white/60 font-600">9:41</span>
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-1.5 rounded-sm border border-white/40 flex items-center px-[1px]">
+                <div className="h-full rounded-sm bg-white/60" style={{ width: "70%" }} />
               </div>
-              <div className="absolute right-[5%] sm:right-[15%] lg:right-[20%] top-[40%] sm:top-[30%] w-[35%] sm:w-[25%] lg:w-[20%] z-20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] rounded-[3.5rem]">
-                <CinematicIPhone image={cs.mobileImage} alt={`${cs.client} Mobile Screenshot`} />
-              </div>
             </div>
-
-            {/* Floating Metric Badge 1 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="absolute top-[20%] left-[10%] sm:left-[20%] z-20 p-5 border border-white/10 bg-black/60 backdrop-blur-xl rounded-xl shadow-2xl"
-            >
-               <span className="block text-[10px] font-mono text-slate-400 tracking-widest uppercase mb-1">{cs.results[0].label}</span>
-               <span className="text-4xl font-extrabold text-white">
-                 +<CountingMetric target={cs.results[0].value} suffix={cs.results[0].suffix} />
-               </span>
-            </motion.div>
-
-            {/* Floating Metric Badge 2 */}
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.7 }}
-              className="absolute bottom-[20%] right-[10%] sm:right-[20%] z-20 p-5 border border-white/10 bg-black/60 backdrop-blur-xl rounded-xl shadow-2xl"
-            >
-               <span className="block text-[10px] font-mono text-slate-400 tracking-widest uppercase mb-1">{cs.results[1].label}</span>
-               <span className="text-4xl font-extrabold text-white">
-                 +<CountingMetric target={cs.results[1].value} suffix={cs.results[1].suffix} />
-               </span>
-            </motion.div>
-            
           </div>
-        ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Case data ──────────────────────────────────────── */
+const CASES = [
+  {
+    id: "yalaride",
+    client: "YalaRide",
+    tagline: "Car Rental Marketplace · USA",
+    industry: "Automotive",
+    logo: "/src/assets/images/yalaride_logo.png",
+    accent: "#FF5A1F",
+    accentLight: "#fff8f5",
+    overview: "YalaRide needed a full-stack car rental marketplace — a consumer-facing website, admin portal, and a performance marketing engine to drive bookings from day one.",
+    challenge: "Zero digital presence competing against established US rental brands.",
+    solution: "Built a custom React marketplace with dual dashboards, then launched targeted Google & Meta campaigns.",
+    tech: ["React", "Node.js", "PostgreSQL", "Google Ads", "Meta Ads", "SEO"],
+    desktopImg: "/src/assets/images/yalaride_web_portal_1781815990359.jpg",
+    mobileImg: "/src/assets/images/yalaride_macbook_screenshot.jpg.png",
+    metrics: [
+      { label: "Organic Visibility",  value: 160, suffix: "%", icon: TrendingUp },
+      { label: "Monthly Leads",        value: 190, suffix: "%", icon: TrendingUp },
+      { label: "Booking Conversion",   value: 42,  suffix: "%", icon: TrendingUp },
+      { label: "Campaigns Running",    value: 8,   suffix: "+", icon: Star },
+    ],
+    quote: "Arrowhead helped build a powerful car rental marketplace with a smooth website, mobile app, and marketing strategy.",
+    quoteAuthor: "Mohammed Rizwan",
+    quoteRole: "CEO, YalaRide",
+    quotePhoto: "/src/assets/images/rizwan_photo.png",
+  },
+  {
+    id: "ann",
+    client: "America Needs Nurses",
+    tagline: "Healthcare Recruitment Platform · USA",
+    industry: "Healthcare",
+    logo: "/src/assets/images/ann_logo.png",
+    accent: "#3B82F6",
+    accentLight: "#f0f6ff",
+    overview: "America Needs Nurses needed a dual-sided marketplace connecting healthcare employers with qualified nurses — including a recruiter portal, candidate profiles, and a brand awareness campaign.",
+    challenge: "Complex two-sided marketplace with strict healthcare compliance requirements.",
+    solution: "Designed separate recruiter and nurse-facing interfaces, then launched brand awareness campaigns across Google and Meta.",
+    tech: ["React", "TypeScript", "REST API", "Google Ads", "Meta Ads", "App Store"],
+    desktopImg: "/src/assets/images/nurses_recruiter_portal_1781816032234.jpg",
+    mobileImg: "/src/assets/images/america_needs_nurses_iphone_screenshot.jpg.png",
+    metrics: [
+      { label: "App Installs",         value: 140, suffix: "%", icon: TrendingUp },
+      { label: "Job Applications",     value: 110, suffix: "%", icon: TrendingUp },
+      { label: "Time-to-Hire Reduced", value: 35,  suffix: "%", icon: TrendingUp },
+      { label: "Healthcare Partners",  value: 50,  suffix: "+", icon: Star },
+    ],
+    quote: "Arrowhead transformed our healthcare marketplace vision into a complete, working platform.",
+    quoteAuthor: "Ray Washington",
+    quoteRole: "Founder, America Needs Nurses",
+    quotePhoto: "/src/assets/images/ray_photo.png",
+  },
+  {
+    id: "gojetter",
+    client: "Go Jetter Tours",
+    tagline: "Travel Brand · UAE",
+    industry: "Travel",
+    logo: null,
+    accent: "#10B981",
+    accentLight: "#f0fdf8",
+    overview: "Go Jetter Tours required a premium travel brand identity, a high-converting website, and a full digital marketing strategy targeting UAE travellers across search and social.",
+    challenge: "New brand entering a competitive UAE travel market with no existing digital presence.",
+    solution: "Complete brand build — identity, WordPress site, and simultaneous Google + Meta launch.",
+    tech: ["WordPress", "WooCommerce", "Google Ads", "Meta Ads", "SEO", "Email Marketing"],
+    desktopImg: "/src/assets/images/go_jetter_macbook_screenshot.jpg.png",
+    mobileImg: "/src/assets/images/arrowhead_experts_team_1781816010797.jpg",
+    metrics: [
+      { label: "Travel Leads",       value: 190, suffix: "%", icon: TrendingUp },
+      { label: "Tour Bookings",      value: 130, suffix: "%", icon: TrendingUp },
+      { label: "Cost Per Lead Down", value: 38,  suffix: "%", icon: TrendingUp },
+      { label: "Countries Targeted", value: 6,   suffix: "",  icon: Star },
+    ],
+    quote: "Within 3 months we had more qualified travel leads than the entire previous year combined.",
+    quoteAuthor: "Go Jetter Team",
+    quoteRole: "UAE",
+    quotePhoto: null,
+  },
+];
+
+/* ─── Main component ─────────────────────────────────── */
+export default function PremiumCaseStudies() {
+  const [activeCase, setActiveCase] = useState(0);
+  const [activeTab,  setActiveTab]  = useState<"desktop" | "mobile">("desktop");
+  const current = CASES[activeCase];
+
+  // Reset tab on case change
+  const handleCaseChange = (i: number) => { setActiveCase(i); setActiveTab("desktop"); };
+
+  return (
+    <section id="work" className="relative bg-surface-1 section-pad overflow-hidden">
+      <div className="absolute inset-0 dot-texture opacity-30 pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-blue-200 to-transparent" />
+
+      <div className="container-xl relative z-10">
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10"
+        >
+          <div className="max-w-xl">
+            <p className="section-label mb-3">Case Studies</p>
+            <div className="hr-accent mb-5" />
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-ink-900 leading-tight">
+              Projects That <span className="text-gradient-orange">Moved the Needle.</span>
+            </h2>
+          </div>
+          <p className="text-sm text-ink-500 max-w-xs leading-relaxed">
+            Real clients. Real metrics. Every number here is from a live deployment.
+          </p>
+        </motion.div>
+
+        {/* Client selector tabs */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          {CASES.map((c, i) => (
+            <button
+              key={c.id}
+              onClick={() => handleCaseChange(i)}
+              className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full font-700 text-sm border transition-all duration-250 ${
+                activeCase === i ? "text-white shadow-md scale-[1.02]" : "bg-white border-ink-200 text-ink-600 hover:border-ink-300 hover:shadow-sm"
+              }`}
+              style={activeCase === i ? { background: c.accent, borderColor: c.accent, boxShadow: `0 4px 16px ${c.accent}40` } : {}}
+            >
+              {c.logo && <img src={c.logo} alt={c.client} className="h-4 w-auto object-contain" onError={(e) => { e.currentTarget.style.display = "none"; }} />}
+              {c.client}
+              <span className="text-[9px] opacity-70 font-600 hidden sm:inline">{c.industry}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Case study detail */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.id}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.32, ease: "easeOut" }}
+          >
+            {/* Top accent bar */}
+            <div className="h-1 rounded-t-2xl mb-0" style={{ background: `linear-gradient(90deg, ${current.accent}, ${current.accent}60, transparent)` }} />
+
+            <div className="bg-white rounded-b-2xl rounded-tr-2xl border border-ink-100 overflow-hidden shadow-sm">
+              <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px]">
+
+                {/* LEFT: Device showcase */}
+                <div className="p-8 sm:p-10 border-r border-ink-100">
+
+                  {/* Device toggle */}
+                  <div className="flex items-center gap-2 mb-6">
+                    {(["desktop", "mobile"] as const).map((tab) => (
+                      <button
+                        key={tab}
+                        onClick={() => setActiveTab(tab)}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-700 border transition-all duration-200 ${
+                          activeTab === tab
+                            ? "text-white border-transparent"
+                            : "bg-white text-ink-500 border-ink-200 hover:border-ink-300"
+                        }`}
+                        style={activeTab === tab ? { background: current.accent, borderColor: current.accent } : {}}
+                      >
+                        {tab === "desktop" ? <Monitor className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
+                        {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                      </button>
+                    ))}
+                    <span className="ml-auto text-[10px] font-600 text-ink-400 uppercase tracking-wider">{current.tagline}</span>
+                  </div>
+
+                  {/* Mockup stage */}
+                  <div
+                    className="rounded-2xl flex items-center justify-center overflow-hidden"
+                    style={{
+                      background: current.accentLight,
+                      padding: activeTab === "desktop" ? "2.5rem 2rem" : "2.5rem",
+                      minHeight: "320px",
+                    }}
+                  >
+                    <AnimatePresence mode="wait">
+                      {activeTab === "desktop" ? (
+                        <motion.div key="mac" initial={{ opacity: 0, scale: 0.93, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: -8 }} transition={{ duration: 0.3, ease: [0.16,1,0.3,1] }} className="w-full max-w-2xl">
+                          <MacFrame image={current.desktopImg} alt={current.client} accent={current.accent} />
+                        </motion.div>
+                      ) : (
+                        <motion.div key="phone" initial={{ opacity: 0, scale: 0.93, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: -8 }} transition={{ duration: 0.3, ease: [0.16,1,0.3,1] }}>
+                          <PhoneFrame image={current.mobileImg} alt={current.client} accent={current.accent} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2 mt-5">
+                    {current.tech.map((t) => (
+                      <span key={t} className="pill-badge pill-neutral text-[10px]">{t}</span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* RIGHT: Info */}
+                <div className="flex flex-col p-7 sm:p-8 bg-white gap-5">
+
+                  {/* Client identity */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="text-2xl font-extrabold text-ink-900 leading-tight">{current.client}</h3>
+                      <p className="text-xs font-700 text-ink-400 uppercase tracking-widest mt-0.5">{current.industry}</p>
+                    </div>
+                    {current.logo && (
+                      <img src={current.logo} alt={current.client} className="h-8 w-auto object-contain opacity-70 shrink-0"
+                        onError={(e) => { e.currentTarget.style.display = "none"; }} />
+                    )}
+                  </div>
+
+                  {/* Overview */}
+                  <p className="text-sm text-ink-500 leading-relaxed">{current.overview}</p>
+
+                  {/* Challenge / Solution */}
+                  <div className="grid grid-cols-1 gap-3">
+                    {[{ label: "Challenge", text: current.challenge, color: "#FF5A1F" },
+                      { label: "Solution",  text: current.solution,  color: current.accent }].map(({ label, text, color }) => (
+                      <div key={label} className="flex gap-2.5">
+                        <div className="w-1 rounded-full shrink-0 mt-0.5" style={{ background: color, minHeight: "100%" }} />
+                        <div>
+                          <p className="text-[10px] font-800 uppercase tracking-widest mb-0.5" style={{ color }}>{label}</p>
+                          <p className="text-xs text-ink-600 leading-relaxed">{text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Metrics — 2×2 grid */}
+                  <div className="grid grid-cols-2 gap-2.5">
+                    {current.metrics.map((m, i) => (
+                      <motion.div
+                        key={m.label}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.07 }}
+                        className="rounded-xl p-3.5 border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
+                        style={{ background: `${current.accent}08`, borderColor: `${current.accent}20` }}
+                      >
+                        <p className="text-[9px] font-700 text-ink-400 uppercase tracking-widest mb-1.5 leading-tight">{m.label}</p>
+                        <p className="text-2xl font-extrabold leading-none" style={{ color: current.accent }}>
+                          {m.suffix === "%" ? "+" : ""}<Counter target={m.value} suffix={m.suffix} />
+                        </p>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <div className="rounded-xl p-4 border mt-auto" style={{ background: "#0a0d14", borderColor: "#1f2937" }}>
+                    <p className="text-xs text-slate-300 italic leading-relaxed mb-3">"{current.quote}"</p>
+                    <div className="flex items-center gap-2.5">
+                      {current.quotePhoto ? (
+                        <img src={current.quotePhoto} alt={current.quoteAuthor}
+                          className="w-8 h-8 rounded-full object-cover shrink-0 border-2 border-white/10"
+                          onError={(e) => { e.currentTarget.style.display = "none"; }} />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-800 shrink-0"
+                          style={{ background: current.accent }}>
+                          {current.quoteAuthor[0]}
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-xs font-700 text-white">{current.quoteAuthor}</p>
+                        <p className="text-[10px] text-slate-500 font-500">{current.quoteRole}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="#contact" className="btn-primary btn-primary-shimmer w-full justify-center text-sm mt-1">
+                    Discuss a Similar Project
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
       </div>
     </section>
   );

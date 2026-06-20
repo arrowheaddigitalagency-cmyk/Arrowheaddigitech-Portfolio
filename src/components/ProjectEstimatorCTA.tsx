@@ -1,275 +1,299 @@
-import React, { useRef, useMemo, useState } from "react";
-import { Phone, Mail, Globe, MapPin, Send, ShieldCheck, Clock, ArrowRight } from "lucide-react";
-import { motion } from "motion/react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import * as THREE from "three";
-import CanvasErrorBoundary from "./CanvasErrorBoundary";
+import React, { useState } from "react";
+import {
+  Phone, Mail, MapPin, ArrowRight,
+  CheckCircle2, Clock, ShieldCheck, Send
+} from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
-// 3D Background specific to the contact experience
-function ContactDust({ count = 80 }) {
-  const pointsRef = useRef<THREE.Points>(null);
+const BUDGETS = [
+  { label: "$1k – $5k",      value: "1k-5k"   },
+  { label: "$5k – $15k",     value: "5k-15k"  },
+  { label: "$15k – $50k",    value: "15k-50k" },
+  { label: "$50k+",          value: "50k+"    },
+];
 
-  const positions = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 15;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10 - 2;
-    }
-    return pos;
-  }, [count]);
+const SERVICES = [
+  "Website Development", "WordPress Development", "AI Website Creation",
+  "Landing Pages", "Google Ads", "Meta Ads",
+  "SEO / Local SEO", "E-Commerce", "AI Chatbot", "Website Management",
+];
 
-  useFrame((state) => {
-    if (!pointsRef.current) return;
-    const time = state.clock.getElapsedTime();
-    const geo = pointsRef.current.geometry;
-    const posAttr = geo.attributes.position;
-    const array = posAttr.array as Float32Array;
+const TRUST_POINTS = [
+  { icon: Clock,        color: "#10B981", title: "Response in under 24 hours",  sub: "Guaranteed during business hours." },
+  { icon: ShieldCheck,  color: "#3B82F6", title: "NDA & confidentiality first",  sub: "Your project details stay protected."  },
+  { icon: CheckCircle2, color: "#FF5A1F", title: "No obligation discovery call",  sub: "Free strategy session. No hard sell."  },
+];
 
-    for (let i = 0; i < count; i++) {
-      array[i * 3 + 1] += 0.015; // Slow float upward
-      array[i * 3] += Math.sin(time * 0.3 + i) * 0.004;
-
-      if (array[i * 3 + 1] > 8) {
-        array[i * 3 + 1] = -8;
-        array[i * 3] = (Math.random() - 0.5) * 20;
-      }
-    }
-    posAttr.needsUpdate = true;
-    pointsRef.current.rotation.y = time * 0.01;
+export default function ProjectEstimatorCTA() {
+  const [form, setForm] = useState({
+    name: "", email: "", phone: "",
+    service: "", budget: "", message: "",
   });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.12}
-        color="#FF5A1F"
-        transparent
-        opacity={0.4}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-      />
-    </points>
-  );
-}
-
-export default function InitiateProtocol() {
-  const [formState, setFormState] = useState({ name: "", email: "", budget: "", msg: "" });
   const [submitted, setSubmitted] = useState(false);
-  const [focusedInput, setFocusedInput] = useState<string | null>(null);
+  const [loading,   setLoading]   = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formState.name && formState.email) {
-      try {
-        await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            access_key: "3f947f04-efd8-40d7-bf64-829010e2ae72",
-            ...formState
-          })
-        });
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 8000);
-        setFormState({ name: "", email: "", budget: "", msg: "" });
-      } catch (err) {
-        console.error("Submission failed", err);
-      }
+    if (!form.name || !form.email) return;
+    setLoading(true);
+    try {
+      await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "3f947f04-efd8-40d7-bf64-829010e2ae72",
+          subject: `New enquiry from ${form.name} — Arrowhead DigiTech`,
+          ...form,
+        }),
+      });
+      setSubmitted(true);
+      setForm({ name: "", email: "", phone: "", service: "", budget: "", message: "" });
+    } catch {
+      /* silent fail */
+    } finally {
+      setLoading(false);
     }
   };
 
-  const contactDetails = [
-    { label: "Direct Line", val: "+92 300 0955490", href: "tel:+923000955490", icon: <Phone className="w-5 h-5 text-white" /> },
-    { label: "Encrypted Email", val: "info@arrowheaddigitech.com", href: "mailto:info@arrowheaddigitech.com", icon: <Mail className="w-5 h-5 text-white" /> },
-    { label: "Headquarters", val: "Lahore, Pakistan", href: "https://maps.google.com", icon: <MapPin className="w-5 h-5 text-white" /> }
-  ];
+  const set = (k: keyof typeof form) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
   return (
-    <section id="contact" className="py-32 bg-[#02040a] text-white relative overflow-hidden text-left border-t border-white/5">
-      
-      {/* 3D WebGL Canvas for background particles */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40">
-        <CanvasErrorBoundary fallback={null}>
-          <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-            <ambientLight intensity={0.4} />
-            <pointLight position={[2, 3, 2]} color="#FF5A1F" intensity={1.5} />
-            <pointLight position={[-2, -3, 2]} color="#3B82F6" intensity={1.5} />
-            <ContactDust count={90} />
-          </Canvas>
-        </CanvasErrorBoundary>
-      </div>
+    <section id="contact" className="relative bg-white section-pad overflow-hidden">
 
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,#1e3a8a20_0%,transparent_70%)] pointer-events-none z-0" />
+      <div className="absolute inset-0 dot-texture opacity-40 pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-orange-200 to-transparent" />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-12 w-full">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
-          
-          {/* Left Column: Command Copy (Spans 5) */}
-          <div className="lg:col-span-5 flex flex-col justify-center">
-            
-            <div className="flex items-center gap-3 mb-8">
-              <span className="w-2 h-2 rounded-full bg-brand-orange-500 animate-pulse" />
-              <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-bold text-brand-orange-500">
-                INITIATE GROWTH PROTOCOL
-              </span>
-            </div>
+      <div className="container-xl relative z-10">
 
-            <h2 className="text-5xl sm:text-7xl font-extrabold text-white tracking-tighter leading-[0.95] mb-8">
-              COMMENCE <br />
-              <span className="text-slate-500">DEPLOYMENT.</span>
-            </h2>
-
-            <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-md mb-12">
-              Submit your project parameters. Our growth engineering team will analyze your requirements and formulate a high-velocity acquisition strategy.
-            </p>
-
-            {/* Trust SLA Indicators */}
-            <div className="space-y-6 mb-16 border-l-2 border-slate-800 pl-6">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-500 shrink-0">
-                  <Clock className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white tracking-tight">Under 15-Minute Response SLA</h4>
-                  <p className="text-xs text-slate-500 font-medium mt-1">Guaranteed response time during active business hours.</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded bg-slate-900 border border-slate-800 flex items-center justify-center text-blue-500 shrink-0">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white tracking-tight">Enterprise Confidentiality</h4>
-                  <p className="text-xs text-slate-500 font-medium mt-1">All project details are secured under strict NDA protocols.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Direct Contact */}
-            <div className="flex flex-col gap-4 max-w-sm">
-              {contactDetails.map((det, i) => (
-                <a
-                  key={i}
-                  href={det.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex gap-4 items-center p-4 bg-slate-900/50 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors group"
-                >
-                  <div className="shrink-0">{det.icon}</div>
-                  <div>
-                    <span className="block text-[10px] font-mono tracking-widest text-slate-500 uppercase font-bold">{det.label}</span>
-                    <span className="block text-sm font-bold text-white mt-1 group-hover:text-brand-orange-500 transition-colors">{det.val}</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-
-          </div>
-
-          {/* Right Column: The Application Interface (Spans 7) */}
-          <div className="lg:col-span-7 relative">
-            
-            <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange-500 to-blue-500 rounded-2xl blur opacity-20 pointer-events-none" />
-            
-            <div className="relative border border-slate-800 rounded-2xl bg-[#05080f] p-8 sm:p-12 shadow-2xl">
-              
-              {submitted ? (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center text-center py-32"
-                >
-                  <ShieldCheck className="w-16 h-16 text-emerald-500 mb-6" />
-                  <h3 className="text-3xl font-extrabold text-white tracking-tight mb-4">Protocol Active</h3>
-                  <p className="text-slate-400 font-medium max-w-sm">
-                    Transmission secured. An Arrowhead Director will establish contact at the provided coordinates shortly.
-                  </p>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <div className="flex flex-col gap-3 relative">
-                      <label className={`text-[10px] font-mono tracking-widest uppercase font-bold transition-colors ${focusedInput === 'name' ? 'text-brand-orange-500' : 'text-slate-500'}`}>01. Identity</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Authorized Name"
-                        value={formState.name}
-                        onFocus={() => setFocusedInput('name')}
-                        onBlur={() => setFocusedInput(null)}
-                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                        className="w-full bg-slate-950 border-b-2 border-slate-800 text-white px-0 py-4 text-xl font-bold placeholder-slate-700 focus:outline-none focus:border-brand-orange-500 transition-all rounded-none"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-3 relative">
-                      <label className={`text-[10px] font-mono tracking-widest uppercase font-bold transition-colors ${focusedInput === 'email' ? 'text-blue-500' : 'text-slate-500'}`}>02. Comm Channel</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="Corporate Email"
-                        value={formState.email}
-                        onFocus={() => setFocusedInput('email')}
-                        onBlur={() => setFocusedInput(null)}
-                        onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                        className="w-full bg-slate-950 border-b-2 border-slate-800 text-white px-0 py-4 text-xl font-bold placeholder-slate-700 focus:outline-none focus:border-blue-500 transition-all rounded-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-3 relative">
-                    <label className={`text-[10px] font-mono tracking-widest uppercase font-bold transition-colors ${focusedInput === 'budget' ? 'text-emerald-500' : 'text-slate-500'}`}>03. Capital Allocation</label>
-                    <select
-                      required
-                      value={formState.budget}
-                      onFocus={() => setFocusedInput('budget')}
-                      onBlur={() => setFocusedInput(null)}
-                      onChange={(e) => setFormState({ ...formState, budget: e.target.value })}
-                      className="w-full bg-slate-950 border-b-2 border-slate-800 text-white px-0 py-4 text-xl font-bold focus:outline-none focus:border-emerald-500 transition-all rounded-none appearance-none"
-                    >
-                      <option value="" disabled className="text-slate-700">Select Project Budget Tier</option>
-                      <option value="10k">$10,000 - $25,000</option>
-                      <option value="25k">$25,000 - $50,000</option>
-                      <option value="50k">$50,000 - $100,000</option>
-                      <option value="100k+">$100,000+ (Enterprise)</option>
-                    </select>
-                  </div>
-
-                  <div className="flex flex-col gap-3 relative">
-                    <label className={`text-[10px] font-mono tracking-widest uppercase font-bold transition-colors ${focusedInput === 'msg' ? 'text-brand-orange-500' : 'text-slate-500'}`}>04. Strategic Objective</label>
-                    <textarea
-                      rows={4}
-                      required
-                      placeholder="Outline your acquisition targets or technical requirements..."
-                      value={formState.msg}
-                      onFocus={() => setFocusedInput('msg')}
-                      onBlur={() => setFocusedInput(null)}
-                      onChange={(e) => setFormState({ ...formState, msg: e.target.value })}
-                      className="w-full bg-slate-950 border-b-2 border-slate-800 text-white px-0 py-4 text-xl font-bold placeholder-slate-700 focus:outline-none focus:border-brand-orange-500 transition-all resize-none rounded-none"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="group w-full flex items-center justify-between bg-white text-black py-6 px-8 font-extrabold text-lg tracking-widest uppercase hover:bg-brand-orange-500 hover:text-white transition-colors mt-4"
-                  >
-                    <span>Transmit Requirements</span>
-                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                  </button>
-
-                </form>
-              )}
-
-            </div>
-          </div>
-
+        {/* ── Header ────────────────────────────────── */}
+        <div className="text-center mb-14 max-w-2xl mx-auto">
+          <p className="section-label mb-3">Get in Touch</p>
+          <div className="hr-accent mx-auto mb-5" />
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-ink-900 leading-tight mb-4">
+            Let's Grow Your{" "}
+            <span className="text-gradient-orange">Business Together.</span>
+          </h2>
+          <p className="text-base text-ink-500 leading-relaxed">
+            Tell us about your project. We'll review it and come back to you within 24 hours with honest advice — not a sales pitch.
+          </p>
         </div>
 
+        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 items-start">
+
+          {/* ── Left: info + trust ─────────────────── */}
+          <div className="flex flex-col gap-6">
+
+            {/* Contact details */}
+            <div className="card-lifted rounded-2xl p-7">
+              <h3 className="text-lg font-800 text-ink-900 mb-5">Contact Us Directly</h3>
+              <div className="flex flex-col gap-4">
+                {[
+                  { icon: Phone,  label: "Phone",    value: "+92 300 0955490",            href: "tel:+923000955490"                    },
+                  { icon: Mail,   label: "Email",    value: "info@arrowheaddigitech.com",  href: "mailto:info@arrowheaddigitech.com"    },
+                  { icon: MapPin, label: "Location", value: "Lahore, Pakistan",            href: "https://maps.google.com/?q=Lahore"    },
+                ].map(({ icon: Icon, label, value, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-surface-1 border border-ink-100 hover:border-brand-orange-200 hover:bg-brand-orange-50/30 transition-all group"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-brand-orange-500 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-700 text-ink-400 uppercase tracking-widest">{label}</p>
+                      <p className="text-sm font-700 text-ink-900 group-hover:text-brand-orange-500 transition-colors">{value}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Trust points */}
+            <div className="card-lifted rounded-2xl p-7">
+              <h3 className="text-sm font-800 text-ink-500 uppercase tracking-widest mb-5">Why work with us</h3>
+              <div className="flex flex-col gap-5">
+                {TRUST_POINTS.map(({ icon: Icon, color, title, sub }) => (
+                  <div key={title} className="flex items-start gap-4">
+                    <div
+                      className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ background: `${color}15` }}
+                    >
+                      <Icon className="w-4 h-4" style={{ color }} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-700 text-ink-900">{title}</p>
+                      <p className="text-xs text-ink-400 font-500 mt-0.5">{sub}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+          {/* ── Right: form ────────────────────────── */}
+          <div className="card-lifted rounded-2xl overflow-hidden">
+            {/* Orange top bar */}
+            <div className="h-1.5 bg-gradient-to-r from-brand-orange-500 via-brand-orange-400 to-brand-blue-500" />
+
+            <div className="p-8 sm:p-10">
+              <AnimatePresence mode="wait">
+                {submitted ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex flex-col items-center justify-center py-20 text-center"
+                  >
+                    <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-5">
+                      <CheckCircle2 className="w-8 h-8 text-emerald-600" />
+                    </div>
+                    <h3 className="text-2xl font-extrabold text-ink-900 mb-2">Message Received!</h3>
+                    <p className="text-ink-500 max-w-sm text-sm leading-relaxed mb-6">
+                      Thank you — we'll review your enquiry and get back to you within 24 hours.
+                    </p>
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="btn-outline text-sm"
+                    >
+                      Send Another Message
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onSubmit={handleSubmit}
+                    className="flex flex-col gap-5"
+                  >
+                    <h3 className="text-xl font-800 text-ink-900 mb-1">Start a Project</h3>
+                    <p className="text-sm text-ink-400 -mt-1 mb-2">Fill in the details and we'll be in touch shortly.</p>
+
+                    {/* Name + email row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-700 text-ink-600 uppercase tracking-wider">Your Name *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="John Smith"
+                          value={form.name}
+                          onChange={set("name")}
+                          className="w-full border border-ink-200 rounded-xl px-4 py-3 text-sm text-ink-900 placeholder-ink-300 focus:outline-none focus:border-brand-orange-400 focus:ring-2 focus:ring-brand-orange-100 transition-all bg-white"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-700 text-ink-600 uppercase tracking-wider">Email Address *</label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="john@company.com"
+                          value={form.email}
+                          onChange={set("email")}
+                          className="w-full border border-ink-200 rounded-xl px-4 py-3 text-sm text-ink-900 placeholder-ink-300 focus:outline-none focus:border-brand-blue-400 focus:ring-2 focus:ring-brand-blue-100 transition-all bg-white"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Phone + service row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-700 text-ink-600 uppercase tracking-wider">Phone (optional)</label>
+                        <input
+                          type="tel"
+                          placeholder="+1 234 567 8900"
+                          value={form.phone}
+                          onChange={set("phone")}
+                          className="w-full border border-ink-200 rounded-xl px-4 py-3 text-sm text-ink-900 placeholder-ink-300 focus:outline-none focus:border-brand-orange-400 focus:ring-2 focus:ring-brand-orange-100 transition-all bg-white"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-700 text-ink-600 uppercase tracking-wider">Service Needed</label>
+                        <select
+                          value={form.service}
+                          onChange={set("service")}
+                          className="w-full border border-ink-200 rounded-xl px-4 py-3 text-sm text-ink-900 focus:outline-none focus:border-brand-orange-400 focus:ring-2 focus:ring-brand-orange-100 transition-all bg-white appearance-none"
+                        >
+                          <option value="">Select a service…</option>
+                          {SERVICES.map((s) => (
+                            <option key={s} value={s}>{s}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Budget */}
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-700 text-ink-600 uppercase tracking-wider">Project Budget</label>
+                      <div className="flex flex-wrap gap-2">
+                        {BUDGETS.map((b) => (
+                          <button
+                            key={b.value}
+                            type="button"
+                            onClick={() => setForm((f) => ({ ...f, budget: b.value }))}
+                            className={`px-4 py-2 rounded-lg text-xs font-700 border transition-all ${
+                              form.budget === b.value
+                                ? "bg-brand-orange-500 text-white border-brand-orange-500"
+                                : "bg-white text-ink-600 border-ink-200 hover:border-brand-orange-300"
+                            }`}
+                          >
+                            {b.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Message */}
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-700 text-ink-600 uppercase tracking-wider">Tell Us About Your Project</label>
+                      <textarea
+                        rows={4}
+                        placeholder="Briefly describe your goals, timeline, and any specific requirements…"
+                        value={form.message}
+                        onChange={set("message")}
+                        className="w-full border border-ink-200 rounded-xl px-4 py-3 text-sm text-ink-900 placeholder-ink-300 focus:outline-none focus:border-brand-orange-400 focus:ring-2 focus:ring-brand-orange-100 transition-all resize-none bg-white"
+                      />
+                    </div>
+
+                    {/* Submit */}
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="btn-primary w-full justify-center py-4 text-sm mt-1 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {loading ? (
+                        <span className="flex items-center gap-2">
+                          <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                          </svg>
+                          Sending…
+                        </span>
+                      ) : (
+                        <>
+                          Send Message
+                          <Send className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+
+                    <p className="text-[10px] text-ink-300 text-center">
+                      By submitting you agree to our privacy policy. We never share your information.
+                    </p>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

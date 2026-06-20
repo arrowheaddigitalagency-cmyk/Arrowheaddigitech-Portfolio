@@ -1,27 +1,31 @@
-import React, { useEffect, useState } from "react";
-import Header from "./components/Header";
-import InteractiveHero from "./components/InteractiveHero";
+import React, { useEffect, useState, lazy, Suspense } from "react";
+
+import Header              from "./components/Header";
+import InteractiveHero     from "./components/InteractiveHero";
 import InteractiveServices from "./components/InteractiveServices";
-import VerticalTimeline from "./components/VerticalTimeline";
-import HorizontalProcess from "./components/HorizontalProcess";
-import PremiumCaseStudies from "./components/PremiumCaseStudies";
-import LuxuryTeam from "./components/LuxuryTeam";
-import TestimonialSlider from "./components/TestimonialSlider";
+import StorytellingAbout   from "./components/StorytellingAbout";
+import HorizontalProcess   from "./components/HorizontalProcess";
+import PremiumCaseStudies  from "./components/PremiumCaseStudies";
+import AchievementsGrid    from "./components/AchievementsGrid";
+import LuxuryTeam          from "./components/LuxuryTeam";
+import TestimonialSlider   from "./components/TestimonialSlider";
 import ProjectEstimatorCTA from "./components/ProjectEstimatorCTA";
-import PremiumFooter from "./components/PremiumFooter";
-import AmbientBackground3D from "./components/AmbientBackground3D";
+import PremiumFooter       from "./components/PremiumFooter";
 
 import Lenis from "lenis";
+
+/* Lazy-load Three.js / R3F — decorative only, not needed for first paint */
+const AmbientBackground3D = lazy(() => import("./components/AmbientBackground3D"));
 
 export default function App() {
   const [scrollPercent, setScrollPercent] = useState(0);
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1.0,
+      wheelMultiplier: 0.9,
     });
 
     let rafId: number;
@@ -32,28 +36,21 @@ export default function App() {
     rafId = requestAnimationFrame(raf);
 
     const handleScroll = () => {
-      const h = document.documentElement;
-      const b = document.body;
-      const st = 'scrollTop';
-      const sh = 'scrollHeight';
-      const percent = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
-      setScrollPercent(percent);
+      const h  = document.documentElement;
+      const b  = document.body;
+      const st = h.scrollTop || b.scrollTop;
+      const sh = h.scrollHeight || b.scrollHeight;
+      setScrollPercent((st / (sh - h.clientHeight)) * 100);
     };
-    
     lenis.on("scroll", handleScroll);
 
     const handleAnchorClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const anchor = target.closest("a");
-      if (anchor && anchor.hash && anchor.origin === window.location.origin) {
-        const targetElement = document.querySelector(anchor.hash);
-        if (targetElement) {
+      const anchor = (e.target as HTMLElement).closest("a");
+      if (anchor?.hash && anchor.origin === window.location.origin) {
+        const target = document.querySelector(anchor.hash);
+        if (target) {
           e.preventDefault();
-          lenis.scrollTo(targetElement as HTMLElement, {
-            offset: -80,
-            duration: 1.5,
-            immediate: false,
-          });
+          lenis.scrollTo(target as HTMLElement, { offset: -72, duration: 1.4 });
         }
       }
     };
@@ -67,49 +64,34 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen text-slate-700 bg-white selection:bg-brand-orange-500 selection:text-white overflow-x-hidden antialiased font-sans">
-      {/* 3D WebGL Background Layer */}
-      <AmbientBackground3D />
+    <div className="relative min-h-screen bg-white text-ink-900 overflow-x-hidden antialiased">
 
-      {/* Scroll Progress Line Indicator */}
-      <div 
-        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-brand-orange-500 via-amber-400 to-brand-orange-600 z-50 transition-all duration-100 ease-out"
+      {/* Three.js ambient layer — lazy loaded after first paint (decorative only) */}
+      <Suspense fallback={null}>
+        <AmbientBackground3D />
+      </Suspense>
+
+      {/* Scroll progress bar */}
+      <div
+        className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-brand-orange-500 to-brand-orange-400 z-[60] transition-all duration-75"
         style={{ width: `${scrollPercent}%` }}
       />
 
-      {/* Shared Translucent Header Navigation */}
       <Header />
 
-      {/* Core Dynamic Experience Layers */}
-      <div className="relative z-10">
-        {/* Immersive 3D/Parallax Hero Viewport (100vh) */}
+      <main>
         <InteractiveHero />
-
-        {/* Bento Box Interactive Services (AI Chatbots live interface included) */}
         <InteractiveServices />
-
-        {/* Our Journey Vertical Timeline */}
-        <VerticalTimeline />
-
-        {/* Step Horizontal Timeline (Discover, Strategize, Execute, Scale) */}
+        <StorytellingAbout />
         <HorizontalProcess />
-
-        {/* Full Screen High Fidelity Case Studies Mock Device Switcher */}
         <PremiumCaseStudies />
-
-        {/* Deluxe 3D Hover Team Matrix */}
+        <AchievementsGrid />
         <LuxuryTeam />
-
-        {/* Star Verified Institutional Testimonials Quote Slider */}
         <TestimonialSlider />
-
-        {/* Final Campaign Action & Estimator Tool Configuration Form */}
         <ProjectEstimatorCTA />
+      </main>
 
-        {/* System Registry Enterprise Footer */}
-        <PremiumFooter />
-      </div>
+      <PremiumFooter />
     </div>
   );
 }
-
