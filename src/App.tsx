@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import InteractiveHero from "./components/InteractiveHero";
-import InfiniteMarquee from "./components/InfiniteMarquee";
-import StorytellingAbout from "./components/StorytellingAbout";
 import InteractiveServices from "./components/InteractiveServices";
+import VerticalTimeline from "./components/VerticalTimeline";
 import HorizontalProcess from "./components/HorizontalProcess";
 import PremiumCaseStudies from "./components/PremiumCaseStudies";
 import LuxuryTeam from "./components/LuxuryTeam";
-import AchievementsGrid from "./components/AchievementsGrid";
 import TestimonialSlider from "./components/TestimonialSlider";
 import ProjectEstimatorCTA from "./components/ProjectEstimatorCTA";
 import PremiumFooter from "./components/PremiumFooter";
@@ -87,23 +85,17 @@ export default function App() {
         {/* Immersive 3D/Parallax Hero Viewport (100vh) */}
         <InteractiveHero />
 
-        {/* Infinite Logo Marquee Wall representing YalaRide, Nurses, Go-Jetter etc */}
-        <InfiniteMarquee />
-
         {/* Bento Box Interactive Services (AI Chatbots live interface included) */}
         <InteractiveServices />
 
-        {/* Dual Story About, Mission & Vision Switcher */}
-        <StorytellingAbout />
+        {/* Our Journey Vertical Timeline */}
+        <VerticalTimeline />
 
         {/* Step Horizontal Timeline (Discover, Strategize, Execute, Scale) */}
         <HorizontalProcess />
 
         {/* Full Screen High Fidelity Case Studies Mock Device Switcher */}
         <PremiumCaseStudies />
-
-        {/* Numerical Achievements Counters & Sparklines Dial Grid */}
-        <AchievementsGrid />
 
         {/* Deluxe 3D Hover Team Matrix */}
         <LuxuryTeam />

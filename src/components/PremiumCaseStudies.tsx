@@ -212,7 +212,8 @@ export default function PremiumCaseStudies() {
         </div>
       </div>
 
-      <div className="w-full flex flex-col gap-40">
+      {/* Stacked Case Studies Grid */}
+      <div className="w-full flex flex-col -space-y-16 lg:-space-y-32">
         {cases.map((cs, idx) => (
           <div key={cs.id} className="relative w-full min-h-screen flex items-center justify-center px-4">
             
