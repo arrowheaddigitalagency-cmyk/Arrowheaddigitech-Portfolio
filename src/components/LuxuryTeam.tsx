@@ -70,10 +70,16 @@ export default function LuxuryTeam() {
                       onError={(e) => { e.currentTarget.style.opacity = '0'; }}
                       className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-slate-800 flex items-center justify-center -z-10">
-                      <span className="text-slate-500 font-mono tracking-widest uppercase font-bold text-sm">
-                        [ Missing Asset: {founder.id} Photo ]
-                      </span>
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-black flex items-center justify-center -z-10 shadow-inner">
+                      <div className="w-[80%] h-[80%] border border-white/10 rounded-xl flex flex-col items-center justify-center bg-white/5 backdrop-blur-md relative overflow-hidden">
+                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
+                         <span className="text-white font-mono tracking-widest uppercase font-bold text-sm z-10 text-center px-4 mb-2">
+                           {founder.id} PORTRAIT
+                         </span>
+                         <span className="text-slate-500 font-mono tracking-[0.2em] text-[10px] uppercase text-center px-4 z-10">
+                           Awaiting Asset
+                         </span>
+                      </div>
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60 pointer-events-none" />
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end pointer-events-none">

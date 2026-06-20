@@ -19,7 +19,7 @@ export default function InteractiveServices() {
       metric: "4.8x",
       metricLabel: "Average Verified ROAS",
       color: "from-brand-orange-500",
-      image: "/src/assets/images/arrowhead_performance_marketing.jpg" // Placeholder for an abstract data visualization
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200" // Premium analytics dashboard placeholder
     },
     {
       id: "02",
@@ -29,7 +29,7 @@ export default function InteractiveServices() {
       metric: "120ms",
       metricLabel: "Average Interaction Latency",
       color: "from-brand-blue-500",
-      image: "/src/assets/images/arrowhead_web_architecture.jpg" // Placeholder for a sleek code/UI interface
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200" // Premium website preview placeholder
     },
     {
       id: "03",
@@ -39,7 +39,7 @@ export default function InteractiveServices() {
       metric: "24/7",
       metricLabel: "Autonomous Lead Routing",
       color: "from-emerald-500",
-      image: "/src/assets/images/arrowhead_ai_automation.jpg" // Placeholder for a futuristic neural network or bot UI
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200" // Premium AI interface placeholder
     },
     {
       id: "04",
@@ -49,7 +49,7 @@ export default function InteractiveServices() {
       metric: "+300%",
       metricLabel: "Engagement Lift",
       color: "from-indigo-500",
-      image: "/src/assets/images/arrowhead_creative_production.jpg" // Placeholder for a dynamic video editing timeline
+      image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&q=80&w=1200" // Premium creative video timeline placeholder
     }
   ];
 

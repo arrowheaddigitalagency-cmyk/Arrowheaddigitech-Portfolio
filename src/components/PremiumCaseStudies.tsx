@@ -82,8 +82,18 @@ function CinematicMacBook({ image, alt }: { image: string; alt: string }) {
             {image ? (
               <img src={image} alt={alt} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" />
             ) : (
-              <div className="absolute inset-0 bg-slate-800 flex items-center justify-center">
-                 <span className="text-slate-500 font-mono tracking-widest uppercase font-bold">[ {alt} Screenshot Missing ]</span>
+              <div className="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-8 -z-10">
+                <div className="w-full h-full border-2 border-dashed border-slate-600 rounded-lg flex flex-col items-center justify-center bg-slate-800/30 gap-3">
+                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
+                     <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                   </div>
+                   <span className="text-white font-mono tracking-widest uppercase font-bold text-center text-sm">
+                     {alt}
+                   </span>
+                   <span className="text-slate-500 font-mono tracking-widest uppercase text-[10px] text-center">
+                     Drop Image Here
+                   </span>
+                </div>
               </div>
             )}
             {/* Glossy Reflection overlay */}
@@ -132,7 +142,16 @@ function CinematicIPhone({ image, alt }: { image: string; alt: string }) {
            {image ? (
               <img src={image} alt={alt} onError={(e) => { e.currentTarget.style.opacity = '0'; }} className="w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" />
            ) : (
-              <span className="text-slate-600 font-mono tracking-widest uppercase font-bold text-xs text-center px-4">[ {alt} Screenshot Missing ]</span>
+              <div className="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-4 -z-10">
+                <div className="w-full h-full border-2 border-dashed border-slate-600 rounded-3xl flex flex-col items-center justify-center bg-slate-800/30 gap-2">
+                   <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                     <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                   </div>
+                   <span className="text-white font-mono tracking-widest uppercase font-bold text-center text-[10px]">
+                     {alt}
+                   </span>
+                </div>
+              </div>
            )}
            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none z-10 mix-blend-overlay" />
         </div>
@@ -209,11 +228,11 @@ export default function PremiumCaseStudies() {
 
             {/* Hardware Layer (Composite Desktop + Mobile) */}
             <div className="relative w-full max-w-[1400px] flex justify-center items-center">
-              <div className="w-[85%] sm:w-[75%] lg:w-[65%] z-10">
-                <CinematicMacBook image={cs.desktopImage} alt={`${cs.client} Desktop`} />
+              <div className="w-[85%] sm:w-[75%] lg:w-[65%] z-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] rounded-t-3xl">
+                <CinematicMacBook image={cs.desktopImage} alt={`${cs.client} Desktop Screenshot`} />
               </div>
-              <div className="absolute right-[5%] sm:right-[15%] lg:right-[20%] top-[40%] sm:top-[30%] w-[35%] sm:w-[25%] lg:w-[20%] z-20">
-                <CinematicIPhone image={cs.mobileImage} alt={`${cs.client} Mobile`} />
+              <div className="absolute right-[5%] sm:right-[15%] lg:right-[20%] top-[40%] sm:top-[30%] w-[35%] sm:w-[25%] lg:w-[20%] z-20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] rounded-[3.5rem]">
+                <CinematicIPhone image={cs.mobileImage} alt={`${cs.client} Mobile Screenshot`} />
               </div>
             </div>
 
