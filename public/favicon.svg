@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="a" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#ff7a42"/>
+      <stop offset="50%"  stop-color="#FF5A1F"/>
+      <stop offset="100%" stop-color="#c03a0a"/>
+    </linearGradient>
+    <!-- Inner highlight -->
+    <linearGradient id="b" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="rgba(255,255,255,0.25)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background: dark charcoal for contrast on light/dark surfaces -->
+  <rect width="512" height="512" rx="96" fill="#0f0f0f"/>
+
+  <!-- Main orange triangle -->
+  <polygon points="256,72 460,448 52,448" fill="url(#a)"/>
+
+  <!-- Inner highlight overlay for metallic depth -->
+  <polygon points="256,72 460,448 52,448" fill="url(#b)" opacity="0.3"/>
+
+  <!-- Top edge highlight line -->
+  <line x1="256" y1="72" x2="460" y2="448" stroke="rgba(255,255,255,0.15)" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Subtle inner triangle stroke -->
+  <polygon points="256,110 432,432 80,432" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"/>
+</svg>
