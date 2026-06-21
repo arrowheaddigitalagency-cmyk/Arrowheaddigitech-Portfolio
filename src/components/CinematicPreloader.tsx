@@ -1,25 +1,34 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
-import { motion, AnimatePresence, useAnimation } from "motion/react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 /* ─────────────────────────────────────────────────────
-   PARTICLES — CSS-only, zero R3F overhead
+   PARTICLES
 ───────────────────────────────────────────────────── */
 function Particles() {
-  const particles = useMemo(() =>
-    Array.from({ length: 32 }, (_, i) => ({
+  const white = useMemo(() =>
+    Array.from({ length: 28 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 2 + 0.8,
-      dur: 4 + Math.random() * 6,
-      delay: Math.random() * 4,
-      opacity: 0.08 + Math.random() * 0.18,
-    })), []
-  );
+      size: Math.random() * 1.8 + 0.6,
+      dur: 5 + Math.random() * 7,
+      delay: Math.random() * 5,
+      opacity: 0.06 + Math.random() * 0.14,
+    })), []);
+
+  const orange = useMemo(() =>
+    Array.from({ length: 6 }, (_, i) => ({
+      id: `o${i}`,
+      x: 30 + Math.random() * 40,
+      y: 25 + Math.random() * 50,
+      size: Math.random() * 2 + 1,
+      dur: 4 + Math.random() * 4,
+      delay: Math.random() * 3,
+    })), []);
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {particles.map((p) => (
+      {white.map((p) => (
         <motion.div
           key={p.id}
           className="absolute rounded-full bg-white"
@@ -29,25 +38,13 @@ function Particles() {
           transition={{ duration: p.dur, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
-      {/* A handful of warm orange particles near center */}
-      {Array.from({ length: 8 }, (_, i) => ({
-        id: `o${i}`,
-        x: 35 + Math.random() * 30,
-        y: 30 + Math.random() * 40,
-        size: Math.random() * 2.5 + 1,
-        dur: 3.5 + Math.random() * 4,
-        delay: Math.random() * 3,
-      })).map((p) => (
+      {orange.map((p) => (
         <motion.div
           key={p.id}
           className="absolute rounded-full"
-          style={{
-            left: `${p.x}%`, top: `${p.y}%`,
-            width: p.size, height: p.size,
-            background: "#FF5A1F",
-          }}
+          style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size, background: "#FF5A1F" }}
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.25, 0], y: [-6, 6, -6] }}
+          animate={{ opacity: [0, 0.3, 0], y: [-5, 5, -5] }}
           transition={{ duration: p.dur, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
@@ -56,160 +53,100 @@ function Particles() {
 }
 
 /* ─────────────────────────────────────────────────────
-   ARROWHEAD TRIANGLE — SVG drawn as the hero element.
-   Built from the orange triangle in the logo.
+   LIGHT SWEEP — horizontal shimmer over the logo
 ───────────────────────────────────────────────────── */
-function ArrowheadTriangle({ stage }: { stage: number }) {
-  /*
-    stage 0 → invisible
-    stage 1 → triangle appears (stroke draws in)
-    stage 2 → fill fades in
-    stage 3 → light sweep
-    stage 4 → full glow
-  */
+function LightSweep({ active }: { active: boolean }) {
   return (
-    <div className="relative flex items-center justify-center" style={{ width: 140, height: 140 }}>
-
-      {/* Outer soft glow — stage 4 */}
+    <motion.div
+      className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl z-20"
+      style={{ mixBlendMode: "screen" }}
+    >
       <motion.div
-        className="absolute rounded-full"
+        className="absolute top-0 bottom-0 w-[40%]"
         style={{
-          width: 200, height: 200,
-          background: "radial-gradient(circle, rgba(255,90,31,0.22) 0%, transparent 70%)",
-          top: "50%", left: "50%",
-          transform: "translate(-50%,-50%)",
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 40%, rgba(255,255,255,0.32) 50%, rgba(255,255,255,0.18) 60%, transparent 100%)",
+          left: "-40%",
         }}
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={stage >= 4 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-      />
-
-      {/* SVG triangle */}
-      <svg viewBox="0 0 120 120" width="120" height="120" style={{ overflow: "visible" }}>
-        <defs>
-          {/* Metallic gradient fill */}
-          <linearGradient id="triGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%"   stopColor="#ff7a42" />
-            <stop offset="45%"  stopColor="#FF5A1F" />
-            <stop offset="100%" stopColor="#c03a0a" />
-          </linearGradient>
-
-          {/* Light sweep gradient — moves left → right */}
-          <linearGradient id="sweepGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="rgba(255,255,255,0)"   />
-            <stop offset="40%"  stopColor="rgba(255,255,255,0)"   />
-            <stop offset="50%"  stopColor="rgba(255,255,255,0.55)" />
-            <stop offset="60%"  stopColor="rgba(255,255,255,0)"   />
-            <stop offset="100%" stopColor="rgba(255,255,255,0)"   />
-          </linearGradient>
-
-          {/* Clip to triangle shape */}
-          <clipPath id="triClip">
-            <polygon points="60,8 112,105 8,105" />
-          </clipPath>
-        </defs>
-
-        {/* ── Step 1: stroke draws in ── */}
-        <motion.polygon
-          points="60,8 112,105 8,105"
-          fill="none"
-          stroke="url(#triGrad)"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={stage >= 1
-            ? { pathLength: 1, opacity: 1 }
-            : { pathLength: 0, opacity: 0 }
-          }
-          transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
-        />
-
-        {/* ── Step 2: fill emerges ── */}
-        <motion.polygon
-          points="60,8 112,105 8,105"
-          fill="url(#triGrad)"
-          initial={{ opacity: 0 }}
-          animate={stage >= 2 ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        />
-
-        {/* ── Step 3: light sweep overlay ── */}
-        {stage >= 3 && (
-          <motion.rect
-            x="-20" y="0" width="160" height="120"
-            fill="url(#sweepGrad)"
-            clipPath="url(#triClip)"
-            initial={{ x: -160 }}
-            animate={{ x: 160 }}
-            transition={{ duration: 0.9, ease: "easeInOut", delay: 0 }}
-          />
-        )}
-
-        {/* Inner highlight line — subtle metallic edge */}
-        <motion.polygon
-          points="60,16 106,102 14,102"
-          fill="none"
-          stroke="rgba(255,255,255,0.12)"
-          strokeWidth="1"
-          initial={{ opacity: 0 }}
-          animate={stage >= 2 ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        />
-      </svg>
-
-      {/* Pulsing ring — stage 4 */}
-      <motion.div
-        className="absolute rounded-full border border-orange-500/20"
-        style={{ width: 160, height: 160, top: "50%", left: "50%", transform: "translate(-50%,-50%)" }}
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={stage >= 4
-          ? { scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }
-          : { scale: 0.8, opacity: 0 }
+        initial={{ left: "-40%" }}
+        animate={active ? { left: "140%" } : { left: "-40%" }}
+        transition={active
+          ? { duration: 0.85, ease: [0.25, 0.1, 0.25, 1] }
+          : { duration: 0 }
         }
-        transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
       />
-    </div>
+    </motion.div>
   );
 }
 
 /* ─────────────────────────────────────────────────────
-   LOGO TEXT ASSEMBLY
+   LOGO IMAGE — the real logo, with cinematic reveal
 ───────────────────────────────────────────────────── */
-function LogoText({ stage }: { stage: number }) {
-  const letters = "ARROWHEAD".split("");
-  const sub     = "DIGITECH";
-
+function LogoReveal({ stage }: { stage: number }) {
   return (
-    <div className="flex flex-col items-center gap-1 mt-6 select-none">
-      {/* Main brand word — letters assemble one by one */}
-      <div className="flex items-center gap-[2px]">
-        {letters.map((l, i) => (
-          <motion.span
-            key={i}
-            className="text-3xl font-extrabold tracking-[0.12em]"
-            style={{ color: i === 0 ? "#FF5A1F" : "#e8e9eb" }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={stage >= 4
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 10 }
-            }
-            transition={{ duration: 0.4, delay: i * 0.055, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {l}
-          </motion.span>
-        ))}
-      </div>
+    <div className="relative flex items-center justify-center select-none">
 
-      {/* Sub-label */}
-      <motion.span
-        className="text-[11px] font-700 tracking-[0.4em] uppercase"
-        style={{ color: "rgba(255,255,255,0.35)" }}
-        initial={{ opacity: 0, y: 6 }}
-        animate={stage >= 4 ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
-        transition={{ duration: 0.6, delay: 0.55, ease: "easeOut" }}
+      {/* Soft ambient glow behind the logo */}
+      <motion.div
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: 480, height: 240,
+          background: "radial-gradient(ellipse, rgba(255,90,31,0.18) 0%, transparent 70%)",
+          top: "50%", left: "50%",
+          transform: "translate(-50%, -50%)",
+          filter: "blur(24px)",
+        }}
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={stage >= 3 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.7 }}
+        transition={{ duration: 1.4, ease: "easeOut" }}
+      />
+
+      {/* Logo image container — clips + reveals */}
+      <motion.div
+        className="relative overflow-hidden"
+        style={{ width: 480, maxWidth: "85vw" }}
+        initial={{ opacity: 0, scale: 0.88, filter: "blur(12px)" }}
+        animate={stage >= 1
+          ? { opacity: 1, scale: 1, filter: "blur(0px)" }
+          : { opacity: 0, scale: 0.88, filter: "blur(12px)" }
+        }
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
       >
-        {sub}
-      </motion.span>
+        {/* The actual logo */}
+        <img
+          src="/src/assets/images/arrowhead_logo_full.png"
+          alt="Arrowhead DigiTech"
+          className="w-full h-auto object-contain"
+          draggable={false}
+          style={{
+            /* Invert white-bg logo to work on dark preloader background.
+               The logo has a white background — we make it transparent using
+               CSS mix-blend-mode so the dark bg shows through. */
+            mixBlendMode: "multiply",
+            filter: "invert(1)",
+          }}
+        />
+
+        {/* Light sweep overlaid on the logo */}
+        <LightSweep active={stage === 3} />
+      </motion.div>
+
+      {/* Pulsing ring — stage 4 */}
+      <motion.div
+        className="absolute rounded-full border"
+        style={{
+          width: 520, height: 260,
+          borderColor: "rgba(255,90,31,0.15)",
+          top: "50%", left: "50%",
+          transform: "translate(-50%,-50%)",
+        }}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={stage >= 4
+          ? { scale: [1, 1.06, 1], opacity: [0.25, 0.08, 0.25] }
+          : { scale: 0.9, opacity: 0 }
+        }
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      />
     </div>
   );
 }
@@ -220,25 +157,20 @@ function LogoText({ stage }: { stage: number }) {
 function Tagline({ stage }: { stage: number }) {
   const words = "Building Digital Systems That Actually Grow Businesses.".split(" ");
   return (
-    <motion.div
-      className="flex flex-wrap justify-center gap-x-2 gap-y-1 max-w-sm text-center mt-10"
-      initial={{ opacity: 0 }}
-      animate={stage >= 5 ? { opacity: 1 } : { opacity: 0 }}
-      transition={{ duration: 0.4 }}
-    >
+    <div className="flex flex-wrap justify-center gap-x-[6px] gap-y-1 max-w-md text-center mt-8 px-4">
       {words.map((w, i) => (
         <motion.span
           key={i}
-          className="text-sm font-500 leading-relaxed"
-          style={{ color: "rgba(255,255,255,0.45)" }}
-          initial={{ opacity: 0, y: 6 }}
-          animate={stage >= 5 ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
-          transition={{ duration: 0.35, delay: 0.1 + i * 0.04, ease: "easeOut" }}
+          className="text-sm font-400 leading-relaxed"
+          style={{ color: "rgba(255,255,255,0.42)", fontFamily: "Poppins, sans-serif" }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={stage >= 5 ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+          transition={{ duration: 0.35, delay: 0.08 + i * 0.038, ease: "easeOut" }}
         >
           {w}
         </motion.span>
       ))}
-    </motion.div>
+    </div>
   );
 }
 
@@ -253,39 +185,36 @@ export default function CinematicPreloader({ onComplete }: Props) {
   const [stage,   setStage]   = useState(0);
   const [exiting, setExiting] = useState(false);
 
-  /* Stage sequencer */
+  /* ── Animation timeline ─────────────────────────
+     Total ~5.8s before exit begins
+  ─────────────────────────────────────────────── */
   useEffect(() => {
     const seq: Array<[number, number]> = [
-      /* [stage, delay ms from previous] */
-      [1, 400],   // background settled → triangle stroke draws
-      [2, 1200],  // fill appears
-      [3, 600],   // light sweep
-      [4, 500],   // glow + text assembly
-      [5, 900],   // tagline
-      [6, 1800],  // begin exit
+      [1, 350],   // logo emerges from blur/darkness
+      [2, 1100],  // fully visible — pause to register
+      [3, 400],   // light sweep fires
+      [4, 700],   // glow pulse begins
+      [5, 600],   // tagline fades in
+      [6, 2000],  // hold → begin exit
     ];
 
-    let accumulated = 0;
+    let t = 0;
     const timers: ReturnType<typeof setTimeout>[] = [];
-
     seq.forEach(([s, delay]) => {
-      accumulated += delay;
-      timers.push(setTimeout(() => setStage(s), accumulated));
+      t += delay;
+      timers.push(setTimeout(() => setStage(s), t));
     });
-
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  /* Trigger exit when stage 6 is reached */
+  /* ── Trigger exit ─────────────────────────────── */
   useEffect(() => {
-    if (stage === 6) {
-      const t = setTimeout(() => {
-        setExiting(true);
-        /* Give exit animation time, then unmount */
-        setTimeout(onComplete, 900);
-      }, 100);
-      return () => clearTimeout(t);
-    }
+    if (stage !== 6) return;
+    const t = setTimeout(() => {
+      setExiting(true);
+      setTimeout(onComplete, 950);
+    }, 80);
+    return () => clearTimeout(t);
   }, [stage, onComplete]);
 
   return (
@@ -298,35 +227,36 @@ export default function CinematicPreloader({ onComplete }: Props) {
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.04,
-            transition: { duration: 0.85, ease: [0.4, 0, 0.2, 1] },
+            scale: 1.05,
+            transition: { duration: 0.9, ease: [0.4, 0, 0.2, 1] },
           }}
         >
-          {/* ── Background gradient — fades in first ── */}
+          {/* Background warm radial */}
           <motion.div
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,90,31,0.06) 0%, transparent 70%)",
+                "radial-gradient(ellipse 70% 55% at 50% 50%, rgba(255,90,31,0.05) 0%, transparent 70%)",
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            transition={{ duration: 1.4, ease: "easeOut" }}
           />
 
-          {/* Subtle vignette */}
+          {/* Vignette */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%)",
+                "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(0,0,0,0.65) 100%)",
             }}
           />
 
-          {/* Grid texture overlay */}
+          {/* Grid */}
           <div
-            className="absolute inset-0 pointer-events-none opacity-[0.025]"
+            className="absolute inset-0 pointer-events-none"
             style={{
+              opacity: 0.022,
               backgroundImage:
                 "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
               backgroundSize: "48px 48px",
@@ -336,23 +266,25 @@ export default function CinematicPreloader({ onComplete }: Props) {
           {/* Particles */}
           <Particles />
 
-          {/* ── Central logo assembly ── */}
+          {/* ── Logo — centre stage ─────────────────── */}
           <motion.div
-            className="relative flex flex-col items-center z-10"
-            /* Exit: shrinks toward top-left (navbar position) */
-            animate={exiting ? { scale: 0.15, x: -600, y: -400, opacity: 0 } : {}}
+            className="relative z-10 flex flex-col items-center"
+            animate={exiting
+              ? { scale: 0.14, x: "-46vw", y: "-44vh", opacity: 0 }
+              : {}
+            }
             transition={exiting
-              ? { duration: 0.85, ease: [0.4, 0, 0.2, 1] }
+              ? { duration: 0.9, ease: [0.4, 0, 0.2, 1] }
               : {}
             }
           >
-            <ArrowheadTriangle stage={stage} />
-            <LogoText stage={stage} />
+            <LogoReveal stage={stage} />
           </motion.div>
 
+          {/* Tagline — below logo, stays in place on exit */}
           <Tagline stage={stage} />
 
-          {/* Thin bottom accent line */}
+          {/* Bottom accent line */}
           <motion.div
             className="absolute bottom-0 left-0 right-0 h-[2px]"
             style={{
@@ -360,8 +292,8 @@ export default function CinematicPreloader({ onComplete }: Props) {
                 "linear-gradient(90deg, transparent 0%, #FF5A1F 50%, transparent 100%)",
             }}
             initial={{ scaleX: 0, opacity: 0 }}
-            animate={stage >= 4 ? { scaleX: 1, opacity: 0.6 } : { scaleX: 0, opacity: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            animate={stage >= 4 ? { scaleX: 1, opacity: 0.55 } : { scaleX: 0, opacity: 0 }}
+            transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
           />
         </motion.div>
       )}
