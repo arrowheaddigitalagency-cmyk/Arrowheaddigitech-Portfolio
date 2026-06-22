@@ -91,7 +91,7 @@ const CASES = [
     desktopImg: "/images/yalaride_web_portal_1781815990359.jpg",
     metrics: [
       { label: "Organic Visibility", value: 160, suffix: "%", icon: TrendingUp },
-      { label: "Monthly Leads", value: 190, suffix: "%", icon: TrendingUp },
+      { label: "App Installs", value: 140, suffix: "%", icon: TrendingUp },
       { label: "Booking Conversion", value: 42, suffix: "%", icon: TrendingUp },
       { label: "Campaigns Running", value: 8, suffix: "+", icon: Star },
     ],
@@ -114,7 +114,7 @@ const CASES = [
     tech: ["React", "TypeScript", "REST API", "Google Ads", "Meta Ads", "App Store"],
     desktopImg: "/images/nurses_recruiter_portal_1781816032234.jpg",
     metrics: [
-      { label: "App Installs", value: 140, suffix: "%", icon: TrendingUp },
+      { label: "Campaigns Running", value: 8, suffix: "+", icon: Star },
       { label: "Job Applications", value: 110, suffix: "%", icon: TrendingUp },
       { label: "Time-to-Hire Reduced", value: 35, suffix: "%", icon: TrendingUp },
       { label: "Healthcare Partners", value: 50, suffix: "+", icon: Star },
