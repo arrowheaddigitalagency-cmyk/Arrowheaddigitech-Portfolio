@@ -1,5 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+// Ensure RESEND_API_KEY is available in environment variables
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy');
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -12,21 +15,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ message: 'Name and email are required' });
   }
 
-  // Configure Nodemailer transporter (User must provide valid SMTP config in Vercel env variables)
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
-
   const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Karachi' });
 
   // 1. Admin Email (info@arrowheaddigitech.com)
-  const adminHtml = \`
+  const adminHtml = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -34,45 +26,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; margin: 0;">
-      <div style="max-w-xl: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
         <div style="text-align: center; margin-bottom: 30px;">
           <img src="https://arrowheaddigitech.com/images/arrowhead_black.png" alt="Arrowhead DigiTech" style="max-height: 50px;">
         </div>
         <h2 style="color: #1a1a1a; margin-top: 0;">New Project Inquiry</h2>
-        <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Received on \${timestamp}</p>
+        <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Received on ${timestamp}</p>
         
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
           <tr>
             <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; width: 120px; color: #333;">Name:</td>
-            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;">\${name}</td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;">${name}</td>
           </tr>
           <tr>
             <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #333;">Email:</td>
-            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;"><a href="mailto:\${email}" style="color: #FF5A1F;">\${email}</a></td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;"><a href="mailto:${email}" style="color: #FF5A1F;">${email}</a></td>
           </tr>
           <tr>
             <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #333;">Phone:</td>
-            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;">\${phone || 'N/A'}</td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;">${phone || 'N/A'}</td>
           </tr>
           <tr>
             <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #333;">Service:</td>
-            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;">\${service || 'N/A'}</td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;">${service || 'N/A'}</td>
           </tr>
           <tr>
             <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #333;">Budget:</td>
-            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;">\${budget || 'N/A'}</td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #555;">${budget || 'N/A'}</td>
           </tr>
         </table>
         
         <h3 style="color: #1a1a1a; margin-top: 20px;">Project Details</h3>
-        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 6px; color: #444; line-height: 1.6; white-space: pre-wrap;">\${message || 'No message provided.'}</div>
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 6px; color: #444; line-height: 1.6; white-space: pre-wrap;">${message || 'No message provided.'}</div>
       </div>
     </body>
     </html>
-  \`;
+  `;
 
   // 2. User Auto-Response Email
-  const userHtml = \`
+  const userHtml = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -80,11 +72,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; margin: 0;">
-      <div style="max-w-xl: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
         <div style="text-align: center; margin-bottom: 30px;">
           <img src="https://arrowheaddigitech.com/images/arrowhead_black.png" alt="Arrowhead DigiTech" style="max-height: 50px;">
         </div>
-        <h2 style="color: #1a1a1a; margin-top: 0; text-align: center;">Thank You, \${name.split(' ')[0]}!</h2>
+        <h2 style="color: #1a1a1a; margin-top: 0; text-align: center;">Thank You, ${name.split(' ')[0]}!</h2>
         <div style="width: 50px; height: 3px; background-color: #FF5A1F; margin: 20px auto;"></div>
         
         <p style="color: #444; line-height: 1.6; font-size: 16px;">
@@ -96,10 +88,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         <div style="background-color: #fcfcfc; border: 1px solid #eee; padding: 20px; border-radius: 6px; margin: 30px 0;">
           <h4 style="margin-top: 0; color: #1a1a1a; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Inquiry Summary</h4>
-          <p style="color: #666; margin: 5px 0; font-size: 14px;"><strong>Service:</strong> \${service || 'Not specified'}</p>
-          <p style="color: #666; margin: 5px 0; font-size: 14px;"><strong>Budget:</strong> \${budget || 'Not specified'}</p>
+          <p style="color: #666; margin: 5px 0; font-size: 14px;"><strong>Service:</strong> ${service || 'Not specified'}</p>
+          <p style="color: #666; margin: 5px 0; font-size: 14px;"><strong>Budget:</strong> ${budget || 'Not specified'}</p>
         </div>
         
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="https://arrowheaddigitech-portfolio.com" style="background-color: #FF5A1F; color: #ffffff; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">View Our Premium Case Studies</a>
+        </div>
+
         <p style="color: #444; line-height: 1.6; font-size: 16px;">
           If you have any immediate questions, feel free to reply directly to this email or call us.
         </p>
@@ -108,29 +104,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           <p style="color: #888; font-size: 13px; margin: 5px 0;"><strong>Arrowhead DigiTech</strong></p>
           <p style="color: #888; font-size: 13px; margin: 5px 0;">Lahore, Pakistan</p>
           <p style="color: #888; font-size: 13px; margin: 5px 0;"><a href="tel:+923000955490" style="color: #FF5A1F; text-decoration: none;">+92 300 0955490</a></p>
-          <p style="color: #888; font-size: 13px; margin: 5px 0;"><a href="mailto:info@arrowheaddigitech.com" style="color: #FF5A1F; text-decoration: none;">info@arrowheaddigitech.com</a></p>
+          <p style="color: #888; font-size: 13px; margin: 5px 0;"><a href="mailto:arrowhead.digital.agency@gmail.com" style="color: #FF5A1F; text-decoration: none;">arrowhead.digital.agency@gmail.com</a></p>
         </div>
       </div>
     </body>
     </html>
-  \`;
+  `;
 
   try {
     // Send to Admin
-    await transporter.sendMail({
-      from: \`"Arrowhead Website" <\${process.env.SMTP_USER}>\`,
-      to: 'info@arrowheaddigitech.com',
+    const adminEmailResult = await resend.emails.send({
+      from: 'Arrowhead DigiTech <noreply@arrowheaddigitech-portfolio.com>',
+      to: 'arrowhead.digital.agency@gmail.com',
+      reply_to: 'arrowhead.digital.agency@gmail.com',
       subject: 'New Project Inquiry - Arrowhead DigiTech',
       html: adminHtml,
     });
+    
+    if (adminEmailResult.error) {
+      console.error('Error sending admin email:', adminEmailResult.error);
+      return res.status(500).json({ success: false, message: 'Failed to send admin email.' });
+    }
 
     // Send to User
-    await transporter.sendMail({
-      from: \`"Arrowhead DigiTech" <\${process.env.SMTP_USER}>\`,
+    const userEmailResult = await resend.emails.send({
+      from: 'Arrowhead DigiTech <noreply@arrowheaddigitech-portfolio.com>',
       to: email,
+      reply_to: 'arrowhead.digital.agency@gmail.com',
       subject: 'We Received Your Inquiry - Arrowhead DigiTech',
       html: userHtml,
     });
+    
+    if (userEmailResult.error) {
+      console.error('Error sending user email:', userEmailResult.error);
+    }
 
     return res.status(200).json({ success: true, message: 'Emails sent successfully.' });
   } catch (error) {
