@@ -41,7 +41,7 @@ export default function Header() {
           {/* Logo */}
           <a href="#" className="flex items-center gap-0 shrink-0">
             <img
-              src="/images/arrowhead_black.png"
+              src="/images/arrowhead_black.svg"
               alt="Arrowhead DigiTech"
               className="h-9 w-auto object-contain"
               style={{ imageRendering: "crisp-edges" }}

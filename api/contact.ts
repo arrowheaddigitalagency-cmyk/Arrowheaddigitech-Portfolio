@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; margin: 0;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
         <div style="text-align: center; margin-bottom: 30px;">
-          <img src="https://arrowheaddigitech.com/images/arrowhead_black.png" alt="Arrowhead DigiTech" style="max-height: 50px;">
+          <img src="https://arrowheaddigitech-portfolio.com/images/arrowhead_logo_full.png" alt="Arrowhead DigiTech" style="max-height: 50px;">
         </div>
         <h2 style="color: #1a1a1a; margin-top: 0;">New Project Inquiry</h2>
         <p style="color: #666; font-size: 14px; margin-bottom: 30px;">Received on ${timestamp}</p>
@@ -74,7 +74,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; margin: 0;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
         <div style="text-align: center; margin-bottom: 30px;">
-          <img src="https://arrowheaddigitech.com/images/arrowhead_black.png" alt="Arrowhead DigiTech" style="max-height: 50px;">
+          <img src="https://arrowheaddigitech-portfolio.com/images/arrowhead_logo_full.png" alt="Arrowhead DigiTech" style="max-height: 50px;">
         </div>
         <h2 style="color: #1a1a1a; margin-top: 0; text-align: center;">Thank You, ${name.split(' ')[0]}!</h2>
         <div style="width: 50px; height: 3px; background-color: #FF5A1F; margin: 20px auto;"></div>
