@@ -342,15 +342,15 @@ export default function InteractiveHero() {
       </motion.div>
 
       {/* ── Client ticker ─────────────────────────────── */}
-      <div className="relative z-10 border-t border-ink-100 bg-surface-1 overflow-hidden">
-        <div className="py-3 text-center">
-          <span className="text-[10px] font-700 text-ink-300 uppercase tracking-[0.2em]">
-            Trusted by businesses across 25+ industries
-          </span>
-        </div>
-        <div className="pb-4 flex whitespace-nowrap overflow-hidden">
-          <div className="flex items-center animate-marquee shrink-0">
-            {[0, 1].map((pass) => (
+      <div className="relative z-10 py-16 bg-surface-1 border-t border-ink-100 overflow-hidden flex flex-col items-center">
+        <h3 className="text-sm md:text-base font-600 text-ink-400 uppercase tracking-[0.2em] mb-10 text-center px-4">
+          Trusted By Businesses Across 25+ Industries
+        </h3>
+
+        {/* Soft fade masks on left and right */}
+        <div className="relative flex w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_15%,_black_85%,transparent_100%)]">
+          <div className="flex items-center animate-marquee shrink-0 w-max">
+            {[0, 1, 2, 3].map((pass) => (
               <div key={pass} className="flex items-center shrink-0">
                 {[
                   { name: "YalaRide",            logo: "/images/client-logos/yalaride.png"           },
@@ -364,18 +364,18 @@ export default function InteractiveHero() {
                 ].map((client) => (
                   <div
                     key={`${pass}-${client.name}`}
-                    className="px-8 flex items-center justify-center h-8"
+                    className="mx-8 md:mx-12 flex items-center justify-center w-[140px] md:w-[180px] h-[60px]"
                   >
                     <img
                       src={client.logo}
                       alt={client.name}
-                      className="h-6 w-auto object-contain opacity-40 hover:opacity-70 transition-opacity grayscale"
+                      className="max-w-full max-h-full object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-400 ease-in-out cursor-pointer"
                       onError={(e) => {
                         /* fallback to text if logo file not yet placed */
                         const el = e.currentTarget;
                         el.style.display = "none";
                         const span = document.createElement("span");
-                        span.className = "text-xs font-700 text-ink-300 hover:text-ink-600 uppercase tracking-widest cursor-default whitespace-nowrap";
+                        span.className = "text-xs md:text-sm font-700 text-ink-300 uppercase tracking-widest whitespace-nowrap cursor-default hover:text-ink-600 transition-colors duration-300";
                         span.textContent = client.name;
                         el.parentElement?.appendChild(span);
                       }}
