@@ -90,10 +90,10 @@ const CASES = [
     tech: ["React", "Node.js", "PostgreSQL", "Google Ads", "Meta Ads", "SEO"],
     desktopImg: "/images/yalaride_web_portal_1781815990359.jpg",
     metrics: [
-      { label: "Organic Visibility",  value: 160, suffix: "%", icon: TrendingUp },
-      { label: "Monthly Leads",        value: 190, suffix: "%", icon: TrendingUp },
-      { label: "Booking Conversion",   value: 42,  suffix: "%", icon: TrendingUp },
-      { label: "Campaigns Running",    value: 8,   suffix: "+", icon: Star },
+      { label: "Organic Visibility", value: 160, suffix: "%", icon: TrendingUp },
+      { label: "Monthly Leads", value: 190, suffix: "%", icon: TrendingUp },
+      { label: "Booking Conversion", value: 42, suffix: "%", icon: TrendingUp },
+      { label: "Campaigns Running", value: 8, suffix: "+", icon: Star },
     ],
     quote: "Arrowhead helped build a powerful car rental marketplace with a smooth website, mobile app, and marketing strategy.",
     quoteAuthor: "Mohammed Rizwan",
@@ -114,10 +114,10 @@ const CASES = [
     tech: ["React", "TypeScript", "REST API", "Google Ads", "Meta Ads", "App Store"],
     desktopImg: "/images/nurses_recruiter_portal_1781816032234.jpg",
     metrics: [
-      { label: "App Installs",         value: 140, suffix: "%", icon: TrendingUp },
-      { label: "Job Applications",     value: 110, suffix: "%", icon: TrendingUp },
-      { label: "Time-to-Hire Reduced", value: 35,  suffix: "%", icon: TrendingUp },
-      { label: "Healthcare Partners",  value: 50,  suffix: "+", icon: Star },
+      { label: "App Installs", value: 140, suffix: "%", icon: TrendingUp },
+      { label: "Job Applications", value: 110, suffix: "%", icon: TrendingUp },
+      { label: "Time-to-Hire Reduced", value: 35, suffix: "%", icon: TrendingUp },
+      { label: "Healthcare Partners", value: 50, suffix: "+", icon: Star },
     ],
     quote: "Arrowhead transformed our healthcare marketplace vision into a complete, working platform.",
     quoteAuthor: "Ray Washington",
@@ -138,10 +138,10 @@ const CASES = [
     tech: ["WordPress", "WooCommerce", "Google Ads", "Meta Ads", "SEO", "Email Marketing"],
     desktopImg: "/images/go_jetter_macbook_screenshot.jpg.png",
     metrics: [
-      { label: "Travel Leads",       value: 190, suffix: "%", icon: TrendingUp },
-      { label: "Tour Bookings",      value: 130, suffix: "%", icon: TrendingUp },
-      { label: "Cost Per Lead Down", value: 38,  suffix: "%", icon: TrendingUp },
-      { label: "Countries Targeted", value: 6,   suffix: "",  icon: Star },
+      { label: "Travel Leads", value: 190, suffix: "%", icon: TrendingUp },
+      { label: "Tour Bookings", value: 130, suffix: "%", icon: TrendingUp },
+      { label: "Cost Per Lead Down", value: 38, suffix: "%", icon: TrendingUp },
+      { label: "Countries Targeted", value: 6, suffix: "", icon: Star },
     ],
     quote: "Within 3 months we had more qualified travel leads than the entire previous year combined.",
     quoteAuthor: "Go Jetter Team",
@@ -160,12 +160,12 @@ const CASES = [
     challenge: "High competition in the Atlanta area and outdated manual booking processes.",
     solution: "Developed an automated booking engine with dynamic pricing, integrated with hyper-local Google Search campaigns.",
     tech: ["React", "Stripe API", "Google Ads", "Local SEO", "Node.js"],
-    desktopImg: "/images/yalaride_web_portal_1781815990359.jpg",
+    desktopImg: "/images/atlanta_web_portal_1781815990359.jpg",
     metrics: [
-      { label: "Online Bookings",    value: 210, suffix: "%", icon: TrendingUp },
-      { label: "Manual Work Saved",  value: 80,  suffix: "%", icon: TrendingUp },
-      { label: "Local Search Rank",  value: 1,   suffix: "st", icon: Star },
-      { label: "Revenue Growth",     value: 65,  suffix: "%", icon: TrendingUp },
+      { label: "Online Bookings", value: 210, suffix: "%", icon: TrendingUp },
+      { label: "Manual Work Saved", value: 80, suffix: "%", icon: TrendingUp },
+      { label: "Local Search Rank", value: 1, suffix: "st", icon: Star },
+      { label: "Revenue Growth", value: 65, suffix: "%", icon: TrendingUp },
     ],
     quote: "The new booking system eliminated our administrative overhead and drastically improved customer experience.",
     quoteAuthor: "Atlanta Car Team",
@@ -184,12 +184,12 @@ const CASES = [
     challenge: "Managing a large growing fleet with disparate systems that didn't talk to each other.",
     solution: "Engineered a unified dashboard for fleet tracking and a high-performance consumer storefront.",
     tech: ["Next.js", "GraphQL", "AWS", "Google Ads", "Meta Ads"],
-    desktopImg: "/images/yalaride_web_portal_1781815990359.jpg",
+    desktopImg: "/images/priceless_web_portal_1781815990359.jpg",
     metrics: [
-      { label: "Fleet Utilization",  value: 95, suffix: "%", icon: TrendingUp },
-      { label: "User Acquisition",   value: 150, suffix: "%", icon: TrendingUp },
-      { label: "System Uptime",      value: 99, suffix: "%", icon: TrendingUp },
-      { label: "New Locations",      value: 3,  suffix: "+", icon: Star },
+      { label: "Fleet Utilization", value: 95, suffix: "%", icon: TrendingUp },
+      { label: "User Acquisition", value: 150, suffix: "%", icon: TrendingUp },
+      { label: "System Uptime", value: 99, suffix: "%", icon: TrendingUp },
+      { label: "New Locations", value: 3, suffix: "+", icon: Star },
     ],
     quote: "Our operational efficiency skyrocketed once Arrowhead unified our fleet management system.",
     quoteAuthor: "Priceless Team",
@@ -238,9 +238,8 @@ export default function PremiumCaseStudies() {
             <button
               key={c.id}
               onClick={() => handleCaseChange(i)}
-              className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full font-700 text-sm border transition-all duration-250 ${
-                activeCase === i ? "text-white shadow-md scale-[1.02]" : "bg-white border-ink-200 text-ink-600 hover:border-ink-300 hover:shadow-sm"
-              }`}
+              className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full font-700 text-sm border transition-all duration-250 ${activeCase === i ? "text-white shadow-md scale-[1.02]" : "bg-white border-ink-200 text-ink-600 hover:border-ink-300 hover:shadow-sm"
+                }`}
               style={activeCase === i ? { background: c.accent, borderColor: c.accent, boxShadow: `0 4px 16px ${c.accent}40` } : {}}
             >
               {c.logo && <img src={c.logo} alt={c.client} className="h-4 w-auto object-contain" onError={(e) => { e.currentTarget.style.display = "none"; }} />}
@@ -287,7 +286,7 @@ export default function PremiumCaseStudies() {
                     }}
                   >
                     <AnimatePresence mode="wait">
-                      <motion.div key="mac" initial={{ opacity: 0, scale: 0.93, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: -8 }} transition={{ duration: 0.3, ease: [0.16,1,0.3,1] }} className="w-full max-w-2xl">
+                      <motion.div key="mac" initial={{ opacity: 0, scale: 0.93, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: -8 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }} className="w-full max-w-2xl">
                         <MacFrame image={current.desktopImg} alt={current.client} accent={current.accent} />
                       </motion.div>
                     </AnimatePresence>
@@ -322,7 +321,7 @@ export default function PremiumCaseStudies() {
                   {/* Challenge / Solution */}
                   <div className="grid grid-cols-1 gap-3">
                     {[{ label: "Challenge", text: current.challenge, color: "#FF5A1F" },
-                      { label: "Solution",  text: current.solution,  color: current.accent }].map(({ label, text, color }) => (
+                    { label: "Solution", text: current.solution, color: current.accent }].map(({ label, text, color }) => (
                       <div key={label} className="flex gap-2.5">
                         <div className="w-1 rounded-full shrink-0 mt-0.5" style={{ background: color, minHeight: "100%" }} />
                         <div>
