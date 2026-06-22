@@ -221,7 +221,7 @@ export default function AchievementsGrid() {
             <p className="section-label mb-3">By the Numbers</p>
             <div className="hr-accent mb-5" />
             <h2 className="text-4xl sm:text-5xl font-extrabold text-ink-900 leading-tight">
-              12 Years of{" "}
+              10 Years of{" "}
               <span className="text-gradient-orange">Measurable Results.</span>
             </h2>
           </div>

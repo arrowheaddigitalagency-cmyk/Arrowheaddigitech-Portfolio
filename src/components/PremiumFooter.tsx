@@ -6,18 +6,18 @@ const LINKS = {
   Services: [
     { label: "Website Development", href: "#services" },
     { label: "AI Website Creation", href: "#services" },
-    { label: "Google & Meta Ads",   href: "#services" },
-    { label: "SEO & Local SEO",     href: "#services" },
-    { label: "E-Commerce",          href: "#services" },
-    { label: "AI Chatbots",         href: "#services" },
+    { label: "Google & Meta Ads", href: "#services" },
+    { label: "SEO & Local SEO", href: "#services" },
+    { label: "E-Commerce", href: "#services" },
+    { label: "AI Chatbots", href: "#services" },
   ],
   Company: [
-    { label: "About Us",     href: "#about"        },
-    { label: "Our Work",     href: "#work"          },
-    { label: "Process",      href: "#process"       },
-    { label: "Team",         href: "#team"          },
-    { label: "Achievements", href: "#achievements"  },
-    { label: "Contact",      href: "#contact"       },
+    { label: "About Us", href: "#about" },
+    { label: "Our Work", href: "#work" },
+    { label: "Process", href: "#process" },
+    { label: "Team", href: "#team" },
+    { label: "Achievements", href: "#achievements" },
+    { label: "Contact", href: "#contact" },
   ],
 };
 
@@ -26,14 +26,14 @@ function FooterParticles() {
   const particles = useMemo(() =>
     Array.from({ length: 18 }, (_, i) => ({
       id: i,
-      size:  Math.random() * 3 + 1.5,
-      left:  Math.random() * 100,
-      top:   Math.random() * 100,
-      dur:   6 + Math.random() * 8,
+      size: Math.random() * 3 + 1.5,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      dur: 6 + Math.random() * 8,
       delay: Math.random() * 6,
       color: i % 3 === 0 ? "#FF5A1F" : i % 3 === 1 ? "#3B82F6" : "#ffffff",
     }))
-  , []);
+    , []);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -42,10 +42,10 @@ function FooterParticles() {
           key={p.id}
           className="absolute rounded-full"
           style={{
-            width:  p.size,
+            width: p.size,
             height: p.size,
-            left:   `${p.left}%`,
-            top:    `${p.top}%`,
+            left: `${p.left}%`,
+            top: `${p.top}%`,
             background: p.color,
             opacity: 0.15,
           }}
@@ -118,13 +118,13 @@ export default function PremiumFooter() {
           <div className="flex flex-col gap-5">
 
             {/* Logo — white version */}
-           <a href="#" className="flex items-center w-fit">
-  <img
-    src="/images/arrowhead_logo_full.png"
-    alt="Arrowhead DigiTech"
-    className="h-16 w-auto object-contain"
-  />
-</a>
+            <a href="#" className="flex items-center w-fit">
+              <img
+                src="/images/arrowhead_logo_full.png"
+                alt="Arrowhead DigiTech"
+                className="h-16 w-auto object-contain"
+              />
+            </a>
 
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
               We build websites, AI-powered platforms, and performance marketing systems that actually grow businesses.
@@ -145,7 +145,7 @@ export default function PremiumFooter() {
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2">
-              {["150+ Clients", "250+ Projects", "12+ Years"].map((b) => (
+              {["150+ Clients", "250+ Projects", "10+ Years"].map((b) => (
                 <span key={b} className="text-[10px] font-700 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300">
                   {b}
                 </span>
@@ -182,9 +182,9 @@ export default function PremiumFooter() {
             <p className="text-[10px] font-800 uppercase tracking-widest text-brand-orange-400 mb-5">Contact</p>
             <div className="flex flex-col gap-4 mb-7">
               {[
-                { icon: Phone,  value: "+92 300 0955490",           href: "tel:+923000955490"                 },
-                { icon: Mail,   value: "info@arrowheaddigitech.com", href: "mailto:info@arrowheaddigitech.com" },
-                { icon: MapPin, value: "Lahore, Pakistan",           href: "https://maps.google.com/?q=Lahore" },
+                { icon: Phone, value: "+92 300 0955490", href: "tel:+923000955490" },
+                { icon: Mail, value: "info@arrowheaddigitech.com", href: "mailto:info@arrowheaddigitech.com" },
+                { icon: MapPin, value: "Lahore, Pakistan", href: "https://maps.google.com/?q=Lahore" },
               ].map(({ icon: Icon, value, href }) => (
                 <a key={value} href={href} target="_blank" rel="noreferrer"
                   className="flex items-center gap-3 text-sm text-slate-400 hover:text-white transition-colors group">

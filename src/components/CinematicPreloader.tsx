@@ -119,11 +119,7 @@ function LogoReveal({ stage }: { stage: number }) {
           className="w-full h-auto object-contain"
           draggable={false}
           style={{
-            /* Invert white-bg logo to work on dark preloader background.
-               The logo has a white background — we make it transparent using
-               CSS mix-blend-mode so the dark bg shows through. */
-            mixBlendMode: "multiply",
-            filter: "invert(1)",
+            /* Use original colors without any inversion or blending */
           }}
         />
 

@@ -5,10 +5,10 @@ import { ArrowRight, Rocket, TrendingUp, Globe2, Cpu, Users, FolderOpen, Zap, Aw
 /* ─── Milestone data ─────────────────────────────────── */
 const MILESTONES = [
   {
-    year: "2012",
+    year: "2016",
     chapter: "The Beginning",
     title: "Founded in Lahore",
-    body: "Arrowhead DigiTech was born with one conviction: most businesses are invisible online. We started as a lean digital consultancy helping local brands build their first credible web presence.",
+    body: "Arrowhead DigiTech was founded with one conviction: most businesses are invisible online. We started as a lean digital consultancy helping local brands build their first credible web presence.",
     achievements: ["First 3 clients onboarded", "Full-service web studio launched", "Lahore-based operations"],
     stat: { value: "3", label: "Founding Clients", sub: "Day 1" },
     icon: Rocket,
@@ -17,7 +17,7 @@ const MILESTONES = [
     borderColor: "rgba(255,90,31,0.15)",
   },
   {
-    year: "2016",
+    year: "2020",
     chapter: "The Growth",
     title: "Performance Marketing Unlocked",
     body: "We proved web development alone wasn't enough. By adding Google Ads and Meta Ads capabilities, client revenue tripled on average. A full team of developers, marketers, and designers formed.",
@@ -29,7 +29,7 @@ const MILESTONES = [
     borderColor: "rgba(59,130,246,0.15)",
   },
   {
-    year: "2020",
+    year: "2024",
     chapter: "Enterprise Scale",
     title: "International Projects",
     body: "We delivered landmark builds — YalaRide's car rental marketplace, America Needs Nurses' healthcare platform, Go Jetter Tours' travel brand. International clients began seeking us out for complex, growth-critical projects.",
@@ -41,7 +41,7 @@ const MILESTONES = [
     borderColor: "rgba(139,92,246,0.15)",
   },
   {
-    year: "2024",
+    year: "2026",
     chapter: "The Future",
     title: "AI-Powered Growth Systems",
     body: "Today we build AI-integrated websites, autonomous lead-routing chatbots, and full-stack digital growth infrastructure. 150+ clients. 250+ projects. 25+ industries. The mission stays the same — build things that actually grow businesses.",
@@ -56,10 +56,10 @@ const MILESTONES = [
 
 /* ─── Summary stats strip ────────────────────────────── */
 const SUMMARY = [
-  { icon: Users,      value: "150+", label: "Clients",   color: "#FF5A1F" },
-  { icon: FolderOpen, value: "250+", label: "Projects",  color: "#3B82F6" },
-  { icon: Zap,        value: "500+", label: "Campaigns", color: "#8B5CF6" },
-  { icon: Award,      value: "12+",  label: "Years",     color: "#10B981" },
+  { icon: Users, value: "150+", label: "Clients", color: "#FF5A1F" },
+  { icon: FolderOpen, value: "250+", label: "Projects", color: "#3B82F6" },
+  { icon: Zap, value: "500+", label: "Campaigns", color: "#8B5CF6" },
+  { icon: Award, value: "10+", label: "Years", color: "#10B981" },
 ];
 
 /* ─── Single milestone row ───────────────────────────── */
@@ -72,10 +72,10 @@ function MilestoneRow({ m, index, isLast }: {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "start 35%"] });
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const xLeft   = useTransform(scrollYProgress, [0, 1], [-28, 0]);
-  const xRight  = useTransform(scrollYProgress, [0, 1], [ 28, 0]);
+  const xLeft = useTransform(scrollYProgress, [0, 1], [-28, 0]);
+  const xRight = useTransform(scrollYProgress, [0, 1], [28, 0]);
 
-  const Icon   = m.icon;
+  const Icon = m.icon;
   const isEven = index % 2 === 0; /* even → card LEFT, odd → card RIGHT */
 
   return (
@@ -215,7 +215,7 @@ export default function StorytellingAbout() {
           <p className="section-label mb-3">Our Story</p>
           <div className="hr-accent mb-5" />
           <h2 className="text-4xl sm:text-5xl font-extrabold text-ink-900 leading-tight mb-4">
-            12 Years of Building{" "}
+            10 Years of Building{" "}
             <span className="text-gradient-orange">Things That Grow.</span>
           </h2>
           <p className="text-base text-ink-500 leading-relaxed">

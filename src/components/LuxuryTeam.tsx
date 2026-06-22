@@ -12,18 +12,18 @@ const LEADERS = [
     accentLight: "#fff8f5",
     photo: null,
     tagline: "The strategist behind every growth system.",
-    bio: "Waseeq built Arrowhead from a lean consultancy into a full-stack digital growth company trusted by brands across the US, UAE, and Pakistan. With over 12 years shaping digital strategy, he brings a rare blend of executive vision and hands-on execution — turning ambitious ideas into market-winning products.",
+    bio: "Waseeq built Arrowhead from a lean consultancy into a full-stack digital growth company trusted by brands across the US, UAE, and Pakistan. With over 10 years shaping digital strategy, he brings a rare blend of executive vision and hands-on execution — turning ambitious ideas into market-winning products.",
     specialties: ["Digital Strategy", "Brand Positioning", "Enterprise Growth", "Client Relations"],
   },
 ];
 
 /* ─── Supporting team ────────────────────────────────── */
 const TEAM = [
-  { name: "Usman Farooqi",    role: "Web Development Lead & PM",      initials: "UF", accent: "#3B82F6", focus: "Full-Stack Dev & Delivery",    icon: Code2      },
-  { name: "Zulqarnain Jutt",  role: "Marketing Strategist",           initials: "ZJ", accent: "#F59E0B", focus: "Paid Campaigns & Growth",       icon: TrendingUp },
-  { name: "Hammad Ahmad",     role: "Brand Growth Manager",           initials: "HA", accent: "#10B981", focus: "Brand Strategy & Identity",     icon: Award      },
-  { name: "Abeer Khurram",    role: "Web & Software Expert",          initials: "AK", accent: "#8B5CF6", focus: "Frontend & UI Engineering",     icon: Code2      },
-  { name: "Mohammad Kashan",  role: "Creative Analyst / Video Editor",initials: "MK", accent: "#EC4899", focus: "Video Production & Creatives",  icon: Users      },
+  { name: "Usman Farooqi", role: "Web Development Lead & PM", initials: "UF", accent: "#3B82F6", focus: "Full-Stack Dev & Delivery", icon: Code2 },
+  { name: "Zulqarnain Jutt", role: "Marketing Strategist", initials: "ZJ", accent: "#F59E0B", focus: "Paid Campaigns & Growth", icon: TrendingUp },
+  { name: "Hammad Ahmad", role: "Brand Growth Manager", initials: "HA", accent: "#10B981", focus: "Brand Strategy & Identity", icon: Award },
+  { name: "Abeer Khurram", role: "Web & Software Expert", initials: "AK", accent: "#8B5CF6", focus: "Frontend & UI Engineering", icon: Code2 },
+  { name: "Mohammad Kashan", role: "Creative Analyst / Video Editor", initials: "MK", accent: "#EC4899", focus: "Video Production & Creatives", icon: Users },
 ];
 
 /* ─── Waseeq spotlight card ──────────────────────────── */

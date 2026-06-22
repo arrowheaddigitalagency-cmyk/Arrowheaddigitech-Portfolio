@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ArrowRight, Monitor, Smartphone, TrendingUp, Star } from "lucide-react";
+import { ArrowRight, Monitor, TrendingUp, Star } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 /* ─── Animated counter ──────────────────────────────── */
@@ -74,41 +74,6 @@ function MacFrame({ image, alt, accent }: { image: string; alt: string; accent: 
   );
 }
 
-/* ─── Premium iPhone frame ───────────────────────────── */
-function PhoneFrame({ image, alt, accent }: { image: string; alt: string; accent: string }) {
-  return (
-    <div className="w-[130px] select-none mx-auto" style={{ filter: "drop-shadow(0 20px 44px rgba(10,13,20,0.22)) drop-shadow(0 4px 8px rgba(10,13,20,0.14))" }}>
-      <div className="relative bg-gradient-to-b from-[#2c2c2e] to-[#1a1a1c] rounded-[2.5rem] p-[9px] border border-[#3c3c3e]">
-        {/* Side buttons */}
-        <div className="absolute left-[-3px] top-[22%] w-[3px] h-6 bg-[#3c3c3e] rounded-l-sm" />
-        <div className="absolute left-[-3px] top-[34%] w-[3px] h-9 bg-[#3c3c3e] rounded-l-sm" />
-        <div className="absolute right-[-3px] top-[28%] w-[3px] h-12 bg-[#3c3c3e] rounded-r-sm" />
-        {/* Dynamic island */}
-        <div className="absolute top-[14px] left-1/2 -translate-x-1/2 w-[36%] h-[16px] bg-black rounded-full z-20 flex items-center justify-center gap-1.5">
-          <div className="w-[5px] h-[5px] rounded-full bg-[#2a2a2c]" />
-          <div className="w-[9px] h-[9px] rounded-full bg-[#2a2a2c]" />
-        </div>
-        {/* Screen */}
-        <div className="rounded-[2rem] overflow-hidden aspect-[9/19.5] bg-[#0f172a] relative">
-          <img src={image} alt={alt} className="w-full h-full object-cover object-top"
-            onError={(e) => { e.currentTarget.style.opacity = "0"; }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-950 to-slate-900 -z-10" />
-          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] to-transparent pointer-events-none z-10" />
-          {/* Status bar */}
-          <div className="absolute top-[18px] left-0 right-0 flex items-center justify-between px-4 z-20">
-            <span className="text-[7px] text-white/60 font-600">9:41</span>
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-1.5 rounded-sm border border-white/40 flex items-center px-[1px]">
-                <div className="h-full rounded-sm bg-white/60" style={{ width: "70%" }} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ─── Case data ──────────────────────────────────────── */
 const CASES = [
   {
@@ -124,7 +89,6 @@ const CASES = [
     solution: "Built a custom React marketplace with dual dashboards, then launched targeted Google & Meta campaigns.",
     tech: ["React", "Node.js", "PostgreSQL", "Google Ads", "Meta Ads", "SEO"],
     desktopImg: "/images/yalaride_web_portal_1781815990359.jpg",
-    mobileImg: "/images/yalaride_macbook_screenshot.jpg.png",
     metrics: [
       { label: "Organic Visibility",  value: 160, suffix: "%", icon: TrendingUp },
       { label: "Monthly Leads",        value: 190, suffix: "%", icon: TrendingUp },
@@ -149,7 +113,6 @@ const CASES = [
     solution: "Designed separate recruiter and nurse-facing interfaces, then launched brand awareness campaigns across Google and Meta.",
     tech: ["React", "TypeScript", "REST API", "Google Ads", "Meta Ads", "App Store"],
     desktopImg: "/images/nurses_recruiter_portal_1781816032234.jpg",
-    mobileImg: "/images/america_needs_nurses_iphone_screenshot.jpg.png",
     metrics: [
       { label: "App Installs",         value: 140, suffix: "%", icon: TrendingUp },
       { label: "Job Applications",     value: 110, suffix: "%", icon: TrendingUp },
@@ -174,7 +137,6 @@ const CASES = [
     solution: "Complete brand build — identity, WordPress site, and simultaneous Google + Meta launch.",
     tech: ["WordPress", "WooCommerce", "Google Ads", "Meta Ads", "SEO", "Email Marketing"],
     desktopImg: "/images/go_jetter_macbook_screenshot.jpg.png",
-    mobileImg: "/images/rrowhead_experts_team_1781816010797.jpg",
     metrics: [
       { label: "Travel Leads",       value: 190, suffix: "%", icon: TrendingUp },
       { label: "Tour Bookings",      value: 130, suffix: "%", icon: TrendingUp },
@@ -186,16 +148,62 @@ const CASES = [
     quoteRole: "UAE",
     quotePhoto: null,
   },
+  {
+    id: "atlantacar",
+    client: "Atlanta Car Rental",
+    tagline: "Premium Rental Booking · USA",
+    industry: "Automotive",
+    logo: "/images/client-logos/atlanta-car-rental.png",
+    accent: "#F59E0B",
+    accentLight: "#fffcf0",
+    overview: "Atlanta Car Rental required a streamlined online booking system to transition away from manual reservations, along with a digital footprint to attract local and airport traffic.",
+    challenge: "High competition in the Atlanta area and outdated manual booking processes.",
+    solution: "Developed an automated booking engine with dynamic pricing, integrated with hyper-local Google Search campaigns.",
+    tech: ["React", "Stripe API", "Google Ads", "Local SEO", "Node.js"],
+    desktopImg: "/images/yalaride_web_portal_1781815990359.jpg",
+    metrics: [
+      { label: "Online Bookings",    value: 210, suffix: "%", icon: TrendingUp },
+      { label: "Manual Work Saved",  value: 80,  suffix: "%", icon: TrendingUp },
+      { label: "Local Search Rank",  value: 1,   suffix: "st", icon: Star },
+      { label: "Revenue Growth",     value: 65,  suffix: "%", icon: TrendingUp },
+    ],
+    quote: "The new booking system eliminated our administrative overhead and drastically improved customer experience.",
+    quoteAuthor: "Atlanta Car Team",
+    quoteRole: "USA",
+    quotePhoto: null,
+  },
+  {
+    id: "priceless",
+    client: "Priceless Car Rental",
+    tagline: "Corporate Fleet Rentals · USA",
+    industry: "Automotive",
+    logo: "/images/client-logos/priceless-rentacar.png",
+    accent: "#8B5CF6",
+    accentLight: "#f5f3ff",
+    overview: "Priceless Car Rental needed to modernize their corporate fleet management and consumer rental portal to scale their operations across multiple new locations.",
+    challenge: "Managing a large growing fleet with disparate systems that didn't talk to each other.",
+    solution: "Engineered a unified dashboard for fleet tracking and a high-performance consumer storefront.",
+    tech: ["Next.js", "GraphQL", "AWS", "Google Ads", "Meta Ads"],
+    desktopImg: "/images/yalaride_web_portal_1781815990359.jpg",
+    metrics: [
+      { label: "Fleet Utilization",  value: 95, suffix: "%", icon: TrendingUp },
+      { label: "User Acquisition",   value: 150, suffix: "%", icon: TrendingUp },
+      { label: "System Uptime",      value: 99, suffix: "%", icon: TrendingUp },
+      { label: "New Locations",      value: 3,  suffix: "+", icon: Star },
+    ],
+    quote: "Our operational efficiency skyrocketed once Arrowhead unified our fleet management system.",
+    quoteAuthor: "Priceless Team",
+    quoteRole: "USA",
+    quotePhoto: null,
+  }
 ];
 
 /* ─── Main component ─────────────────────────────────── */
 export default function PremiumCaseStudies() {
   const [activeCase, setActiveCase] = useState(0);
-  const [activeTab,  setActiveTab]  = useState<"desktop" | "mobile">("desktop");
   const current = CASES[activeCase];
 
-  // Reset tab on case change
-  const handleCaseChange = (i: number) => { setActiveCase(i); setActiveTab("desktop"); };
+  const handleCaseChange = (i: number) => { setActiveCase(i); };
 
   return (
     <section id="work" className="relative bg-surface-1 section-pad overflow-hidden">
@@ -260,23 +268,12 @@ export default function PremiumCaseStudies() {
                 {/* LEFT: Device showcase */}
                 <div className="p-8 sm:p-10 border-r border-ink-100">
 
-                  {/* Device toggle */}
+                  {/* Device label */}
                   <div className="flex items-center gap-2 mb-6">
-                    {(["desktop", "mobile"] as const).map((tab) => (
-                      <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-700 border transition-all duration-200 ${
-                          activeTab === tab
-                            ? "text-white border-transparent"
-                            : "bg-white text-ink-500 border-ink-200 hover:border-ink-300"
-                        }`}
-                        style={activeTab === tab ? { background: current.accent, borderColor: current.accent } : {}}
-                      >
-                        {tab === "desktop" ? <Monitor className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
-                        {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                      </button>
-                    ))}
+                    <div className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-700 border border-transparent text-white" style={{ background: current.accent }}>
+                      <Monitor className="w-3.5 h-3.5" />
+                      Desktop Platform
+                    </div>
                     <span className="ml-auto text-[10px] font-600 text-ink-400 uppercase tracking-wider">{current.tagline}</span>
                   </div>
 
@@ -285,20 +282,14 @@ export default function PremiumCaseStudies() {
                     className="rounded-2xl flex items-center justify-center overflow-hidden"
                     style={{
                       background: current.accentLight,
-                      padding: activeTab === "desktop" ? "2.5rem 2rem" : "2.5rem",
+                      padding: "2.5rem 2rem",
                       minHeight: "320px",
                     }}
                   >
                     <AnimatePresence mode="wait">
-                      {activeTab === "desktop" ? (
-                        <motion.div key="mac" initial={{ opacity: 0, scale: 0.93, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: -8 }} transition={{ duration: 0.3, ease: [0.16,1,0.3,1] }} className="w-full max-w-2xl">
-                          <MacFrame image={current.desktopImg} alt={current.client} accent={current.accent} />
-                        </motion.div>
-                      ) : (
-                        <motion.div key="phone" initial={{ opacity: 0, scale: 0.93, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: -8 }} transition={{ duration: 0.3, ease: [0.16,1,0.3,1] }}>
-                          <PhoneFrame image={current.mobileImg} alt={current.client} accent={current.accent} />
-                        </motion.div>
-                      )}
+                      <motion.div key="mac" initial={{ opacity: 0, scale: 0.93, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: -8 }} transition={{ duration: 0.3, ease: [0.16,1,0.3,1] }} className="w-full max-w-2xl">
+                        <MacFrame image={current.desktopImg} alt={current.client} accent={current.accent} />
+                      </motion.div>
                     </AnimatePresence>
                   </div>
 

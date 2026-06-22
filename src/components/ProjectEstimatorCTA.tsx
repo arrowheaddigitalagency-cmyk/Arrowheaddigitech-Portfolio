@@ -222,12 +222,10 @@ export default function ProjectEstimatorCTA() {
       : form.budget;
 
     try {
-      await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: "3f947f04-efd8-40d7-bf64-829010e2ae72",
-          subject: `New enquiry from ${form.name} — Arrowhead DigiTech`,
           name:    form.name,
           email:   form.email,
           phone:   form.phone,
@@ -236,6 +234,7 @@ export default function ProjectEstimatorCTA() {
           message: form.message,
         }),
       });
+      if (!res.ok) throw new Error("Submission failed");
       setSubmitted(true);
       setForm({ name: "", email: "", phone: "", service: "", otherService: "", budget: "", customBudget: "", message: "" });
       setErrors({});
