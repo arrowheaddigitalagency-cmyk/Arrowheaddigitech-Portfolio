@@ -116,7 +116,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const adminEmailResult = await resend.emails.send({
       from: 'Arrowhead DigiTech <noreply@arrowheaddigitech-portfolio.com>',
       to: 'arrowhead.digital.agency@gmail.com',
-      reply_to: 'arrowhead.digital.agency@gmail.com',
+      replyTo: 'arrowhead.digital.agency@gmail.com',
       subject: 'New Project Inquiry - Arrowhead DigiTech',
       html: adminHtml,
     });
@@ -130,7 +130,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const userEmailResult = await resend.emails.send({
       from: 'Arrowhead DigiTech <noreply@arrowheaddigitech-portfolio.com>',
       to: email,
-      reply_to: 'arrowhead.digital.agency@gmail.com',
+      replyTo: 'arrowhead.digital.agency@gmail.com',
       subject: 'We Received Your Inquiry - Arrowhead DigiTech',
       html: userHtml,
     });

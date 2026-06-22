@@ -97,7 +97,7 @@ const SERVICES = [
     outcome: "A scalable paid social engine generating consistent leads.",
     metric: { value: "-42%", label: "Cost Per Lead" },
     features: ["Audience segmentation", "Creative testing framework", "Retargeting funnels", "Cross-platform reporting"],
-    image: "/images/services/meta-ads.jpg",
+    image: "/images/services/meta-ads-new.png",
   },
   {
     id: "seo",           icon: Globe,         color: "#FF5A1F",
