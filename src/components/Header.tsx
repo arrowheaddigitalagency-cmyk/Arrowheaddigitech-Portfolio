@@ -3,17 +3,17 @@ import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 const NAV_LINKS = [
-  { name: "Services",    href: "#services"     },
-  { name: "Work",        href: "#work"          },
-  { name: "About",       href: "#about"         },
-  { name: "Process",     href: "#process"       },
-  { name: "Team",        href: "#team"          },
+  { name: "Services", href: "#services" },
+  { name: "Work", href: "#work" },
+  { name: "About", href: "#about" },
+  { name: "Process", href: "#process" },
+  { name: "Team", href: "#team" },
 ];
 
 export default function Header() {
-  const [scrolled,    setScrolled]    = useState(false);
-  const [mobileOpen,  setMobileOpen]  = useState(false);
-  const [activeLink,  setActiveLink]  = useState("");
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -31,18 +31,17 @@ export default function Header() {
     <>
       {/* ─── Desktop / Tablet Header ─────────────────────── */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
-          scrolled
-            ? "glass-white shadow-[0_1px_0_rgba(10,13,20,0.06),0_4px_16px_rgba(10,13,20,0.06)] py-3"
-            : "bg-transparent py-5"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${scrolled
+          ? "glass-white shadow-[0_1px_0_rgba(10,13,20,0.06),0_4px_16px_rgba(10,13,20,0.06)] py-3"
+          : "bg-transparent py-5"
+          }`}
       >
         <div className="container-xl flex items-center justify-between">
 
           {/* Logo */}
           <a href="#" className="flex items-center gap-0 shrink-0">
             <img
-              src="/src/assets/images/arrowhead_logo.png"
+              src="/images/arrowhead_black.png"
               alt="Arrowhead DigiTech"
               className="h-9 w-auto object-contain"
               style={{ imageRendering: "crisp-edges" }}
@@ -77,7 +76,7 @@ export default function Header() {
               href="tel:+923000955490"
               className="text-xs font-700 text-ink-500 hover:text-ink-900 transition-colors tracking-wide hidden lg:block"
             >
-              +92 300 0955490
+
             </a>
             <a href="#contact" className="btn-primary btn-primary-shimmer text-sm py-2.5 px-5">
               Book Strategy Call
@@ -110,7 +109,7 @@ export default function Header() {
             <div className="flex items-center justify-between px-6 py-5 border-b border-ink-100">
               <a href="#" className="flex items-center" onClick={() => setMobileOpen(false)}>
                 <img
-                  src="/src/assets/images/arrowhead_logo.png"
+                  src="/images/arrowhead_black.png"
                   alt="Arrowhead DigiTech"
                   className="h-8 w-auto object-contain"
                 />

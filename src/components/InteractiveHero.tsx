@@ -353,15 +353,14 @@ export default function InteractiveHero() {
             {[0, 1].map((pass) => (
               <div key={pass} className="flex items-center shrink-0">
                 {[
-                  { name: "YalaRide",            logo: "/src/assets/images/client-logos/yalaride.png"           },
-                  { name: "America Needs Nurses", logo: "/src/assets/images/client-logos/america-needs-nurses.png" },
-                  { name: "Go Jetter Tours",      logo: "/src/assets/images/client-logos/go-jetter-tours.png"   },
-                  { name: "Priceless Rent-A-Car", logo: "/src/assets/images/client-logos/priceless-rentacar.png"},
-                  { name: "Cars Compound",        logo: "/src/assets/images/client-logos/cars-compound.png"     },
-                  { name: "Atlanta Car Rental",   logo: "/src/assets/images/client-logos/atlanta-car-rental.png"},
-                  { name: "Drive Kleen",          logo: "/src/assets/images/client-logos/drive-kleen.png"       },
-                  { name: "VIP Cars",             logo: "/src/assets/images/client-logos/vip-cars.png"          },
-                  { name: "Moiz & Sons Elevator", logo: "/src/assets/images/client-logos/moiz-sons-elevator.png"},
+                  { name: "YalaRide",            logo: "/images/client-logos/yalaride.png"           },
+                  { name: "America Needs Nurses", logo: "/images/client-logos/america-needs-nurses.png" },
+                  { name: "Go Jetter Tours",      logo: "/images/client-logos/go-jetter-tours.png"   },
+                  { name: "Priceless Rent-A-Car", logo: "/images/client-logos/priceless-rentacar.png"},
+                  { name: "Cars Compound",        logo: "/images/client-logos/cars-compound.png"     },
+                  { name: "Atlanta Car Rental",   logo: "/images/client-logos/atlanta-car-rental.png"},
+                  { name: "Drive Kleen",          logo: "/images/client-logos/drive-kleen.png"       },
+                  { name: "VIP Cars",             logo: "/images/client-logos/vip-cars.png"          },
                 ].map((client) => (
                   <div
                     key={`${pass}-${client.name}`}

@@ -114,7 +114,7 @@ function LogoReveal({ stage }: { stage: number }) {
       >
         {/* The actual logo */}
         <img
-          src="/src/assets/images/arrowhead_logo_full.png"
+          src="/images/arrowhead_logo_full.png"
           alt="Arrowhead DigiTech"
           className="w-full h-auto object-contain"
           draggable={false}

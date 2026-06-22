@@ -118,13 +118,13 @@ export default function PremiumFooter() {
           <div className="flex flex-col gap-5">
 
             {/* Logo — white version */}
-            <a href="#" className="flex items-center w-fit">
-              <img
-                src="/src/assets/images/arrowhead_logo.png"
-                alt="Arrowhead DigiTech"
-                className="h-10 w-auto object-contain brightness-0 invert"
-              />
-            </a>
+           <a href="#" className="flex items-center w-fit">
+  <img
+    src="/images/arrowhead_logo_full.png"
+    alt="Arrowhead DigiTech"
+    className="h-16 w-auto object-contain"
+  />
+</a>
 
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
               We build websites, AI-powered platforms, and performance marketing systems that actually grow businesses.
