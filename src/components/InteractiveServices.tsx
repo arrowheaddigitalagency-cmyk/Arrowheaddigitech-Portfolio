@@ -8,194 +8,31 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-/* ─── Inline SVG dashboard previews ─────────────────── */
-
-function WebDevPreview({ color }: { color: string }) {
+/* ─── Premium Browser Frame ──────────────────────────── */
+function BrowserFrame({ image, alt, accent }: { image: string; alt: string; accent: string }) {
   return (
-    <div className="preview-window w-full">
-      <div className="preview-window-bar">
-        <div className="preview-dot bg-[#ff5f57]" />
-        <div className="preview-dot bg-[#ffbd2e]" />
-        <div className="preview-dot bg-[#28c840]" />
-        <div className="flex-1 mx-2 h-3 bg-ink-100 rounded-full" />
-      </div>
-      <div className="bg-white p-4 space-y-3">
-        {/* Hero row */}
-        <div className="flex gap-3">
-          <div className="flex-1 space-y-2">
-            <div className="h-4 rounded-md w-3/4" style={{ background: `${color}25` }} />
-            <div className="h-3 rounded-md w-full bg-ink-100" />
-            <div className="h-3 rounded-md w-5/6 bg-ink-100" />
-            <div className="h-7 rounded-lg w-28 mt-2" style={{ background: color }} />
-          </div>
-          <div className="w-24 h-20 rounded-xl bg-ink-50 border border-ink-100 flex items-center justify-center shrink-0">
-            <Globe className="w-8 h-8 text-ink-200" />
+    <div className="w-full select-none" style={{ filter: "drop-shadow(0 28px 56px rgba(10,13,20,0.18)) drop-shadow(0 6px 12px rgba(10,13,20,0.1))" }}>
+      <div className="bg-[#f5f5f7] rounded-t-[12px] border-t border-x border-[#d4d4d6]">
+        {/* Browser bar */}
+        <div className="h-[32px] flex items-center px-4 gap-2 z-20">
+          <div className="w-[10px] h-[10px] rounded-full bg-[#ff5f57]" />
+          <div className="w-[10px] h-[10px] rounded-full bg-[#ffbd2e]" />
+          <div className="w-[10px] h-[10px] rounded-full bg-[#28c840]" />
+          <div className="flex-1 mx-4 bg-[#e9e9eb] rounded-md h-[20px] flex items-center px-3 border border-[#d4d4d6]">
+            <div className="w-2 h-2 rounded-sm mr-2" style={{ background: accent + "80" }} />
+            <span className="text-[10px] text-[#888] truncate">{alt}</span>
           </div>
         </div>
-        {/* Stats row */}
-        <div className="grid grid-cols-3 gap-2 pt-2 border-t border-ink-100">
-          {["3.2x", "99+", "↑145%"].map((v, i) => (
-            <div key={i} className="bg-ink-50 rounded-lg p-2 text-center">
-              <p className="text-xs font-800 text-ink-800">{v}</p>
-            </div>
-          ))}
+        {/* Screen */}
+        <div className="w-full aspect-[4/3] bg-[#0f172a] overflow-hidden relative border-t border-[#d4d4d6]">
+          <img
+            src={image} alt={alt}
+            className="absolute inset-0 w-full h-full object-cover object-top"
+            onError={(e) => { e.currentTarget.style.opacity = "0"; }}
+          />
         </div>
       </div>
-    </div>
-  );
-}
-
-function AdsPreview({ color }: { color: string }) {
-  const bars = [35, 52, 44, 68, 55, 82, 64, 90, 72, 96];
-  return (
-    <div className="preview-window w-full">
-      <div className="preview-window-bar">
-        <div className="preview-dot bg-[#ff5f57]" /><div className="preview-dot bg-[#ffbd2e]" /><div className="preview-dot bg-[#28c840]" />
-        <span className="text-[9px] text-ink-400 ml-2">Google Ads Dashboard</span>
-      </div>
-      <div className="bg-white p-4">
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <p className="text-[10px] text-ink-400 font-600 uppercase tracking-widest">Return on Ad Spend</p>
-            <p className="text-2xl font-extrabold text-ink-900">4.8<span className="text-sm font-600">x</span></p>
-          </div>
-          <span className="text-[10px] font-700 text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full">↑ 38%</span>
-        </div>
-        <div className="flex items-end gap-1 h-14 mb-3">
-          {bars.map((h, i) => (
-            <div key={i} className="flex-1 rounded-sm transition-all"
-              style={{ height: `${h}%`, background: i >= 7 ? color : `${color}40` }} />
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          <div className="bg-ink-50 rounded-lg p-2">
-            <p className="text-[9px] text-ink-400 font-600">CPA</p>
-            <p className="text-sm font-800 text-ink-900">-42%</p>
-          </div>
-          <div className="bg-ink-50 rounded-lg p-2">
-            <p className="text-[9px] text-ink-400 font-600">Conv. Rate</p>
-            <p className="text-sm font-800 text-ink-900">6.4%</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AiChatPreview({ color }: { color: string }) {
-  const msgs = [
-    { from: "user", text: "What's your pricing?" },
-    { from: "bot",  text: "Happy to help! Our plans start from $499/mo. Want me to book a call?" },
-    { from: "user", text: "Yes please" },
-    { from: "bot",  text: "✅ Call booked for tomorrow 10am. You'll get a confirmation email." },
-  ];
-  return (
-    <div className="preview-window w-full">
-      <div className="preview-window-bar">
-        <div className="preview-dot bg-[#ff5f57]" /><div className="preview-dot bg-[#ffbd2e]" /><div className="preview-dot bg-[#28c840]" />
-        <div className="flex items-center gap-1.5 ml-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span className="text-[9px] text-ink-500">AI Assistant · Online</span>
-        </div>
-      </div>
-      <div className="bg-white p-3 space-y-2 min-h-[120px]">
-        {msgs.map((m, i) => (
-          <div key={i} className={`flex ${m.from === "user" ? "justify-end" : "justify-start"}`}>
-            <div className="px-3 py-1.5 rounded-xl text-[10px] font-500 max-w-[80%]"
-              style={m.from === "bot"
-                ? { background: `${color}12`, color: "#1f2937", border: `1px solid ${color}25` }
-                : { background: "#f3f4f6", color: "#1f2937" }}>
-              {m.text}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SeoPreview({ color }: { color: string }) {
-  const keywords = [
-    { kw: "car rental lahore",    pos: 1, vol: "2.4k" },
-    { kw: "rent a car near me",   pos: 3, vol: "8.1k" },
-    { kw: "affordable car hire",  pos: 2, vol: "1.9k" },
-  ];
-  return (
-    <div className="preview-window w-full">
-      <div className="preview-window-bar">
-        <div className="preview-dot bg-[#ff5f57]" /><div className="preview-dot bg-[#ffbd2e]" /><div className="preview-dot bg-[#28c840]" />
-        <span className="text-[9px] text-ink-400 ml-2">SEO Rankings</span>
-      </div>
-      <div className="bg-white p-4">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-[10px] font-700 text-ink-500 uppercase tracking-widest">Keyword Positions</p>
-          <span className="text-[10px] font-700 text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+300% traffic</span>
-        </div>
-        <div className="space-y-2">
-          {keywords.map((k) => (
-            <div key={k.kw} className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-800 text-white shrink-0"
-                style={{ background: k.pos === 1 ? "#f59e0b" : color }}>
-                #{k.pos}
-              </div>
-              <p className="flex-1 text-[10px] font-600 text-ink-700 truncate">{k.kw}</p>
-              <span className="text-[9px] text-ink-400">{k.vol}/mo</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function EcomPreview({ color }: { color: string }) {
-  const products = [
-    { name: "Pro Package", price: "$299", sales: 142 },
-    { name: "Starter Kit",  price: "$99",  sales: 381 },
-    { name: "Enterprise",   price: "$999", sales: 28  },
-  ];
-  return (
-    <div className="preview-window w-full">
-      <div className="preview-window-bar">
-        <div className="preview-dot bg-[#ff5f57]" /><div className="preview-dot bg-[#ffbd2e]" /><div className="preview-dot bg-[#28c840]" />
-        <span className="text-[9px] text-ink-400 ml-2">Store Dashboard</span>
-      </div>
-      <div className="bg-white p-4">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <p className="text-[9px] text-ink-400 font-600 uppercase tracking-widest">Total Revenue</p>
-            <p className="text-xl font-extrabold text-ink-900">$84,210</p>
-          </div>
-          <span className="text-[10px] font-700 text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">+180%</span>
-        </div>
-        <div className="space-y-1.5">
-          {products.map((p) => (
-            <div key={p.name} className="flex items-center gap-2 py-1.5 border-b border-ink-50 last:border-0">
-              <div className="w-1.5 h-6 rounded-full shrink-0" style={{ background: color }} />
-              <p className="flex-1 text-[10px] font-600 text-ink-700">{p.name}</p>
-              <span className="text-[10px] font-800 text-ink-900">{p.price}</span>
-              <span className="text-[9px] text-ink-400">{p.sales} sold</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function GenericPreview({ color, icon: Icon, label }: { color: string; icon: React.ElementType; label: string }) {
-  const IconComponent = Icon as React.FC<{ className?: string; style?: React.CSSProperties }>;
-  return (
-    <div className="preview-window w-full">
-      <div className="preview-window-bar">
-        <div className="preview-dot bg-[#ff5f57]" /><div className="preview-dot bg-[#ffbd2e]" /><div className="preview-dot bg-[#28c840]" />
-      </div>
-      <div className="bg-white p-6 flex flex-col items-center justify-center min-h-[120px] gap-3">
-        <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: `${color}15` }}>
-          <IconComponent className="w-6 h-6" style={{ color }} />
-        </div>
-        <p className="text-xs font-700 text-ink-400 text-center">{label}</p>
-      </div>
+      <div className="h-[12px] bg-gradient-to-b from-[#e2e3e5] to-[#d4d5d7] rounded-b-[12px] border-x border-b border-[#c0c1c3]" />
     </div>
   );
 }
@@ -210,7 +47,7 @@ const SERVICES = [
     outcome: "A conversion-ready website that represents your brand at its best.",
     metric: { value: "3.2x", label: "Avg. Conversion Lift" },
     features: ["Custom design & development", "Mobile-first responsive build", "CMS integration", "Performance optimized"],
-    preview: "web",
+    image: "/images/services/website-development.jpg",
   },
   {
     id: "wordpress",     icon: Layout,        color: "#3B82F6",
@@ -220,7 +57,7 @@ const SERVICES = [
     outcome: "A powerful, manageable WordPress platform your team can own.",
     metric: { value: "99+", label: "PageSpeed Score" },
     features: ["Custom theme development", "Plugin architecture", "WooCommerce integration", "SEO-ready markup"],
-    preview: "web",
+    image: "/images/services/wordpress-development.jpg",
   },
   {
     id: "ai-website",    icon: Bot,           color: "#8B5CF6",
@@ -230,7 +67,7 @@ const SERVICES = [
     outcome: "A website that actively generates business, not just receives visitors.",
     metric: { value: "24/7", label: "Lead Qualification" },
     features: ["AI content personalization", "Automated lead scoring", "Smart CTAs", "Behavioral analytics"],
-    preview: "ai",
+    image: "/images/services/ai-website-creation.jpg",
   },
   {
     id: "landing-pages", icon: Target,        color: "#F59E0B",
@@ -240,7 +77,7 @@ const SERVICES = [
     outcome: "Campaign-ready pages that dramatically lower your cost per lead.",
     metric: { value: "65%", label: "Higher Conversion Rate" },
     features: ["A/B test ready", "Campaign-specific copy", "Fast load times", "Analytics built in"],
-    preview: "web",
+    image: "/images/services/landing-pages.jpg",
   },
   {
     id: "google-ads",    icon: Search,        color: "#10B981",
@@ -250,7 +87,7 @@ const SERVICES = [
     outcome: "Predictable lead flow with transparent ROI reporting.",
     metric: { value: "4.8x", label: "Average ROAS" },
     features: ["Search & Display campaigns", "Smart bidding strategies", "Negative keyword management", "Weekly performance reports"],
-    preview: "ads",
+    image: "/images/services/google-ads.jpg",
   },
   {
     id: "meta-ads",      icon: Megaphone,     color: "#3B82F6",
@@ -260,7 +97,7 @@ const SERVICES = [
     outcome: "A scalable paid social engine generating consistent leads.",
     metric: { value: "-42%", label: "Cost Per Lead" },
     features: ["Audience segmentation", "Creative testing framework", "Retargeting funnels", "Cross-platform reporting"],
-    preview: "ads",
+    image: "/images/services/meta-ads.jpg",
   },
   {
     id: "seo",           icon: Globe,         color: "#FF5A1F",
@@ -270,7 +107,7 @@ const SERVICES = [
     outcome: "Sustainable organic traffic that compounds over time.",
     metric: { value: "+300%", label: "Organic Traffic Growth" },
     features: ["Technical SEO audit", "Google Business optimization", "Local citation building", "Monthly ranking reports"],
-    preview: "seo",
+    image: "/images/services/seo-local-seo.jpg",
   },
   {
     id: "ecommerce",     icon: ShoppingBag,   color: "#EC4899",
@@ -280,7 +117,7 @@ const SERVICES = [
     outcome: "A revenue-generating e-commerce platform with zero friction checkout.",
     metric: { value: "+180%", label: "Average Revenue Increase" },
     features: ["Shopify & WooCommerce", "Custom checkout optimization", "Inventory management", "Payment gateway integration"],
-    preview: "ecom",
+    image: "/images/services/ecommerce.jpg",
   },
   {
     id: "ai-chatbots",   icon: MessageSquare, color: "#8B5CF6",
@@ -290,7 +127,7 @@ const SERVICES = [
     outcome: "Never miss a lead again. Automated qualification 24/7.",
     metric: { value: "3x", label: "More Leads Captured" },
     features: ["Custom AI training", "CRM integration", "Multi-channel deployment", "Lead qualification flows"],
-    preview: "ai",
+    image: "/images/services/ai-chatbot.jpg",
   },
   {
     id: "website-mgmt",  icon: Settings,      color: "#10B981",
@@ -300,21 +137,13 @@ const SERVICES = [
     outcome: "Peace of mind that your website is always performing at its best.",
     metric: { value: "99.9%", label: "Uptime Guarantee" },
     features: ["Monthly updates & backups", "Security monitoring", "Performance audits", "Priority support"],
-    preview: "generic-settings",
+    image: "/images/services/website-management.jpg",
   },
 ];
 
 /* ─── Preview renderer ───────────────────────────────── */
 function ServicePreview({ service }: { service: typeof SERVICES[0] }) {
-  const Icon = service.icon;
-  switch (service.preview) {
-    case "web":   return <WebDevPreview  color={service.color} />;
-    case "ads":   return <AdsPreview     color={service.color} />;
-    case "ai":    return <AiChatPreview  color={service.color} />;
-    case "seo":   return <SeoPreview     color={service.color} />;
-    case "ecom":  return <EcomPreview    color={service.color} />;
-    default:      return <GenericPreview color={service.color} icon={Icon} label={service.title} />;
-  }
+  return <BrowserFrame image={service.image} alt={service.title} accent={service.color} />;
 }
 
 /* ─── Sidebar service button ─────────────────────────── */

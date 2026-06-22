@@ -10,11 +10,11 @@ import { motion, AnimatePresence } from "motion/react";
    CONSTANTS
 ───────────────────────────────────────────────────── */
 const BUDGETS = [
-  { label: "$1k – $5k",  value: "1k-5k"  },
+  { label: "$1k – $5k", value: "1k-5k" },
   { label: "$5k – $15k", value: "5k-15k" },
-  { label: "$15k – $50k",value: "15k-50k"},
-  { label: "$50k+",      value: "50k+"   },
-  { label: "Custom",     value: "custom" },
+  { label: "$15k – $50k", value: "15k-50k" },
+  { label: "$50k+", value: "50k+" },
+  { label: "Custom", value: "custom" },
 ];
 
 const SERVICE_OPTIONS = [
@@ -32,9 +32,9 @@ const SERVICE_OPTIONS = [
 ];
 
 const TRUST_POINTS = [
-  { icon: Clock,        color: "#10B981", title: "Response in under 24 hours", sub: "Guaranteed during business hours."   },
-  { icon: ShieldCheck,  color: "#3B82F6", title: "NDA & confidentiality first", sub: "Your project details stay protected."},
-  { icon: CheckCircle2, color: "#FF5A1F", title: "No obligation discovery call", sub: "Free strategy session. No hard sell."},
+  { icon: Clock, color: "#10B981", title: "Response in under 4 hours", sub: "Guaranteed during business hours." },
+  { icon: ShieldCheck, color: "#3B82F6", title: "NDA & confidentiality first", sub: "Your project details stay protected." },
+  { icon: CheckCircle2, color: "#FF5A1F", title: "No obligation discovery call", sub: "Free strategy session. No hard sell." },
 ];
 
 /* ─────────────────────────────────────────────────────
@@ -54,8 +54,8 @@ interface DropdownProps {
 }
 
 function ServiceDropdown({ value, onChange }: DropdownProps) {
-  const [open, setOpen]       = useState(false);
-  const containerRef           = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const displayLabel = value || "Select a service…";
 
   /* Close on outside click */
@@ -116,8 +116,8 @@ function ServiceDropdown({ value, onChange }: DropdownProps) {
           <motion.ul
             role="listbox"
             initial={{ opacity: 0, y: -6, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0,  scale: 1    }}
-            exit={{    opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             className={[
               "absolute left-0 right-0 z-50 mt-1.5",
@@ -128,7 +128,7 @@ function ServiceDropdown({ value, onChange }: DropdownProps) {
           >
             {SERVICE_OPTIONS.map((opt) => {
               const isSelected = value === opt;
-              const isOther    = opt === "Other";
+              const isOther = opt === "Other";
               return (
                 <li
                   key={opt}
@@ -169,17 +169,17 @@ export default function ProjectEstimatorCTA() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
-  const [loading,   setLoading]   = useState(false);
-  const [errors,    setErrors]    = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   /* ── Derived state ─────────────────────────── */
-  const showOtherField   = form.service === "Other";
-  const showCustomBudget = form.budget  === "custom";
+  const showOtherField = form.service === "Other";
+  const showCustomBudget = form.budget === "custom";
 
   /* ── Validation ────────────────────────────── */
   const validate = () => {
     const e: Record<string, string> = {};
-    if (!form.name.trim())  e.name  = "Name is required";
+    if (!form.name.trim()) e.name = "Name is required";
     if (!form.email.trim()) e.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = "Enter a valid email";
     if (showOtherField && !form.otherService.trim())
@@ -217,7 +217,7 @@ export default function ProjectEstimatorCTA() {
     const effectiveService = form.service === "Other"
       ? `Other: ${form.otherService}`
       : form.service;
-    const effectiveBudget  = form.budget === "custom"
+    const effectiveBudget = form.budget === "custom"
       ? `Custom: ${form.customBudget}`
       : form.budget;
 
@@ -226,11 +226,11 @@ export default function ProjectEstimatorCTA() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name:    form.name,
-          email:   form.email,
-          phone:   form.phone,
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
           service: effectiveService,
-          budget:  effectiveBudget,
+          budget: effectiveBudget,
           message: form.message,
         }),
       });
@@ -276,7 +276,7 @@ export default function ProjectEstimatorCTA() {
             <span className="text-gradient-orange">Business Together.</span>
           </h2>
           <p className="text-base text-ink-500 leading-relaxed">
-            Tell us about your project. We'll review it and come back to you within 24 hours with honest advice — not a sales pitch.
+            Tell us about your project. We'll review it and come back to you within 4 hours with honest advice — not a sales pitch.
           </p>
         </div>
 
@@ -289,9 +289,9 @@ export default function ProjectEstimatorCTA() {
               <h3 className="text-lg font-800 text-ink-900 mb-5">Contact Us Directly</h3>
               <div className="flex flex-col gap-4">
                 {[
-                  { icon: Phone,  label: "Phone",    value: "+92 300 0955490",           href: "tel:+923000955490"                 },
-                  { icon: Mail,   label: "Email",    value: "info@arrowheaddigitech.com", href: "mailto:info@arrowheaddigitech.com" },
-                  { icon: MapPin, label: "Location", value: "Lahore, Pakistan",           href: "https://maps.google.com/?q=Lahore" },
+                  { icon: Phone, label: "Phone", value: "+92 300 0955490", href: "tel:+923000955490" },
+                  { icon: Mail, label: "Email", value: "info@arrowheaddigitech.com", href: "mailto:info@arrowheaddigitech.com" },
+                  { icon: MapPin, label: "Location", value: "Lahore, Pakistan", href: "https://maps.google.com/?q=Lahore" },
                 ].map(({ icon: Icon, label, value, href }) => (
                   <a
                     key={label}
@@ -356,7 +356,7 @@ export default function ProjectEstimatorCTA() {
                     </motion.div>
                     <h3 className="text-2xl font-extrabold text-ink-900 mb-2">Message Received!</h3>
                     <p className="text-ink-500 max-w-sm text-sm leading-relaxed mb-6">
-                      Thank you — we'll review your enquiry and get back to you within 24 hours.
+                      Thank you — we'll review your enquiry and get back to you within 4 hours.
                     </p>
                     <button onClick={() => setSubmitted(false)} className="btn-outline text-sm">
                       Send Another Message
@@ -434,7 +434,7 @@ export default function ProjectEstimatorCTA() {
                           key="other-field"
                           initial={{ opacity: 0, height: 0, marginTop: 0 }}
                           animate={{ opacity: 1, height: "auto", marginTop: 0 }}
-                          exit={{   opacity: 0, height: 0, marginTop: 0 }}
+                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
                           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                           className="overflow-hidden"
                         >
@@ -487,7 +487,7 @@ export default function ProjectEstimatorCTA() {
                             key="custom-budget"
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
-                            exit={{   opacity: 0, height: 0 }}
+                            exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                             className="overflow-hidden"
                           >
@@ -529,7 +529,7 @@ export default function ProjectEstimatorCTA() {
                       type="submit"
                       disabled={loading}
                       whileHover={{ scale: loading ? 1 : 1.01 }}
-                      whileTap={{  scale: loading ? 1 : 0.99 }}
+                      whileTap={{ scale: loading ? 1 : 0.99 }}
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
                       className="btn-primary btn-primary-shimmer w-full justify-center py-4 text-sm mt-1 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
