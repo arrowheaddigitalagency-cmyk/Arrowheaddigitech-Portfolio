@@ -238,8 +238,9 @@ export default function ProjectEstimatorCTA() {
       setSubmitted(true);
       setForm({ name: "", email: "", phone: "", service: "", otherService: "", budget: "", customBudget: "", message: "" });
       setErrors({});
-    } catch {
-      /* silent fail */
+    } catch (err) {
+      console.error("Submission error:", err);
+      setErrors({ form: "Failed to send message. Please try again." });
     } finally {
       setLoading(false);
     }
@@ -525,6 +526,7 @@ export default function ProjectEstimatorCTA() {
                     </div>
 
                     {/* Submit */}
+                    <ErrorMsg field="form" />
                     <motion.button
                       type="submit"
                       disabled={loading}
