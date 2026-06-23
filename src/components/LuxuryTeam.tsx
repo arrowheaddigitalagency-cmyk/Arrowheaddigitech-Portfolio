@@ -22,7 +22,7 @@ const TEAM = [
   { name: "Usman Farooqi", role: "Operations Director", initials: "UF", accent: "#3B82F6", focus: "Full-Stack Dev & Delivery", icon: Code2 },
   { name: "Zulqarnain Jutt", role: "Marketing Strategist", initials: "ZJ", accent: "#F59E0B", focus: "Paid Campaigns & Growth", icon: TrendingUp },
   { name: "Hammad Ahmad", role: "Brand Growth Manager", initials: "HA", accent: "#10B981", focus: "Brand Strategy & Identity", icon: Award },
-  { name: "Shabbir Shah", role: "Web & Software Expert", initials: "AK", accent: "#8B5CF6", focus: "Frontend & UI Engineering", icon: Code2 },
+  { name: "Shabbir Shah", role: "Web & Software Expert", initials: "SS", accent: "#8B5CF6", focus: "Frontend & UI Engineering", icon: Code2 },
   { name: "Mohammad Kashan", role: "Creative Analyst / Video Editor", initials: "MK", accent: "#EC4899", focus: "Video Production & Creatives", icon: Users },
 ];
 
