@@ -128,8 +128,28 @@ export default function Mobile({ onExplore }: MobileProps) {
           <span>Pocket-sized.</span>
         </h2>
         <p>
-          Purposeful mobile products that bring your business closer to the people who use it.
+          Purposeful mobile products that bring your business closer to the people who use it —
+          native-feel apps, shared APIs, and the same product vision across every screen.
         </p>
+
+        <ul className="mobile-app-points" aria-label="App capabilities">
+          <li>
+            <strong>iOS &amp; Android</strong>
+            <span>Store-ready builds with shared product logic</span>
+          </li>
+          <li>
+            <strong>Flutter apps</strong>
+            <span>One codebase, polished on both platforms</span>
+          </li>
+          <li>
+            <strong>Connected backends</strong>
+            <span>APIs, auth, chatbots and live data sync</span>
+          </li>
+          <li>
+            <strong>Launch &amp; iterate</strong>
+            <span>From MVP to multi-tenant app ecosystems</span>
+          </li>
+        </ul>
 
         <div className="mobile-tabs" role="tablist" aria-label="Mobile application projects">
           {mobileProjects.map((item, i) => (
@@ -165,7 +185,8 @@ export default function Mobile({ onExplore }: MobileProps) {
         </div>
 
         <small className="mobile-capability">
-          OUR MOBILE CAPABILITY <span>Flutter · iOS · Android · API integration</span>
+          OUR MOBILE CAPABILITY{' '}
+          <span>Flutter · iOS · Android · React Native-ready APIs · Push · Offline sync</span>
         </small>
       </div>
 

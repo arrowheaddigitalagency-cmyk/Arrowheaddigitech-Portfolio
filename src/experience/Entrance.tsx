@@ -32,26 +32,41 @@ export default function Entrance({ children }: { children: ReactNode }) {
     media.add('(prefers-reduced-motion: no-preference)', () => {
       hero.inert = true;
       const syncInteraction = (progress: number) => {
-        hero.inert = progress < .7;
-        cover.inert = progress > .88;
+        if (hero.inert !== (progress < .7)) hero.inert = progress < .7;
+        if (cover.inert !== (progress > .88)) cover.inert = progress > .88;
+        const covering = progress < 0.38;
+        if (document.documentElement.classList.contains('entrance-covering') !== covering) {
+          document.documentElement.classList.toggle('entrance-covering', covering);
+        }
       };
       const touch = window.matchMedia('(pointer: coarse)').matches;
       const context = gsap.context(() => {
+        gsap.set(hero, { clearProps: 'clipPath' });
+        gsap.set('.hero-reveal', { clearProps: 'clipPath', opacity: 0, y: 28 });
         const timeline = gsap.timeline({ scrollTrigger: {
-          trigger: element, start: 'top top', end: () => `+=${element.offsetHeight - stage.offsetHeight}`,
-          // Soft scrub on touch so Lenis + pin don't feel sticky.
-          scrub: touch ? 0.85 : 0.45,
+          trigger: element, start: 'top top', end: () => `+=${Math.round(element.offsetHeight - stage.offsetHeight)}`,
+          // Near-zero scrub lag so Lenis stays smooth through the entrance.
+          scrub: touch ? 0.2 : true,
           invalidateOnRefresh: true,
           anticipatePin: 1,
+          fastScrollEnd: true,
           onUpdate: self => syncInteraction(self.progress),
           onRefresh: self => syncInteraction(self.progress),
         }});
-        timeline.fromTo(hero, { clipPath: 'circle(0% at 50% 48%)' }, { clipPath: 'circle(76% at 50% 48%)', duration: 1, ease: 'power2.inOut' }, 0)
-          .to('.entrance-particles', { scale: 1.65, opacity: 0, duration: .65, ease: 'power2.in' }, .08)
-          .to('.entrance-edition, .entrance-tagline, .entrance-scroll, .entrance-baseline', { opacity: 0, y: -20, duration: .3 }, 0)
-          .to(cover, { autoAlpha: 0, duration: .7, ease: 'power1.inOut' }, .25);
+        // Opacity/scale reveal — far cheaper than clipping the hero every frame.
+        timeline
+          .fromTo('.hero-reveal', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0.2)
+          .fromTo('.hero-atmosphere', { opacity: 0 }, { opacity: 1, duration: .35, ease: 'power1.out' }, 0.16)
+          .to('.entrance-core', { scale: 1.22, opacity: 0, duration: .45, ease: 'power2.in' }, .1)
+          .to('.entrance-edition, .entrance-scroll, .entrance-baseline', { opacity: 0, y: -12, duration: .22 }, 0)
+          .to(cover, { autoAlpha: 0, duration: .45, ease: 'power1.inOut' }, .22);
       }, element);
-      return () => { context.revert(); hero.inert = false; cover.inert = false; };
+      return () => {
+        context.revert();
+        hero.inert = false;
+        cover.inert = false;
+        document.documentElement.classList.remove('entrance-covering');
+      };
     });
     return () => { resize.disconnect(); cancelAnimationFrame(frame); media.revert(); };
   }, []);
@@ -71,34 +86,66 @@ export default function Entrance({ children }: { children: ReactNode }) {
       <div className="opening-hero">{children}</div>
       <section className="particle-entrance" aria-label="Welcome to Arrowhead">
       <div className="particle-entrance-stage">
-        <span className="entrance-edition">ARROWHEAD DIGITECH / INDEPENDENT DIGITAL STUDIO</span>
-        <div className="entrance-particles">
-          {reduced ? (
-            <span className="entrance-static">arrowhead</span>
-          ) : (
-            <ParticleText
-              text="arrowhead"
-              color="#4a8ec8"
-              highlightColor="#6eabd9"
-              fontSize="clamp(64px, 16vw, 240px)"
-              fontWeight={600}
-              particleSize={2}
-              density={3}
-              scatter={150}
-              gatherDuration={1800}
-              idleDrift={0.4}
-              glow={false}
-            />
-          )}
+        <span className="entrance-edition">ARROWHEAD DIGITECH / AI SOFTWARE HOUSE</span>
+        <div className="entrance-brand">
+          <div className="entrance-core">
+            <div className="entrance-aura-wrap" aria-hidden="true">
+              <div className="entrance-aura" />
+            </div>
+            <div className="entrance-particles entrance-particles--title">
+              {reduced ? (
+                <span className="entrance-static">ARROWHEAD</span>
+              ) : (
+                <ParticleText
+                  text="ARROWHEAD"
+                  color="#3d7fb8"
+                  highlightColor="#ea5e2b"
+                  fontSize="clamp(36px, 10vw, 164px)"
+                  fontWeight={650}
+                  particleSize={2}
+                  density={2.6}
+                  scatter={120}
+                  gatherDuration={1600}
+                  idleDrift={0.45}
+                  pointerRepel={48}
+                  repelRadius={130}
+                  glow={false}
+                />
+              )}
+            </div>
+            <div className="entrance-particles entrance-particles--digitech">
+              {reduced ? (
+                <span className="entrance-static entrance-static--digitech">DIGITECH</span>
+              ) : (
+                <ParticleText
+                  text="DIGITECH"
+                  color="#3d7fb8"
+                  highlightColor="#ea5e2b"
+                  fontSize="clamp(18px, 4.8vw, 50px)"
+                  fontWeight={650}
+                  particleSize={2}
+                  density={2.2}
+                  scatter={100}
+                  gatherDuration={1600}
+                  stagger={380}
+                  idleDrift={0.4}
+                  pointerRepel={42}
+                  repelRadius={110}
+                  glow={false}
+                />
+              )}
+            </div>
+            <p className="entrance-tagline">CLEAR THINKING. CONNECTED POSSIBILITIES.</p>
+            <p className="entrance-signal">SOFTWARE · AI SYSTEMS · GROWTH</p>
+          </div>
         </div>
-        <p className="entrance-tagline">Clear thinking. Connected possibilities.</p>
         <a className="entrance-scroll" href="#home">
           <span>SCROLL TO DISCOVER</span>
           <ArrowDown size={20} />
         </a>
         <div className="entrance-baseline">
-          <span>SOFTWARE • DESIGN • GROWTH</span>
-          <span>LAHORE • EVERYWHERE</span>
+          <span>SOFTWARE · DESIGN · AI · GROWTH</span>
+          <span>EVERYWHERE</span>
         </div>
       </div>
     </section>

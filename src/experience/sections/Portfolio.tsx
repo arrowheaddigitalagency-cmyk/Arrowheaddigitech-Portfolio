@@ -4,6 +4,7 @@ import { ArrowUpRight, ArrowRight, X } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { clientProjects, type ClientProject } from '../../data/client-projects';
+import { iconsForProject, ProjectStoreBadges } from './ProjectTechIcons';
 
 function ProjectImage({ project, eager = false }: { project: ClientProject; eager?: boolean }) {
   const [failed, setFailed] = useState(false);
@@ -18,6 +19,7 @@ function ProjectImage({ project, eager = false }: { project: ClientProject; eage
       src={`/images/portfolio/${project.image}.png`}
       alt={`${project.client} website imagery`}
       loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
       onError={() => setFailed(true)}
     />
   );
@@ -190,7 +192,9 @@ export default function Portfolio({
       (filter === 'Marketing'
         ? p.services.includes('Social media marketing')
         : filter === 'Apps & platforms'
-          ? !!p.mobile
+          ? !!p.mobile ||
+            p.services.some(s => /iOS|Android|Flutter|app/i.test(s)) ||
+            p.stack === 'MERN'
           : p.stack === filter),
   );
 
@@ -258,7 +262,9 @@ export default function Portfolio({
                 <ProjectImage project={p} eager={i < 2} />
               </div>
               <div className="project-art-bottom">
-                <span>{p.mobile || p.stack + ' development'}</span>
+                <span className="project-platform-chip" data-stack={p.stack}>
+                  <em>BUILT ON</em> {p.stack}
+                </span>
                 <span className="project-open">
                   <ArrowUpRight size={22} />
                 </span>
@@ -271,7 +277,15 @@ export default function Portfolio({
                 </h3>
                 <p>{p.headline}</p>
               </div>
-              <span>{p.stack}</span>
+              <div className="project-tech-icons" aria-label={`${p.client} technologies`}>
+                {iconsForProject(p).map(icon => (
+                  <span key={icon.id} className="project-tech-icon" title={icon.label}>
+                    {icon.node}
+                    <span className="sr-only">{icon.label}</span>
+                  </span>
+                ))}
+              </div>
+              <ProjectStoreBadges project={p} />
             </div>
             <div className="project-scope-tags" aria-label={`${p.client} scope`}>
               {p.services.map(service => (
@@ -303,9 +317,21 @@ export default function Portfolio({
               <span>
                 {selected.industry} / {selected.stack}
               </span>
-              <button autoFocus onClick={close} aria-label="Close project">
+              <button autoFocus type="button" onClick={close} aria-label="Close project">
                 <X />
               </button>
+            </div>
+            <div className="dialog-stack-banner">
+              <span>BUILT WITH</span>
+              <div className="project-tech-icons project-tech-icons--dialog" aria-label={`${selected.client} technologies`}>
+                {iconsForProject(selected).map(icon => (
+                  <span key={icon.id} className="project-tech-icon" title={icon.label}>
+                    {icon.node}
+                    <span className="sr-only">{icon.label}</span>
+                  </span>
+                ))}
+              </div>
+              {selected.mobile ? <em>{selected.mobile}</em> : null}
             </div>
             <h2 id="portfolio-dialog-title">{selected.client}</h2>
             <p className="dialog-tagline">{selected.headline}</p>
@@ -319,7 +345,12 @@ export default function Portfolio({
                 <span key={s}>{s}</span>
               ))}
             </div>
-            {selected.mobile && <p className="project-status">Mobile: {selected.mobile}</p>}
+            {selected.mobile && (
+              <div className="project-store-panel">
+                <h3>Mobile apps</h3>
+                <ProjectStoreBadges project={selected} />
+              </div>
+            )}
             <div className="dialog-actions">
               <a
                 className="button primary"

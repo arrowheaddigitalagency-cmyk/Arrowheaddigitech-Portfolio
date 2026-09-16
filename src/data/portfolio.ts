@@ -289,7 +289,7 @@ export const leaders = [
     initials: "WN",
     accent: "#FF5A1F",
     accentLight: "#fff8f5",
-    photo: "/images/waseeq-portrait.jpg",
+    photo: "/images/waseeq-portrait.png",
     linkedin: "https://www.linkedin.com/in/waseeq-nauman/",
     tagline: "The strategist behind every growth system.",
     bio: "Waseeq built Arrowhead from a lean consultancy into a full-stack digital growth company trusted by brands across the US, UAE, and Pakistan. With over 10 years shaping digital strategy, he brings a rare blend of executive vision and hands-on execution — turning ambitious ideas into market-winning products.",
@@ -298,6 +298,7 @@ export const leaders = [
 ];
 
 export const team = [
+  { name: "Waseeq Nauman", role: "Founder & CEO", initials: "WN", accent: "#FF5A1F", focus: "Strategy & Leadership", photo: "/images/waseeq-portrait.png", linkedin: "https://www.linkedin.com/in/waseeq-nauman/" },
   { name: "Usman Farooqi", role: "Operations Director", initials: "UF", accent: "#3B82F6", focus: "Full-Stack Dev & Delivery", photo: "/images/team/usman-farooqi.avif" },
   { name: "Zulqarnain Jutt", role: "Marketing Strategist", initials: "ZJ", accent: "#F59E0B", focus: "Paid Campaigns & Growth", photo: "/images/team/zulqarnain-jutt.avif" },
   { name: "Hammad Ahmad", role: "Brand Growth Manager", initials: "HA", accent: "#10B981", focus: "Brand Strategy & Identity", photo: "/images/team/hammad-ahmad.avif" },

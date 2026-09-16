@@ -49,19 +49,21 @@ export default function Experience() {
     if (!reduced.matches) {
       const touch = isCoarsePointer();
       lenis = new Lenis({
-        // Desktop: slightly longer glide. Touch: snappier, still interpolated.
-        duration: touch ? 0.85 : 1.2,
-        lerp: touch ? 0.14 : 0.085,
+        // Responsive glide — follows the wheel closely, less sticky lag.
+        duration: touch ? 0.75 : 0.85,
+        lerp: touch ? 0.16 : 0.14,
         easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        syncTouch: touch,
-        syncTouchLerp: 0.095,
-        touchInertiaExponent: 1.35,
-        touchMultiplier: touch ? 1.2 : 1,
-        wheelMultiplier: touch ? 0.9 : 0.92,
+        // Keep touch scrolling on the browser compositor; scroll animations
+        // still follow native scroll through ScrollTrigger.
+        syncTouch: false,
+        syncTouchLerp: 0.14,
+        touchInertiaExponent: 1.15,
+        touchMultiplier: touch ? 1.05 : 1,
+        wheelMultiplier: 1,
         anchors: {
           offset: -12,
-          duration: touch ? 0.95 : 1.25,
+          duration: touch ? 0.8 : 0.9,
           easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         },
         stopInertiaOnNavigate: true,
@@ -76,13 +78,12 @@ export default function Experience() {
       document.documentElement.classList.add('lenis', 'lenis-smooth');
       if (touch) document.documentElement.classList.add('lenis-touch');
 
-      // Keep GSAP and Lenis on the same clock so scrubbed scenes stay locked.
       gsap.ticker.lagSmoothing(0);
       lenis.on('scroll', ScrollTrigger.update);
       tick = time => lenis?.raf(time * 1000);
       gsap.ticker.add(tick);
 
-      requestAnimationFrame(refreshTriggers);
+      refreshTriggers();
       window.addEventListener('load', refreshTriggers);
       window.addEventListener('orientationchange', refreshTriggers);
       window.addEventListener('resize', refreshTriggers);
@@ -165,7 +166,7 @@ export default function Experience() {
         onNavClick={() => setMenuOpen(false)}
       />
 
-      <main id="main">
+    <main id="main">
         <Entrance><Hero /></Entrance>
         <Clients />
         <Portfolio requestedProject={requestedProject} onClose={() => setRequestedProject(null)} />
@@ -174,7 +175,7 @@ export default function Experience() {
         <Growth />
         <About />
         <Contact />
-      </main>
+    </main>
 
       <footer className="footer footer-merged">
         <div className="footer-top">
@@ -186,7 +187,7 @@ export default function Experience() {
           </a>
         </div>
         <a className="footer-wordmark" href="#home" aria-label="Arrowhead — back to home">
-          arrowhead<span>↗</span>
+          Arrowhead<span>↗</span>
         </a>
         <div className="footer-bottom">
           <span suppressHydrationWarning>© {new Date().getFullYear()} Arrowhead DigiTech</span>

@@ -36,52 +36,52 @@ export default function Hero() {
           layout="wings"
           color="#3a7ec9"
           trailColor="214, 227, 237"
-          trailOpacity={0.055}
-          particleCount={1900}
-          speed={1.08}
+          trailOpacity={0.07}
+          particleCount={560}
+          speed={0.88}
         />
       </div>
       <div className="hero-atmosphere" aria-hidden="true" />
-      <div className="hero-gridlines" aria-hidden="true" />
-
-      <div className="hero-shell">
-        <div className="hero-copy">
-          <p className="hero-chip">
-            <i className="status-dot ping" aria-hidden="true" />
-            <span>
-              <span className="hero-chip-line">INDEPENDENT DIGITAL STUDIO</span>
-              <span className="hero-chip-sep" aria-hidden="true">
-                {' '}
-                —{' '}
+      <div className="hero-reveal">
+        <div className="hero-shell">
+          <div className="hero-copy">
+            <p className="hero-chip">
+              <i className="status-dot ping" aria-hidden="true" />
+              <span>
+                <span className="hero-chip-line">AI-POWERED SOFTWARE HOUSE</span>
+                <span className="hero-chip-sep" aria-hidden="true">
+                  {' '}
+                  —{' '}
+                </span>
+                <span className="hero-chip-line">EVERYWHERE</span>
               </span>
-              <span className="hero-chip-line">LAHORE → EVERYWHERE</span>
-            </span>
-          </p>
-          <p className="hero-kicker">IDEAS INTO IMPACT.</p>
-          <h1>
-            Built to work.
-            <br />
-            Designed to
-            <br />
-            <span>stand out.</span>
-          </h1>
-          <p className="hero-description">
-            Extraordinary software. Unmissable brands. We bring engineering, design and marketing
-            together to turn your next big idea into your unfair advantage.
-          </p>
-          <div className="hero-actions">
-            <a href="#work" className="button primary">
-              Explore our work <ArrowUpRight size={20} />
-            </a>
-            <a href="#contact" className="button quiet">
-              Build with us <ArrowRight size={18} />
-            </a>
+            </p>
+            <p className="hero-kicker">IDEAS INTO IMPACT.</p>
+            <h1>
+              Built to work.
+              <br />
+              Designed to
+              <br />
+              <span>stand out.</span>
+            </h1>
+            <p className="hero-description">
+              Custom software, AI systems, and growth marketing — engineered together so your product
+              ships faster, runs smarter, and stands out in market.
+            </p>
+            <div className="hero-actions">
+              <a href="#work" className="button primary">
+                Explore our work <ArrowUpRight size={20} />
+              </a>
+              <a href="#contact" className="button quiet">
+                Build with us <ArrowRight size={18} />
+              </a>
+            </div>
           </div>
+          <p className="hero-object-label" aria-hidden="true">
+            <span>FLOW FIELD</span>
+            <span>MOVE TO DISTURB</span>
+          </p>
         </div>
-        <p className="hero-object-label" aria-hidden="true">
-          <span>FLOW FIELD</span>
-          <span>MOVE TO DISTURB</span>
-        </p>
       </div>
     </section>
   );

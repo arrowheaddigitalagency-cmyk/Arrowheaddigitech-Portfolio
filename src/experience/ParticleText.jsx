@@ -95,6 +95,17 @@ const ParticleText = ({
     let width = 0;
     let height = 0;
     let dpr = 1;
+    let previousTime = 0;
+    let sampledWidth = -1;
+    let sampledHeight = -1;
+    const cover = container.closest('.particle-entrance');
+    const isCovered = () => {
+      if (!cover) return false;
+      // GSAP autoAlpha writes inline visibility/opacity — pause only when fully hidden.
+      if (cover.style.visibility === 'hidden') return true;
+      const opacity = cover.style.opacity;
+      return opacity !== '' && Number(opacity) === 0;
+    };
 
     const pointer = {
       active: false,
@@ -143,7 +154,14 @@ const ParticleText = ({
 
     const render = now => {
       animationFrame = null;
-      if (!inView || document.hidden) return;
+      if (!inView || document.hidden || isCovered()) {
+        previousTime = 0;
+        return;
+      }
+      const delta = previousTime ? Math.min((now - previousTime) / (1000 / 60), 3) : 1;
+      previousTime = now;
+      const pointerFollow = 1 - Math.pow(1 - 0.18, delta);
+      const particleFollow = 1 - Math.pow(1 - 0.22, delta);
       ctx.clearRect(0, 0, width, height);
 
       if (glow && !reducedMotion) {
@@ -153,8 +171,8 @@ const ParticleText = ({
         ctx.shadowBlur = 0;
       }
 
-      pointer.smoothX += (pointer.x - pointer.smoothX) * 0.18;
-      pointer.smoothY += (pointer.y - pointer.smoothY) * 0.18;
+      pointer.smoothX += (pointer.x - pointer.smoothX) * pointerFollow;
+      pointer.smoothY += (pointer.y - pointer.smoothY) * pointerFollow;
 
       let complete = true;
 
@@ -187,7 +205,7 @@ const ParticleText = ({
           }
         }
 
-        const follow = reducedMotion ? 1 : 0.22;
+        const follow = reducedMotion ? 1 : particleFollow;
         particle.x += (baseX - particle.x) * follow;
         particle.y += (baseY - particle.y) * follow;
 
@@ -206,7 +224,7 @@ const ParticleText = ({
     };
 
     const ensureRenderLoop = () => {
-      if (animationFrame === null) {
+      if (animationFrame === null && inView && !document.hidden && !isCovered()) {
         animationFrame = window.requestAnimationFrame(render);
       }
     };
@@ -216,6 +234,8 @@ const ParticleText = ({
       const rect = container.getBoundingClientRect();
       width = Math.floor(rect.width);
       height = Math.floor(rect.height);
+      sampledWidth = width;
+      sampledHeight = height;
 
       if (width <= 0 || height <= 0) return;
 
@@ -291,11 +311,21 @@ const ParticleText = ({
       const baseRgb = hexToRgb(color);
       const highlightRgb = hexToRgb(highlightColor);
       const selected = targets.filter((_, index) => index % stride === 0);
+      let minX = Infinity;
+      let maxX = -Infinity;
+      for (let i = 0; i < selected.length; i++) {
+        const x = selected[i].x;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+      }
+      const spanX = Math.max(1, maxX - minX);
 
       particles = selected.map((target, index) => {
         const seed = ((index * 9301 + 49297) % 233280) / 233280;
         const depth = 0.45 + (((index * 233 + 97) % 1000) / 1000) * 0.9;
-        const blend = baseRgb && highlightRgb ? clamp(target.x / Math.max(1, width) + (seed - 0.5) * 0.35, 0, 1) : 0;
+        const blend = baseRgb && highlightRgb
+          ? clamp((target.x - minX) / spanX + (seed - 0.5) * 0.22, 0, 1)
+          : 0;
         const particleColor = baseRgb && highlightRgb ? rgbToCss(mixRgb(baseRgb, highlightRgb, blend)) : color;
         const angle = seed * Math.PI * 2;
         const distance = (reducedMotion ? 0 : scatter) * (0.35 + depth * 0.75);
@@ -375,12 +405,17 @@ const ParticleText = ({
     canvas.addEventListener('pointerleave', handlePointerLeave);
     canvas.addEventListener('click', handleClick);
 
-    const resizeObserver = new ResizeObserver(queueSample);
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      if (Math.floor(entry.contentRect.width) !== sampledWidth ||
+          Math.floor(entry.contentRect.height) !== sampledHeight) queueSample();
+    });
     const visibilityObserver = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
       if (inView) ensureRenderLoop();
     });
     const resume = () => { if (inView && !document.hidden) ensureRenderLoop(); };
+    const coverObserver = new MutationObserver(resume);
+    if (cover) coverObserver.observe(cover, { attributes: true, attributeFilter: ['style'] });
     visibilityObserver.observe(container);
     document.addEventListener('visibilitychange', resume);
     resizeObserver.observe(container);
@@ -390,6 +425,7 @@ const ParticleText = ({
       buildId += 1;
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
+      coverObserver.disconnect();
       document.removeEventListener('visibilitychange', resume);
       reduceMotionQuery?.removeEventListener('change', handleReduceMotionChange);
       canvas.removeEventListener('pointerenter', handlePointerEnter);
@@ -428,5 +464,4 @@ const ParticleText = ({
 };
 
 export default ParticleText;
-
 

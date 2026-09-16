@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,65 +14,110 @@ interface SiteNavProps {
   onNavClick: () => void;
 }
 
-/** Fixed studio nav — sits above work filters and all later sections. */
+/** Show on hero; hide once user scrolls below hero. Filters take top in work. */
 export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }: SiteNavProps) {
   const [visible, setVisible] = useState(false);
   const [solid, setSolid] = useState(false);
+  const menuOpenRef = useRef(menuOpen);
+  menuOpenRef.current = menuOpen;
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    const hero = document.getElementById('home');
+    const heroAnchor = document.getElementById('home');
+    const heroContent = document.getElementById('hero-content');
     const work = document.getElementById('work');
-    if (!hero) return;
+    if (!heroAnchor || !heroContent) return;
+
+    let frame = 0;
+    let previousShow: boolean | undefined;
+    let previousSolid: boolean | undefined;
+    let previousFiltersTop: boolean | undefined;
 
     const sync = () => {
-      const heroRect = hero.getBoundingClientRect();
-      setVisible(heroRect.top <= 96);
-      const workTop = work?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY;
-      const content = document.getElementById('hero-content');
-      setSolid(workTop <= 96 || (content?.getBoundingClientRect().bottom ?? heroRect.bottom) < 140);
+      frame = 0;
+      const heroRect = heroContent.getBoundingClientRect();
+      const heroTop = heroRect.top;
+      const heroBottom = heroRect.bottom;
+      const entrancePassed = heroAnchor.getBoundingClientRect().top <= 8;
+      // Show while hero is the active band (arrived from entrance, still on screen).
+      const inHero = entrancePassed && heroTop < 110 && heroBottom > 140;
+      const pastHero = heroBottom <= 140;
+
+      const workRect = work?.getBoundingClientRect();
+      const workTop = workRect?.top ?? Number.POSITIVE_INFINITY;
+      const workBottom = workRect?.bottom ?? Number.NEGATIVE_INFINITY;
+      const inWork = Boolean(work) && workTop <= 72 && workBottom > 120;
+
+      const show = menuOpenRef.current || inHero;
+      const nextSolid = pastHero || inWork || solidNearWork(workTop);
+      const filtersTop = inWork || pastHero;
+      if (show !== previousShow) {
+        setVisible(show);
+        document.documentElement.classList.toggle('nav-concealed', !show);
+        previousShow = show;
+      }
+      if (nextSolid !== previousSolid) {
+        setSolid(nextSolid);
+        previousSolid = nextSolid;
+      }
+      if (filtersTop !== previousFiltersTop) {
+        document.documentElement.classList.toggle('work-filters-top', filtersTop);
+        previousFiltersTop = filtersTop;
+      }
+    };
+
+    const solidNearWork = (workTop: number) => workTop < 200;
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(sync);
     };
 
     sync();
-    const show = ScrollTrigger.create({
-      trigger: hero,
-      start: 'top top+=96',
-      onEnter: () => setVisible(true),
-      onLeaveBack: () => setVisible(false),
-      onUpdate: sync,
-    });
-    const solidTrigger = work
-      ? ScrollTrigger.create({
-          trigger: work,
-          start: 'top top+=96',
-          onEnter: () => setSolid(true),
-          onLeaveBack: () => setSolid(hero.getBoundingClientRect().bottom < 140),
-        })
-      : null;
+    const triggers = [
+      ScrollTrigger.create({ trigger: heroContent, start: 'top bottom', end: 'bottom top', onUpdate: onScroll }),
+      ScrollTrigger.create({ trigger: heroAnchor, start: 'top top', onEnter: onScroll, onLeaveBack: onScroll }),
+    ];
+    if (work) {
+      triggers.push(
+        ScrollTrigger.create({ trigger: work, start: 'top bottom', end: 'bottom top', onUpdate: onScroll }),
+      );
+    }
 
-    window.addEventListener('resize', sync);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     return () => {
-      show.kill();
-      solidTrigger?.kill();
-      window.removeEventListener('resize', sync);
+      triggers.forEach(t => t.kill());
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      cancelAnimationFrame(frame);
+      document.documentElement.classList.remove('nav-concealed', 'work-filters-top');
     };
   }, []);
 
+  useEffect(() => {
+    if (menuOpen) {
+      setVisible(true);
+      document.documentElement.classList.remove('nav-concealed');
+    }
+  }, [menuOpen]);
+
+  const shown = visible || menuOpen;
+
   return (
     <header
-      className={`site-nav${visible ? ' is-visible' : ''}${solid ? ' is-solid' : ''}${menuOpen ? ' is-open' : ''}`}
-      aria-hidden={!visible}
+      className={`site-nav${shown ? ' is-visible' : ''}${solid ? ' is-solid' : ''}${menuOpen ? ' is-open' : ''}${!shown ? ' is-concealed' : ''}`}
+      aria-hidden={!shown}
     >
-      <a className="brand brand-lockup" href="#home" aria-label="Arrowhead DigiTech home" onClick={onNavClick} tabIndex={visible ? 0 : -1}>
+      <a className="brand brand-lockup" href="#home" aria-label="Arrowhead DigiTech home" onClick={onNavClick} tabIndex={shown ? 0 : -1}>
         <img className="brand-logo-hero" src="/images/arrowhead_black.png" alt="" width={240} height={48} />
       </a>
       <nav aria-label="Main navigation" className={menuOpen ? 'nav open' : 'nav'}>
         {navLinks.map(([text, href]) => (
-          <a key={href} href={href} onClick={onNavClick} tabIndex={visible ? 0 : -1}>
+          <a key={href} href={href} onClick={onNavClick} tabIndex={shown ? 0 : -1}>
             {text}
           </a>
         ))}
-        <a className="nav-cta" href="#contact" onClick={onNavClick} tabIndex={visible ? 0 : -1}>
+        <a className="nav-cta" href="#contact" onClick={onNavClick} tabIndex={shown ? 0 : -1}>
           Let&rsquo;s talk <ArrowUpRight size={16} />
         </a>
       </nav>
@@ -81,7 +126,7 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
           className="nav-cta nav-cta-compact"
           href="#contact"
           onClick={onNavClick}
-          tabIndex={visible ? 0 : -1}
+          tabIndex={shown ? 0 : -1}
         >
           Let&rsquo;s talk <ArrowUpRight size={14} />
         </a>
@@ -91,7 +136,7 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
           aria-expanded={menuOpen}
           aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
           onClick={onMenuToggle}
-          tabIndex={visible ? 0 : -1}
+          tabIndex={shown ? 0 : -1}
         >
           {menuOpen ? <X /> : <Menu />}
         </button>

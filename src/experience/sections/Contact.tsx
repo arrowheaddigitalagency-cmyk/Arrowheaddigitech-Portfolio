@@ -70,7 +70,7 @@ export default function Contact() {
     <section id="contact" className="contact-section section-shell">
       <div className="contact-copy">
         <SectionLabel number="09">YOUR NEXT CHAPTER</SectionLabel>
-        <h2>Have a big<br/>idea?<br/><span>We’re all ears.</span></h2>
+        <h2>Have a big idea?<br/><span>We’re all ears.</span></h2>
         <p>A new product, a smarter system, or your next stage of growth. Bring the ambition. We’ll help shape the way forward.</p>
         <div className="contact-emblem" aria-hidden="true"><span/><span/><ArrowUpRight/></div>
         <a href="mailto:info@arrowheaddigitech.com">info@arrowheaddigitech.com <ArrowUpRight size={17} /></a>
