@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect, type CSSProperties } from 'react';
+import { useState, useRef, useEffect, startTransition, type CSSProperties } from 'react';
 import { ArrowUpRight, ArrowRight, X } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -179,7 +179,7 @@ export default function Portfolio({
     }, sectionRef);
 
     return () => context.revert();
-  }, [filter]);
+  }, []);
 
   function close() {
     setSelected(null);
@@ -225,7 +225,7 @@ export default function Portfolio({
           label => (
             <button
               key={label}
-              onClick={() => setFilter(label)}
+              onClick={() => startTransition(() => setFilter(label))}
               aria-pressed={filter === label}
               className={filter === label ? 'active' : ''}
             >
