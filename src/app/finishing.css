@@ -62,6 +62,16 @@
 }
 .project-window img{width:100%;height:auto;object-fit:cover;object-position:top center;display:block}
 .portfolio-card .project-art{transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease}
+.project-scope-tags{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;
+}
+.project-scope-tags>span{
+  display:inline-flex;align-items:center;
+  font-size:10px;line-height:1.2;letter-spacing:.01em;
+  padding:6px 12px;border:1px solid #d3d4cd;border-radius:20px;
+  background:transparent;color:#3f4640;white-space:nowrap;
+}
+.project-service-line{display:none!important}
 
 .team-grid{
   display:grid!important;
@@ -186,9 +196,16 @@ html{scroll-behavior:auto}
 .footer.footer-merged .footer-wordmark:hover>span{transform:translate(6px,-6px)}
 .footer.footer-merged .footer-bottom{border-top-color:#ffffff18;color:#8fa6bb}
 
-/* Brand logos */
-.site-nav .brand.brand-lockup,
-.footer .brand.brand-lockup{
+/* Footer: never show brand logo — tagline only */
+.footer .brand,
+.footer .brand-lockup,
+.footer .brand-logo-footer,
+.footer img.brand-logo-footer{
+  display:none!important;
+}
+
+/* Brand logos (nav only) */
+.site-nav .brand.brand-lockup{
   display:inline-flex!important;
   align-items:center;
   flex:0 0 auto!important;
@@ -202,15 +219,6 @@ html{scroll-behavior:auto}
   height:52px!important;
   width:auto!important;
   max-width:min(280px,70vw)!important;
-  object-fit:contain!important;
-  object-position:left center;
-  flex-shrink:0!important;
-}
-.brand-logo-footer{
-  display:block!important;
-  height:clamp(64px,7vw,84px)!important;
-  width:auto!important;
-  max-width:min(380px,86vw)!important;
   object-fit:contain!important;
   object-position:left center;
   flex-shrink:0!important;
@@ -303,7 +311,6 @@ html.lenis.lenis-stopped{overflow:clip}
   .portfolio-heading>div{flex-direction:column;align-items:flex-start;gap:18px}
   .portfolio-grid{grid-template-columns:1fr!important;gap:42px!important}
   .brand-logo-hero{height:44px!important;max-width:min(240px,72vw)!important}
-  .brand-logo-footer{height:58px!important;max-width:min(300px,84vw)!important}
   .contact-section{padding-bottom:70px!important}
   .contact-section.section-shell{padding-inline:24px}
 }

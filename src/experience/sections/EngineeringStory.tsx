@@ -47,7 +47,7 @@ export default function EngineeringStory(){
   media.add('(prefers-reduced-motion: no-preference)',()=>{
    const touch=window.matchMedia('(pointer: coarse)').matches;
    const scrubMain=touch?1.1:.75;
-   const scrubText=touch:.85:.45;
+   const scrubText=touch?.85:.45;
    const ctx=gsap.context(()=>{
     gsap.to(progress,{current:1,ease:'none',scrollTrigger:{trigger:journey.current,start:'top 70%',end:'bottom 30%',scrub:scrubMain}});
     gsap.utils.toArray<HTMLElement>('.reading-text').forEach(p=>gsap.fromTo(p.querySelectorAll('.reading-word'),{opacity:.19},{opacity:1,stagger:.075,ease:'none',scrollTrigger:{trigger:p,start:'top 78%',end:'bottom 47%',scrub:scrubText}}));

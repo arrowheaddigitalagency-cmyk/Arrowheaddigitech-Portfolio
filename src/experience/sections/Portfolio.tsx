@@ -273,7 +273,11 @@ export default function Portfolio({
               </div>
               <span>{p.stack}</span>
             </div>
-    <div className="project-service-line">{p.services.join(' / ')}</div>
+            <div className="project-scope-tags" aria-label={`${p.client} scope`}>
+              {p.services.map(service => (
+                <span key={service}>{service}</span>
+              ))}
+            </div>
           </article>
         ))}
       </div>
