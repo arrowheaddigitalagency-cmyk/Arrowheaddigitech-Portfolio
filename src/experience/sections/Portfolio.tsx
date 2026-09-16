@@ -271,21 +271,23 @@ export default function Portfolio({
               </div>
     </button>
             <div className="project-caption">
-              <div>
+              <div className="project-caption-copy">
                 <h3>
                   <button onClick={() => setSelected(p)}>{p.client}</button>
                 </h3>
                 <p>{p.headline}</p>
               </div>
-              <div className="project-tech-icons" aria-label={`${p.client} technologies`}>
-                {iconsForProject(p).map(icon => (
-                  <span key={icon.id} className="project-tech-icon" title={icon.label}>
-                    {icon.node}
-                    <span className="sr-only">{icon.label}</span>
-                  </span>
-                ))}
+              <div className="project-caption-meta">
+                <div className="project-tech-icons" aria-label={`${p.client} technologies`}>
+                  {iconsForProject(p).map(icon => (
+                    <span key={icon.id} className="project-tech-icon" title={icon.label}>
+                      {icon.node}
+                      <span className="sr-only">{icon.label}</span>
+                    </span>
+                  ))}
+                </div>
+                <ProjectStoreBadges project={p} />
               </div>
-              <ProjectStoreBadges project={p} />
             </div>
             <div className="project-scope-tags" aria-label={`${p.client} scope`}>
               {p.services.map(service => (
