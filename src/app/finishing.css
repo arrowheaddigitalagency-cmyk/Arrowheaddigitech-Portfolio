@@ -192,7 +192,9 @@ html.work-filters-top .portfolio-filters{top:0!important;margin-top:0;padding-to
 .project-window img{width:100%;height:auto;object-fit:cover;object-position:top center;display:block}
 .portfolio-card .project-art{transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease}
 .project-scope-tags{
-  display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin:6px 0 0;padding:0;
+  width:100%;
 }
 .project-scope-tags>span{
   display:inline-flex;align-items:center;
@@ -261,9 +263,12 @@ html.work-filters-top .portfolio-filters{top:0!important;margin-top:0;padding-to
 .project-store-panel .project-store-badges{margin-top:10px}
 .project-caption{
   display:flex!important;
-  flex-direction:column;
-  align-items:stretch;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+  align-items:stretch!important;
   gap:8px;
+  padding-left:0!important;
+  padding-right:0!important;
 }
 .project-caption-top{
   display:flex;
@@ -271,15 +276,31 @@ html.work-filters-top .portfolio-filters{top:0!important;margin-top:0;padding-to
   align-items:flex-start;
   gap:16px 20px;
   width:100%;
+  margin:0;
+  padding:0;
 }
 .project-caption-top>h3{
   flex:1 1 auto;
   min-width:0;
-  margin:0;
-  padding-right:12px;
+  margin:0!important;
+  padding:0 12px 0 0!important;
+  text-align:left;
+}
+.project-caption-top>h3 button{
+  display:inline;
+  margin:0!important;
+  padding:0!important;
+  border:0;
+  background:none;
+  font:inherit;
+  letter-spacing:inherit;
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
 }
 .project-caption-headline{
   margin:0!important;
+  padding:0!important;
   max-width:100%!important;
   width:100%;
   text-align:left;
@@ -291,6 +312,8 @@ html.work-filters-top .portfolio-filters{top:0!important;margin-top:0;padding-to
   gap:8px;
   flex:0 0 auto;
   max-width:min(100%,48%);
+  margin:0;
+  padding:0;
 }
 .project-caption-meta .project-tech-icons{
   justify-content:flex-end;

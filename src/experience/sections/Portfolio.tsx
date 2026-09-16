@@ -273,7 +273,9 @@ export default function Portfolio({
             <div className="project-caption">
               <div className="project-caption-top">
                 <h3>
-                  <button onClick={() => setSelected(p)}>{p.client}</button>
+                  <button type="button" onClick={() => setSelected(p)}>
+                    {p.client}
+                  </button>
                 </h3>
                 <div className="project-caption-meta">
                   <div className="project-tech-icons" aria-label={`${p.client} technologies`}>
@@ -288,11 +290,11 @@ export default function Portfolio({
                 </div>
               </div>
               <p className="project-caption-headline">{p.headline}</p>
-            </div>
-            <div className="project-scope-tags" aria-label={`${p.client} scope`}>
-              {p.services.map(service => (
-                <span key={service}>{service}</span>
-              ))}
+              <div className="project-scope-tags" aria-label={`${p.client} scope`}>
+                {p.services.map(service => (
+                  <span key={service}>{service}</span>
+                ))}
+              </div>
             </div>
           </article>
         ))}
