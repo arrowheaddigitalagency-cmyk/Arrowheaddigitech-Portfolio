@@ -6,3 +6,27 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Isolated reference repo — run separately, do not mix with Arrowhead
+ECHO-Design-Studio/
+
+.next/
+.npm-cache/
+*.tsbuildinfo
+asset-review.png
+inspect-assets.cjs
+test-results/
+
+# Local scratch / source dumps (not for deploy)
+.tmp-video-frames/
+project images/
+*.mp4
+/usman farooqi.avif
+/zulqarnain jutt.avif
+/hammad ahmad.avif
+/shabbir shah.avif
+/mohammad kashan.avif
+/waseeq-portrait.jpg
+migrate-config.cjs
+polish-config.cjs
+
