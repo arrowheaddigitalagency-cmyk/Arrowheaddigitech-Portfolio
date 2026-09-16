@@ -12,14 +12,22 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Arrowhead DigiTech — Engineering the next possible.',
     description: 'Digital products. Connected intelligence. Lasting impact.',
-    images: [{ url: '/og-arrowhead.jpg', width: 1200, height: 630, alt: 'Arrowhead DigiTech' }],
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1672,
+        height: 941,
+        alt: 'Arrowhead DigiTech — Built to work. Designed to stand out.',
+        type: 'image/png',
+      },
+    ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Arrowhead DigiTech — Engineering the next possible.',
     description: 'Digital products. Connected intelligence. Lasting impact.',
-    images: ['/og-arrowhead.jpg'],
+    images: ['/og-image.png'],
   },
   icons: {
     icon: [
