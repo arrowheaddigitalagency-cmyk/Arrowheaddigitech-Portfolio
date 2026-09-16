@@ -891,9 +891,14 @@ html.entrance-covering .hero-flow-field{visibility:hidden}
 .journey-gridlines{
   display:none!important;
 }
-.journey-visual,
-.machine-canvas{
-  contain:layout paint;
+/* Do not paint-contain the WebGL stage — it collapses the R3F canvas to blank. */
+.journey-visual{
+  contain:layout style;
+}
+.machine-canvas,
+.machine-webgl{
+  contain:none;
+  min-height:0;
 }
 html.work-filters-top .portfolio-filters{
   background:#f6f4eff5!important;

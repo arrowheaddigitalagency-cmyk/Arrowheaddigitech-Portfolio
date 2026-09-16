@@ -16,4 +16,31 @@ function Capsule({progress}:{progress:RefObject<number>}){
  <mesh position={[0,-.95,0]} rotation={[Math.PI/2,0,0]}><torusGeometry args={[.5,.008,8,80]}/><meshBasicMaterial color="#74b9ff"/></mesh>
  </group>;
 }
-export default function EngineeringMachine({progress}:{progress:RefObject<number>}){const ref=useRef<HTMLDivElement>(null);const [visible,setVisible]=useState(true);useEffect(()=>{const observer=new IntersectionObserver(([entry])=>setVisible(entry.isIntersecting));if(ref.current)observer.observe(ref.current);return()=>observer.disconnect();},[]);return <div className="machine-webgl" ref={ref}><Canvas dpr={[1,1.4]} frameloop={visible?'always':'never'} camera={{position:[0,.4,6.8],fov:39}} gl={{alpha:true,antialias:true,powerPreference:'low-power'}}><Environment/><ambientLight intensity={.9}/><directionalLight position={[3,4,5]} intensity={3}/><directionalLight position={[-4,0,-2]} intensity={2} color="#83b6ff"/><Capsule progress={progress}/></Canvas></div>;}
+export default function EngineeringMachine({progress}:{progress:RefObject<number>}){
+ const ref=useRef<HTMLDivElement>(null);
+ const [visible,setVisible]=useState(true);
+ useEffect(()=>{
+  const node=ref.current;
+  if(!node)return;
+  const observer=new IntersectionObserver(([entry])=>setVisible(entry.isIntersecting),{rootMargin:'120px 0px'});
+  observer.observe(node);
+  return()=>observer.disconnect();
+ },[]);
+ return (
+  <div className="machine-webgl" ref={ref}>
+   <Canvas
+    dpr={[1,1.35]}
+    frameloop={visible?'always':'never'}
+    camera={{position:[0,.4,6.8],fov:39}}
+    style={{width:'100%',height:'100%',display:'block'}}
+    gl={{alpha:true,antialias:true,powerPreference:'high-performance'}}
+   >
+    <Environment/>
+    <ambientLight intensity={.9}/>
+    <directionalLight position={[3,4,5]} intensity={3}/>
+    <directionalLight position={[-4,0,-2]} intensity={2} color="#83b6ff"/>
+    <Capsule progress={progress}/>
+   </Canvas>
+  </div>
+ );
+}
