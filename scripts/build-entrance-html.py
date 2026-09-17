@@ -21,7 +21,6 @@ def extract(
     if not body.endswith("</div>"):
         body = body + "\n</div>"
 
-    # Full-bleed cover for laptop/tablet Interactive framing (matches brand hero).
     inject = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -62,33 +61,35 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow
     print(f"wrote {target} ({len(inject)} bytes)")
 
 
-# Laptop + tablet: light scale so map reaches edges like the brand hero frame.
+# Laptop / tablet landscape: exact Interactive brand frame (no extra zoom media queries).
 extract(
     "Arrowhead_Interactive.html",
     "arrowhead-motion",
     "desktop.html",
-    "center 42%",
-    "1.05",
-    extra_css="""
-@media (max-width:1180px){
-  #arrowhead-motion canvas{
-    object-position:center 38%!important;
-    transform:scale(1.08)!important;
-  }
-}
-@media (max-width:900px){
-  #arrowhead-motion canvas{
-    object-position:center 34%!important;
-    transform:scale(1.12)!important;
-  }
-}
-""",
+    "center center",
+    "1.02",
 )
+
+# Phones: full portrait stack (PORTFOLIO → services → TOUCH TO EXPLORE).
 extract(
     "Arrowhead_Mobile.html",
     "arrowhead-mobile",
     "mobile.html",
-    "center top",
-    "1.04",
+    "center center",
+    "1.0",
+    extra_css="""
+@media (max-aspect-ratio: 9/18){
+  #arrowhead-mobile canvas{
+    object-position:center 46%!important;
+    transform:scale(1.04)!important;
+  }
+}
+@media (min-aspect-ratio: 9/16) and (max-width:767px){
+  #arrowhead-mobile canvas{
+    object-position:center center!important;
+    transform:scale(1.02)!important;
+  }
+}
+""",
 )
 print("done")

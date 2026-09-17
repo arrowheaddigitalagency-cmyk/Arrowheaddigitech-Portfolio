@@ -20,11 +20,24 @@ html,body{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow:
   width:100%!important;height:100%!important;
   max-width:none!important;max-height:none!important;
   object-fit:cover!important;
-  object-position:center top!important;
-  transform:scale(1.04)!important;
+  object-position:center center!important;
+  transform:scale(1.0)!important;
   transform-origin:center center!important;
 }
 #arrowhead-mobile .controls{display:none!important}
+
+@media (max-aspect-ratio: 9/18){
+  #arrowhead-mobile canvas{
+    object-position:center 46%!important;
+    transform:scale(1.04)!important;
+  }
+}
+@media (min-aspect-ratio: 9/16) and (max-width:767px){
+  #arrowhead-mobile canvas{
+    object-position:center center!important;
+    transform:scale(1.02)!important;
+  }
+}
 
 </style>
 </head>

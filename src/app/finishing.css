@@ -36,6 +36,19 @@ html:not(.entrance-covering) .hero-reveal{will-change:auto;opacity:1}
   background:#fafbfc;
   pointer-events:auto;
 }
+@media(max-width:767px){
+  .opening-sequence .entrance-core,
+  .entrance-motion-frame{
+    inset:0;
+    width:100%;
+    height:100%;
+  }
+  .particle-entrance-stage{
+    height:100svh;
+    min-height:100svh;
+    padding:0;
+  }
+}
 @media(prefers-reduced-motion:reduce){.opening-sequence{height:auto}.opening-stage{position:relative;display:flex;flex-direction:column}.opening-sequence .particle-entrance{position:relative;order:-1}.opening-hero{clip-path:none!important}.hero-reveal{opacity:1!important;transform:none!important}.opening-destination{top:100svh}}
 .particle-entrance{height:150svh;position:relative;z-index:40;background:#fff}
 .particle-entrance-stage{
