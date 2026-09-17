@@ -970,3 +970,84 @@ html.work-filters-top .portfolio-filters{
   right:0!important;
 }
 
+/* Micro-type readability bump (labels, eyebrows, form fields) */
+.eyebrow,
+.chapter-label,
+.chapter-label span,
+.SectionLabel,
+.section-label{
+  font-size:12px!important;
+  letter-spacing:.12em;
+}
+.founder-message>.eyebrow{
+  font-size:11px!important;
+  letter-spacing:.12em;
+}
+.founder-signature>small,
+.founder-monogram>small{
+  font-size:10px!important;
+  letter-spacing:.1em;
+  line-height:1.65;
+}
+.technology-column h3{
+  font-size:11px!important;
+  letter-spacing:.12em;
+}
+.technology-row{
+  font-size:14px!important;
+}
+.form-kicker{
+  font-size:10px!important;
+  letter-spacing:.1em;
+}
+.contact-form label{
+  font-size:13px!important;
+  line-height:1.45;
+}
+.form-step{
+  font-size:13px!important;
+}
+.form-step>span{
+  font-size:10px!important;
+}
+.contact-copy>small,
+.contact-next>span{
+  font-size:11px!important;
+  letter-spacing:.1em;
+}
+.journey-step-label,
+.reading-label,
+.reading-rail{
+  font-size:12px!important;
+}
+.project-caption-headline{
+  font-size:13px!important;
+}
+.project-scope-tags>span{
+  font-size:11px!important;
+  padding:7px 13px;
+}
+.portfolio-filters button{
+  font-size:13px!important;
+}
+@media(max-width:760px){
+  .eyebrow,
+  .chapter-label,
+  .chapter-label span{font-size:11px!important}
+  .founder-message>.eyebrow{font-size:10px!important}
+  .founder-signature>small,
+  .founder-monogram>small{font-size:9px!important}
+  .technology-column h3{font-size:10px!important}
+  .contact-form label{font-size:12px!important}
+  .form-kicker{font-size:9px!important}
+  .journey-step-label{font-size:10px!important}
+  .journey-title>.eyebrow{font-size:10px!important}
+}
+@media(max-width:440px){
+  .eyebrow{font-size:10px!important}
+  .technology-column h3{font-size:10px!important}
+  .contact-form label{font-size:12px!important}
+  .journey-step-label{font-size:9px!important}
+  .journey-title>.eyebrow{font-size:9px!important}
+}
+
