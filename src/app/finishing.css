@@ -818,24 +818,113 @@ html.entrance-covering .hero-flow-field{visibility:hidden}
   max-width:11.5em!important;
 }
 
-/* Mobile apps capability strip */
+/* Mobile apps: larger body + compressed vertical rhythm */
+.mobile-section{
+  align-items:start!important;
+  padding-top:42px!important;
+  padding-bottom:56px!important;
+}
+.mobile-copy > h2{
+  margin:22px 0 14px!important;
+}
+.mobile-copy > p:not(.eyebrow){
+  margin:0!important;
+}
 .mobile-app-points{
-  list-style:none;margin:22px 0 8px;padding:0;
-  display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;
+  list-style:none;
+  margin:14px 0 4px;
+  padding:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 16px;
   max-width:440px;
 }
 .mobile-app-points li{
-  display:flex;flex-direction:column;gap:4px;
-  padding:12px 0 0;border-top:1px solid #c5d3df;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  padding:8px 0 0;
+  border-top:1px solid #c5d3df;
 }
 .mobile-app-points strong{
-  font-size:13px;letter-spacing:-.02em;color:#152d40;font-weight:600;
+  font-size:14px;
+  letter-spacing:-.02em;
+  color:#152d40;
+  font-weight:600;
 }
 .mobile-app-points span{
-  font-size:12px;line-height:1.45;color:#5f778a;
+  font-size:13px;
+  line-height:1.4;
+  color:#5f778a;
+}
+.mobile-tabs{
+  margin-top:20px!important;
+}
+.mobile-tabs button{
+  padding:11px 0!important;
+}
+.mobile-story{
+  padding-top:18px!important;
+}
+.mobile-story h3{
+  margin:8px 0 6px!important;
+}
+.mobile-story .tags{
+  margin:12px 0 8px!important;
+}
+.mobile-capability{
+  margin-top:16px!important;
+  letter-spacing:.08em;
+}
+.mobile-capability span{
+  margin-top:6px!important;
+  line-height:1.5;
+}
+.mobile-environment{
+  align-self:start;
+  position:sticky;
+  top:96px;
+  height:auto!important;
+  min-height:0;
+}
+@media(max-width:900px){
+  .mobile-section{
+    gap:28px!important;
+    padding-top:36px!important;
+    padding-bottom:48px!important;
+  }
+  .mobile-environment{
+    position:relative;
+    top:auto;
+    width:100%;
+    max-width:420px;
+    justify-self:center;
+  }
+  .mobile-app-points{
+    max-width:100%;
+  }
 }
 @media(max-width:600px){
-  .mobile-app-points{grid-template-columns:1fr;max-width:none}
+  .mobile-app-points{
+    grid-template-columns:1fr;
+    max-width:none;
+    gap:8px;
+    margin:12px 0 2px;
+  }
+  .mobile-section{
+    gap:28px!important;
+    padding-bottom:40px!important;
+  }
+  .mobile-tabs{
+    margin-top:16px!important;
+    gap:18px!important;
+  }
+  .mobile-story{
+    padding-top:14px!important;
+  }
+  .mobile-capability{
+    margin-top:14px!important;
+  }
 }
 
 /* Project → next section: sticky filters without mobile paint jank */

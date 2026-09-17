@@ -1624,9 +1624,9 @@ summary:focus-visible {
 .growth-services details[open] summary > svg { transform: rotate(45deg); }
 
 .mobile-copy h2 { font-size: clamp(40px, 5vw, 64px) !important; }
-.mobile-copy > p:not(.eyebrow) { font-size: 17px !important; line-height: 1.7 !important; max-width: 40ch !important; color: #587083 !important; }
+.mobile-copy > p:not(.eyebrow) { font-size: 19px !important; line-height: 1.55 !important; max-width: 44ch !important; color: #587083 !important; }
 .mobile-story h3 { font-size: clamp(24px, 2.2vw, 34px) !important; }
-.mobile-story > p:not(.eyebrow) { font-size: 15px !important; line-height: 1.75 !important; }
+.mobile-story > p:not(.eyebrow) { font-size: 17px !important; line-height: 1.6 !important; }
 .mobile-story .eyebrow { font-size: 11px !important; letter-spacing: .14em; }
-.mobile-capability { font-size: 11px !important; }
-.mobile-capability span { font-size: 13px !important; }
+.mobile-capability { font-size: 12px !important; }
+.mobile-capability span { font-size: 14px !important; }
