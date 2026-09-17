@@ -14,7 +14,7 @@ interface SiteNavProps {
   onNavClick: () => void;
 }
 
-/** Show on hero; hide once user scrolls below hero. Filters stay pinned at top in work. */
+/** Show on hero; hide once user scrolls below hero. */
 export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }: SiteNavProps) {
   const [visible, setVisible] = useState(false);
   const [solid, setSolid] = useState(false);
@@ -31,10 +31,7 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
     let frame = 0;
     let previousShow: boolean | undefined;
     let previousSolid: boolean | undefined;
-    let previousFiltersTop: boolean | undefined;
-    // Hysteresis locks — stop sticky/nav class chatter on threshold edges.
     let showLocked = false;
-    let filtersLocked = false;
     let solidLocked = false;
 
     const sync = () => {
@@ -44,17 +41,10 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
       const heroBottom = heroRect.bottom;
       const entrancePassed = heroAnchor.getBoundingClientRect().top <= 4;
 
-      // Wide dead-zones so Lenis/iOS rubber-band can't flip classes every frame.
       if (!showLocked) {
         if (entrancePassed && heroTop < 40 && heroBottom > 220) showLocked = true;
       } else if (heroBottom <= 80 || !entrancePassed) {
         showLocked = false;
-      }
-
-      if (!filtersLocked) {
-        if (heroBottom <= 60) filtersLocked = true;
-      } else if (heroBottom > 280) {
-        filtersLocked = false;
       }
 
       const workRect = work?.getBoundingClientRect();
@@ -63,15 +53,13 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
       const inWork = Boolean(work) && workTop <= 40 && workBottom > 180;
 
       if (!solidLocked) {
-        if (filtersLocked || inWork || workTop < 160) solidLocked = true;
-      } else if (!filtersLocked && !inWork && workTop > 280) {
+        if (inWork || workTop < 160 || heroBottom <= 60) solidLocked = true;
+      } else if (!inWork && workTop > 280 && heroBottom > 280) {
         solidLocked = false;
       }
 
       const show = menuOpenRef.current || showLocked;
       const nextSolid = solidLocked;
-      // Filters stay pinned at top:0 always — class only for non-layout hooks.
-      const filtersTop = filtersLocked || inWork;
 
       if (show !== previousShow) {
         setVisible(show);
@@ -81,10 +69,6 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
       if (nextSolid !== previousSolid) {
         setSolid(nextSolid);
         previousSolid = nextSolid;
-      }
-      if (filtersTop !== previousFiltersTop) {
-        document.documentElement.classList.toggle('work-filters-top', filtersTop);
-        previousFiltersTop = filtersTop;
       }
     };
 
