@@ -14,7 +14,7 @@ interface SiteNavProps {
   onNavClick: () => void;
 }
 
-/** Show on hero; hide once user scrolls below hero. Filters take top in work. */
+/** Show on hero; hide once user scrolls below hero. Filters stay pinned at top in work. */
 export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }: SiteNavProps) {
   const [visible, setVisible] = useState(false);
   const [solid, setSolid] = useState(false);
@@ -32,6 +32,9 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
     let previousShow: boolean | undefined;
     let previousSolid: boolean | undefined;
     let previousFiltersTop: boolean | undefined;
+    // Hysteresis locks — stop sticky/nav class chatter on threshold edges.
+    let showLocked = false;
+    let filtersLocked = false;
 
     const sync = () => {
       frame = 0;
@@ -39,18 +42,29 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
       const heroTop = heroRect.top;
       const heroBottom = heroRect.bottom;
       const entrancePassed = heroAnchor.getBoundingClientRect().top <= 8;
-      // Show while hero is the active band (arrived from entrance, still on screen).
-      const inHero = entrancePassed && heroTop < 110 && heroBottom > 140;
-      const pastHero = heroBottom <= 140;
+
+      // Wide dead-zones so Lenis/iOS rubber-band can't flip classes every frame.
+      if (!showLocked) {
+        if (entrancePassed && heroTop < 90 && heroBottom > 180) showLocked = true;
+      } else if (heroBottom <= 110 || !entrancePassed) {
+        showLocked = false;
+      }
+
+      if (!filtersLocked) {
+        if (heroBottom <= 120) filtersLocked = true;
+      } else if (heroBottom > 240) {
+        filtersLocked = false;
+      }
 
       const workRect = work?.getBoundingClientRect();
       const workTop = workRect?.top ?? Number.POSITIVE_INFINITY;
       const workBottom = workRect?.bottom ?? Number.NEGATIVE_INFINITY;
-      const inWork = Boolean(work) && workTop <= 72 && workBottom > 120;
+      const inWork = Boolean(work) && workTop <= 80 && workBottom > 140;
 
-      const show = menuOpenRef.current || inHero;
-      const nextSolid = pastHero || inWork || solidNearWork(workTop);
-      const filtersTop = inWork || pastHero;
+      const show = menuOpenRef.current || showLocked;
+      const nextSolid = filtersLocked || inWork || workTop < 220;
+      const filtersTop = filtersLocked || inWork;
+
       if (show !== previousShow) {
         setVisible(show);
         document.documentElement.classList.toggle('nav-concealed', !show);
@@ -65,8 +79,6 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
         previousFiltersTop = filtersTop;
       }
     };
-
-    const solidNearWork = (workTop: number) => workTop < 200;
 
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(sync);
