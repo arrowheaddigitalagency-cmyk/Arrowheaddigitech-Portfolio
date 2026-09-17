@@ -28,7 +28,12 @@ def extract(
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Arrowhead Opening</title>
 <style>
-html,body{{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow:hidden}}
+html,body{{
+  margin:0;padding:0;width:100%;height:100%;
+  background:#fafbfc;overflow:hidden;
+  touch-action:pan-y!important;
+  -webkit-overflow-scrolling:touch;
+}}
 #{root_id}{{
   position:relative!important;
   width:100%!important;max-width:none!important;
@@ -36,16 +41,22 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow
   margin:0!important;padding:0!important;
   display:block!important;overflow:hidden!important;
   box-sizing:border-box!important;
+  touch-action:pan-y!important;
 }}
 #{root_id} canvas{{
   position:absolute!important;inset:0!important;
   display:block!important;
   width:100%!important;height:100%!important;
   max-width:none!important;max-height:none!important;
-  object-fit:cover!important;
+  margin:auto!important;
+  object-fit:contain!important;
   object-position:{object_position}!important;
   transform:scale({scale})!important;
   transform-origin:center center!important;
+  touch-action:pan-y!important;
+}}
+@media (pointer:coarse){{
+  #{root_id},#{root_id} canvas{{pointer-events:none!important}}
 }}
 #{root_id} .controls{{display:none!important}}
 {extra_css}
@@ -61,35 +72,21 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow
     print(f"wrote {target} ({len(inject)} bytes)")
 
 
-# Laptop / tablet landscape: exact Interactive brand frame (no extra zoom media queries).
+# Smaller brand frame on laptop/tablet (contain + scale-down).
 extract(
     "Arrowhead_Interactive.html",
     "arrowhead-motion",
     "desktop.html",
     "center center",
-    "1.02",
+    "0.78",
 )
 
-# Phones: full portrait stack (PORTFOLIO → services → TOUCH TO EXPLORE).
+# Phone portrait: full stack visible, slightly smaller, scroll-friendly.
 extract(
     "Arrowhead_Mobile.html",
     "arrowhead-mobile",
     "mobile.html",
     "center center",
-    "1.0",
-    extra_css="""
-@media (max-aspect-ratio: 9/18){
-  #arrowhead-mobile canvas{
-    object-position:center 46%!important;
-    transform:scale(1.04)!important;
-  }
-}
-@media (min-aspect-ratio: 9/16) and (max-width:767px){
-  #arrowhead-mobile canvas{
-    object-position:center center!important;
-    transform:scale(1.02)!important;
-  }
-}
-""",
+    "0.88",
 )
 print("done")

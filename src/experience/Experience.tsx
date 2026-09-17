@@ -49,21 +49,20 @@ export default function Experience() {
     if (!reduced.matches) {
       const touch = isCoarsePointer();
       lenis = new Lenis({
-        // Responsive glide — follows the wheel closely, less sticky lag.
-        duration: touch ? 0.75 : 0.85,
-        lerp: touch ? 0.16 : 0.14,
+        // Native-feel glide — short duration, steady lerp.
+        duration: touch ? 0.68 : 0.8,
+        lerp: touch ? 0.18 : 0.13,
         easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        // Keep touch scrolling on the browser compositor; scroll animations
-        // still follow native scroll through ScrollTrigger.
+        // Keep touch on the browser compositor so entrance/iframe never fights scroll.
         syncTouch: false,
-        syncTouchLerp: 0.14,
-        touchInertiaExponent: 1.15,
-        touchMultiplier: touch ? 1.05 : 1,
+        syncTouchLerp: 0.12,
+        touchInertiaExponent: 1.1,
+        touchMultiplier: 1,
         wheelMultiplier: 1,
         anchors: {
           offset: -12,
-          duration: touch ? 0.8 : 0.9,
+          duration: touch ? 0.7 : 0.85,
           easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         },
         stopInertiaOnNavigate: true,
@@ -71,7 +70,8 @@ export default function Experience() {
         prevent: node =>
           node.hasAttribute('data-lenis-prevent') ||
           node.closest('[data-lenis-prevent]') != null ||
-          node.closest('.portfolio-dialog') != null,
+          node.closest('.portfolio-dialog') != null ||
+          node.closest('.entrance-motion-frame') != null,
       });
 
       smoothScroll.current = lenis;

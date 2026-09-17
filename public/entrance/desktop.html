@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Arrowhead Opening</title>
 <style>
-html,body{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow:hidden}
+html,body{
+  margin:0;padding:0;width:100%;height:100%;
+  background:#fafbfc;overflow:hidden;
+  touch-action:pan-y!important;
+  -webkit-overflow-scrolling:touch;
+}
 #arrowhead-motion{
   position:relative!important;
   width:100%!important;max-width:none!important;
@@ -13,16 +18,22 @@ html,body{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow:
   margin:0!important;padding:0!important;
   display:block!important;overflow:hidden!important;
   box-sizing:border-box!important;
+  touch-action:pan-y!important;
 }
 #arrowhead-motion canvas{
   position:absolute!important;inset:0!important;
   display:block!important;
   width:100%!important;height:100%!important;
   max-width:none!important;max-height:none!important;
-  object-fit:cover!important;
+  margin:auto!important;
+  object-fit:contain!important;
   object-position:center center!important;
-  transform:scale(1.02)!important;
+  transform:scale(0.78)!important;
   transform-origin:center center!important;
+  touch-action:pan-y!important;
+}
+@media (pointer:coarse){
+  #arrowhead-motion,#arrowhead-motion canvas{pointer-events:none!important}
 }
 #arrowhead-motion .controls{display:none!important}
 
