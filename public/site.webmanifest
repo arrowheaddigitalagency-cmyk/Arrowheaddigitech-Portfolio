@@ -1,11 +1,12 @@
 {
   "name": "Arrowhead DigiTech",
   "short_name": "Arrowhead",
-  "description": "Building Digital Systems That Actually Grow Businesses.",
+  "description": "Custom software, AI systems, mobile apps, and growth marketing — from Lahore to the world.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f0f0f",
   "theme_color": "#FF5A1F",
+  "lang": "en-US",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
