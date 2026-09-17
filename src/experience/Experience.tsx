@@ -24,7 +24,7 @@ const navLinks: [string, string][] = [
 ];
 
 function isCoarsePointer() {
-  return window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+  return window.matchMedia('(pointer: coarse)').matches;
 }
 
 export default function Experience() {
@@ -49,15 +49,11 @@ export default function Experience() {
     if (!reduced.matches) {
       const touch = isCoarsePointer();
       lenis = new Lenis({
-        // Native-feel glide — short duration, steady lerp.
-        duration: touch ? 0.68 : 0.8,
-        lerp: touch ? 0.18 : 0.13,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        // One interpolation model shared by wheel scrolling and scroll-driven scenes.
+        lerp: 0.085,
         smoothWheel: true,
-        // Keep touch on the browser compositor so entrance/iframe never fights scroll.
+        // Keep touch scrolling on the browser compositor.
         syncTouch: false,
-        syncTouchLerp: 0.12,
-        touchInertiaExponent: 1.1,
         touchMultiplier: 1,
         wheelMultiplier: 1,
         anchors: {
@@ -70,8 +66,7 @@ export default function Experience() {
         prevent: node =>
           node.hasAttribute('data-lenis-prevent') ||
           node.closest('[data-lenis-prevent]') != null ||
-          node.closest('.portfolio-dialog') != null ||
-          node.closest('.entrance-motion-frame') != null,
+          node.closest('.portfolio-dialog') != null,
       });
 
       smoothScroll.current = lenis;
@@ -81,7 +76,7 @@ export default function Experience() {
       gsap.ticker.lagSmoothing(0);
       lenis.on('scroll', ScrollTrigger.update);
       tick = time => lenis?.raf(time * 1000);
-      gsap.ticker.add(tick);
+      gsap.ticker.add(tick, false, true);
 
       refreshTriggers();
       window.addEventListener('load', refreshTriggers);

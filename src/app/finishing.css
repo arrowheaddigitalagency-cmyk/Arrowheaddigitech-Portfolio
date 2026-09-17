@@ -4,89 +4,29 @@
 .mobile-section .phone-screen>img{width:100%;height:auto;object-fit:contain;object-position:top center}
 
 .experience{overflow-x:clip!important;overflow-y:visible!important}
-.opening-sequence{--opening-distance:56svh;--opening-height:100svh;position:relative;height:calc(var(--opening-height) + var(--opening-distance));background:#fff}
-@supports(height:100dvh){
-  .opening-sequence{--opening-height:100dvh;--opening-distance:56dvh}
-}
+.opening-sequence{--opening-distance:85svh;--opening-height:100svh;position:relative;height:calc(var(--opening-height) + var(--opening-distance));background:#fff}
 .opening-stage{position:sticky;top:0;isolation:isolate;min-height:100svh}
-@supports(height:100dvh){.opening-stage{min-height:100dvh}}
 .opening-destination{position:absolute;top:var(--opening-distance);left:0;width:1px;height:1px;scroll-margin-top:0}
-.opening-hero{position:relative;min-height:100svh;clip-path:none!important}
-@supports(height:100dvh){.opening-hero{min-height:100dvh}}
-.hero-reveal{
-  position:relative;z-index:5;
-  opacity:0;
-  will-change:opacity,transform;
-  min-height:100svh;
-}
-@supports(height:100dvh){.hero-reveal{min-height:100dvh}}
-html:not(.entrance-covering) .hero-reveal{will-change:auto;opacity:1}
-.opening-sequence .particle-entrance{position:absolute;inset:0 0 auto;height:100%;min-height:100svh;background:transparent;z-index:2}
-@supports(height:100dvh){.opening-sequence .particle-entrance{min-height:100dvh}}
-.opening-sequence .particle-entrance-stage{position:relative;height:100%;min-height:100svh;padding:0}
-@supports(height:100dvh){.opening-sequence .particle-entrance-stage{min-height:100dvh}}
-.opening-sequence .entrance-core{
-  transform-origin:50% 50%;
-  will-change:transform,opacity;
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  max-width:none;
-  margin:0;
-  padding:0;
-  display:block;
-}
-.entrance-motion-frame{
-  display:block;
-  width:100%;
-  height:100%;
-  min-height:100%;
-  border:0;
-  background:#fafbfc;
-  pointer-events:none;
-  touch-action:pan-y;
-}
-@media(hover:hover) and (pointer:fine){
-  .entrance-motion-frame{pointer-events:auto}
-}
-@media(max-width:767px){
-  .opening-sequence{--opening-distance:48svh}
-  @supports(height:100dvh){.opening-sequence{--opening-distance:48dvh}}
-  .opening-sequence .entrance-core,
-  .entrance-motion-frame{
-    inset:0;
-    width:100%;
-    height:100%;
-    pointer-events:none!important;
-    touch-action:pan-y!important;
-  }
-  .particle-entrance,
-  .particle-entrance-stage,
-  .entrance-core{
-    touch-action:pan-y!important;
-    pointer-events:none!important;
-  }
-  .particle-entrance-stage{
-    height:100%;
-    min-height:100svh;
-    padding:0;
-  }
-  @supports(height:100dvh){.particle-entrance-stage{min-height:100dvh}}
-}
-@media(prefers-reduced-motion:reduce){.opening-sequence{height:auto}.opening-stage{position:relative;display:flex;flex-direction:column}.opening-sequence .particle-entrance{position:relative;order:-1}.opening-hero{clip-path:none!important}.hero-reveal{opacity:1!important;transform:none!important}.opening-destination{top:100svh}}
-.particle-entrance{height:150svh;position:relative;z-index:40;background:#fff}
-@supports(height:100dvh){.particle-entrance{height:150dvh}}
-.particle-entrance-stage{
-  position:sticky;top:0;height:100svh;min-height:100svh;
-  display:block;
-  background:#fafbfc;overflow:hidden;color:#142332;
-  padding:0;
-  box-sizing:border-box;
-}
-@supports(height:100dvh){
-  .particle-entrance-stage{height:100dvh;min-height:100dvh}
-}
+.opening-hero{position:relative;min-height:100svh}
+.hero-reveal{position:relative;z-index:5;min-height:100svh}
+.opening-sequence .particle-entrance{position:absolute;inset:0 0 auto;height:100svh;z-index:2;background:#fafbfc;overflow:hidden;touch-action:pan-y}
+.opening-sequence .particle-entrance-stage,.opening-sequence .entrance-core{position:absolute;inset:0;width:100%;height:100%;padding:0}
+.entrance-artwork{container-type:size;--edge-x:18%;--edge-y:3%;position:absolute;inset:0;display:grid;place-items:center;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:#fafbfc;touch-action:pan-y}
+.entrance-backdrop{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#fff 15%,#f3f6f9 68%,#e8eef4 100%)}
+.entrance-backdrop::before,.entrance-backdrop::after{content:"";position:absolute;inset:-40%;pointer-events:none;background:linear-gradient(125deg,transparent 39%,#d9e2eb66 39.15%,#fff9 40.5%,transparent 43%),linear-gradient(55deg,transparent 58%,#d9e2eb66 58.15%,#fffc 59.5%,transparent 62%)}
+.entrance-backdrop::before,.entrance-backdrop::after{opacity:.18}.entrance-backdrop::after{transform:scaleX(-1)}
+.entrance-backdrop i{position:absolute;left:50%;top:50%;width:125vmax;height:125vmax;border:1px solid #2588e52b;border-radius:50%;transform:translate(-50%,-50%)}
+.entrance-backdrop i:nth-child(2){width:140vmax;height:140vmax;border-color:#ff762426}
+.entrance-backdrop i:nth-child(3){width:155vmax;height:155vmax;border-color:#f3372e1c}
+.entrance-artwork picture{position:absolute;width:min(100cqw,150cqh);height:auto;aspect-ratio:3/2;display:block;mask-image:linear-gradient(to right,transparent,#000 var(--edge-x,18%),#000 calc(100% - var(--edge-x,18%)),transparent),linear-gradient(to bottom,transparent,#000 var(--edge-y,9%),#000 calc(100% - var(--edge-y,9%)),transparent);mask-composite:intersect}
+@media(max-aspect-ratio:4/5){.entrance-artwork picture{width:min(100cqw,56.25cqh);aspect-ratio:9/16}.entrance-artwork{--edge-x:3%;--edge-y:9%}}
+@container(min-aspect-ratio:9/16) and (max-aspect-ratio:4/5){.entrance-artwork picture,.entrance-artwork canvas{--edge-x:18%;--edge-y:3%}}
+@container(min-aspect-ratio:4/5) and (max-aspect-ratio:3/2){.entrance-artwork picture,.entrance-artwork canvas{--edge-x:3%;--edge-y:9%}}
+.entrance-artwork img{display:block;width:100%;height:100%;object-fit:contain}
+.entrance-artwork canvas{mask-image:linear-gradient(to right,transparent,#000 var(--edge-x,18%),#000 calc(100% - var(--edge-x,18%)),transparent);position:absolute;max-width:100%;max-height:100%;pointer-events:none}
+.entrance-enter{position:absolute;inset:0;cursor:pointer;touch-action:pan-y}
+.entrance-enter:focus-visible{outline:3px solid #087eff;outline-offset:-8px}
+@media(prefers-reduced-motion:reduce){.opening-sequence{height:auto}.opening-stage{position:relative;display:flex;flex-direction:column}.opening-sequence .particle-entrance{position:relative;order:-1;flex:none}.hero-reveal{opacity:1!important;transform:none!important}.opening-destination{top:100svh}}
 
 /* Fixed site nav — fills the band above sticky portfolio filters */
 .site-nav{
@@ -519,12 +459,14 @@ html.lenis.lenis-stopped{overflow:clip}
   .experience .portfolio-card,.experience .project-window{will-change:auto}
 }
 
-.studio-cursor{position:fixed;top:0;left:0;z-index:20000;pointer-events:none;opacity:0;will-change:transform}
-.studio-cursor.is-visible{opacity:1}
-.studio-cursor>i{position:absolute;top:-4px;left:-4px;width:8px;height:8px;background:#0a1520;border:1px solid #adcce0;border-radius:50%;box-shadow:0 0 8px #4c9dff;z-index:1}
-.studio-cursor>span{position:absolute;left:-19px;top:-19px;width:38px;height:38px;border:1px solid #5fafff80;border-radius:50%;background:radial-gradient(circle,#579dff40,transparent 72%);box-shadow:0 0 20px #3b8eff38;transition:width .18s,height .18s,left .18s,top .18s}
-.studio-cursor.is-interactive>span{width:54px;height:54px;left:-27px;top:-27px}
-@media(pointer:fine) and (hover:hover){.studio-cursor-enabled,.studio-cursor-enabled *{cursor:none!important}.studio-cursor-enabled input,.studio-cursor-enabled textarea{cursor:text!important}}
+/* Native cursor assets avoid per-pointermove DOM writes and full-page cursor selectors. */
+@media(pointer:fine) and (hover:hover){
+  .experience{cursor:url('/cursors/arrow-blue.svg') 4 3,auto}
+  .experience :is(a,button,summary,[role="button"],[role="tab"]){cursor:url('/cursors/arrow-orange.svg') 4 3,pointer}
+  .experience :is(input,textarea,[contenteditable="true"]){cursor:text}
+  .experience :disabled{cursor:not-allowed}
+}
+
 @media(max-width:900px){
   .site-nav .nav{display:none}
   .site-nav .nav-mobile-actions{display:flex;align-items:center;gap:10px}

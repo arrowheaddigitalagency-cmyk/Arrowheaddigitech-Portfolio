@@ -32,12 +32,17 @@ export default function Entrance({ children }: { children: ReactNode }) {
       const syncInteraction = (progress: number) => {
         if (hero.inert !== (progress < 0.7)) hero.inert = progress < 0.7;
         if (cover.inert !== (progress > 0.88)) cover.inert = progress > 0.88;
-        const covering = progress < 0.38;
+        const covering = progress < 0.55;
+        const nextActive = progress < 0.98;
+        if (active !== nextActive) {
+          active = nextActive;
+          window.dispatchEvent(new CustomEvent('entrance-active', { detail: active }));
+        }
         if (document.documentElement.classList.contains('entrance-covering') !== covering) {
           document.documentElement.classList.toggle('entrance-covering', covering);
         }
       };
-      const touch = window.matchMedia('(pointer: coarse)').matches;
+      let active = true;
       const context = gsap.context(() => {
         gsap.set(hero, { clearProps: 'clipPath' });
         gsap.set('.hero-reveal', { clearProps: 'clipPath', opacity: 0, y: 28 });
@@ -46,19 +51,19 @@ export default function Entrance({ children }: { children: ReactNode }) {
             trigger: element,
             start: 'top top',
             end: () => `+=${Math.round(element.offsetHeight - stage.offsetHeight)}`,
-            scrub: touch ? 0.2 : true,
+            scrub: true,
             invalidateOnRefresh: true,
             anticipatePin: 1,
-            fastScrollEnd: true,
+
             onUpdate: self => syncInteraction(self.progress),
             onRefresh: self => syncInteraction(self.progress),
           },
         });
         timeline
-          .fromTo('.hero-reveal', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0.2)
+          .fromTo('.hero-reveal', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.72, ease: 'power2.out' }, 0.28)
           .fromTo('.hero-atmosphere', { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power1.out' }, 0.16)
-          .to('.entrance-core', { scale: 1.04, opacity: 0, duration: 0.45, ease: 'power2.in' }, 0.1)
-          .to(cover, { autoAlpha: 0, duration: 0.45, ease: 'power1.inOut' }, 0.22);
+          .to('.entrance-core', { yPercent: -3, duration: 0.8, ease: 'none' }, 0.12)
+          .to(cover, { autoAlpha: 0, duration: 0.8, ease: 'power1.inOut' }, 0.12);
       }, element);
       return () => {
         context.revert();
