@@ -11,6 +11,7 @@ def extract(
     out_name: str,
     object_position: str,
     scale: str,
+    extra_css: str = "",
 ) -> None:
     raw = (root / src_name).read_text(encoding="utf-8", errors="replace")
     start = raw.find(f'<div id="{root_id}">')
@@ -20,8 +21,7 @@ def extract(
     if not body.endswith("</div>"):
         body = body + "\n</div>"
 
-    # Full-bleed cover: fill the iframe edge-to-edge (no side letterboxing).
-    # Fixed canvas sizes get CSS cover + mild scale to crop designed white margins.
+    # Full-bleed cover for laptop/tablet Interactive framing (matches brand hero).
     inject = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -49,6 +49,7 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow
   transform-origin:center center!important;
 }}
 #{root_id} .controls{{display:none!important}}
+{extra_css}
 </style>
 </head>
 <body>
@@ -61,18 +62,33 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow
     print(f"wrote {target} ({len(inject)} bytes)")
 
 
+# Laptop + tablet: light scale so map reaches edges like the brand hero frame.
 extract(
     "Arrowhead_Interactive.html",
     "arrowhead-motion",
     "desktop.html",
-    "center center",
-    "1.12",
+    "center 42%",
+    "1.05",
+    extra_css="""
+@media (max-width:1180px){
+  #arrowhead-motion canvas{
+    object-position:center 38%!important;
+    transform:scale(1.08)!important;
+  }
+}
+@media (max-width:900px){
+  #arrowhead-motion canvas{
+    object-position:center 34%!important;
+    transform:scale(1.12)!important;
+  }
+}
+""",
 )
 extract(
     "Arrowhead_Mobile.html",
     "arrowhead-mobile",
     "mobile.html",
     "center top",
-    "1.06",
+    "1.04",
 )
 print("done")
