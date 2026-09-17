@@ -44,18 +44,13 @@ export default function EngineeringStory(){
   gsap.registerPlugin(ScrollTrigger);const media=gsap.matchMedia();
   const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting)setActive(Number((entry.target as HTMLElement).dataset.step));},{rootMargin:'-28% 0px -42% 0px'});
   root.current?.querySelectorAll('[data-step]').forEach(el=>observer.observe(el));
-  // Load the WebGL core as soon as the journey is near (desktop: eager).
+  // Defer WebGL until the journey is near — avoids tab crashes on hard reload.
   let machineIo:IntersectionObserver|undefined;
-  if(!reduced.matches){
-   const coarse=window.matchMedia('(pointer: coarse)').matches;
-   if(!coarse){
-    setEnable3D(true);
-   }else if(journey.current){
-    machineIo=new IntersectionObserver(entries=>{
-     if(entries.some(e=>e.isIntersecting)){setEnable3D(true);machineIo?.disconnect();}
-    },{rootMargin:'420px 0px'});
-    machineIo.observe(journey.current);
-   }
+  if(!reduced.matches&&journey.current){
+   machineIo=new IntersectionObserver(entries=>{
+    if(entries.some(e=>e.isIntersecting)){setEnable3D(true);machineIo?.disconnect();}
+   },{rootMargin:'480px 0px'});
+   machineIo.observe(journey.current);
   }
   media.add('(prefers-reduced-motion: no-preference)',()=>{
    const touch=window.matchMedia('(pointer: coarse)').matches;
