@@ -23,6 +23,9 @@ FIT_SCRIPT = r"""
     var size = viewport();
     var w = size.w + 'px';
     var h = size.h + 'px';
+    var ratio = size.w / size.h;
+    var dpr = Math.min(window.devicePixelRatio || 1, 3);
+
     document.documentElement.style.width = w;
     document.documentElement.style.height = h;
     document.body.style.width = w;
@@ -31,6 +34,16 @@ FIT_SCRIPT = r"""
     root.style.height = h;
     canvas.style.width = w;
     canvas.style.height = h;
+
+    // Tier classes for QHD / 4K / ultrawide framing
+    root.classList.toggle('is-qhd', size.w >= 2560 || size.h >= 1440);
+    root.classList.toggle('is-4k', size.w >= 3500 || size.h >= 2000 || (size.w >= 3000 && dpr >= 1.5));
+    root.classList.toggle('is-ultrawide', ratio >= 2.05);
+    root.classList.toggle('is-tall', ratio <= 1.4);
+
+    document.documentElement.style.setProperty('--entrance-dpr', String(dpr));
+    document.documentElement.style.setProperty('--entrance-vw', w);
+    document.documentElement.style.setProperty('--entrance-vh', h);
   }
 
   fit();
@@ -53,6 +66,7 @@ def extract(
     root_id: str,
     out_name: str,
     object_position: str,
+    large_css: str,
 ) -> None:
     raw = (root / src_name).read_text(encoding="utf-8", errors="replace")
     start = raw.find(f'<div id="{root_id}">')
@@ -103,8 +117,51 @@ html,body{{
   max-height:none!important;
   object-fit:cover!important;
   object-position:{object_position}!important;
+  transform:none;
+  transform-origin:center center!important;
   touch-action:pan-y!important;
 }}
+/* QHD / 2K */
+#{root_id}.is-qhd canvas{{
+  transform:scale(1.06)!important;
+}}
+/* 4K and retina large displays — fill bleed, keep brand weight */
+#{root_id}.is-4k canvas{{
+  transform:scale(1.12)!important;
+  object-position:center 46%!important;
+}}
+#{root_id}.is-ultrawide canvas{{
+  transform:scale(1.18)!important;
+  object-position:center center!important;
+}}
+#{root_id}.is-4k.is-ultrawide canvas{{
+  transform:scale(1.22)!important;
+}}
+#{root_id}.is-tall canvas{{
+  object-position:center 42%!important;
+  transform:scale(1.04)!important;
+}}
+@media (min-width:2560px){{
+  #{root_id} canvas{{transform:scale(1.06)!important}}
+}}
+@media (min-width:3200px){{
+  #{root_id} canvas{{
+    transform:scale(1.1)!important;
+    object-position:center 46%!important;
+  }}
+}}
+@media (min-width:3840px){{
+  #{root_id} canvas{{
+    transform:scale(1.14)!important;
+    object-position:center 45%!important;
+  }}
+}}
+@media (min-width:5120px){{
+  #{root_id} canvas{{
+    transform:scale(1.2)!important;
+  }}
+}}
+{large_css}
 @media (pointer:coarse){{
   #{root_id},#{root_id} canvas{{pointer-events:none!important}}
 }}
@@ -127,11 +184,20 @@ extract(
     "arrowhead-motion",
     "desktop.html",
     "center center",
+    "",
 )
 extract(
     "Arrowhead_Mobile.html",
     "arrowhead-mobile",
     "mobile.html",
     "center center",
+    """
+@media (min-width:768px) and (min-height:1000px){
+  #arrowhead-mobile canvas{
+    object-position:center center!important;
+    transform:scale(1.05)!important;
+  }
+}
+""",
 )
 print("done")

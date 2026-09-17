@@ -74,6 +74,17 @@ html:not(.entrance-covering) .hero-reveal{will-change:auto;opacity:1}
   }
   @supports(height:100dvh){.particle-entrance-stage{min-height:100dvh}}
 }
+/* Large / 4K monitors — keep entrance full-bleed and balanced */
+@media(min-width:2560px){
+  .opening-sequence{--opening-distance:52vh}
+  .entrance-motion-frame{min-height:100%}
+}
+@media(min-width:3840px){
+  .opening-sequence{--opening-distance:48vh}
+  .opening-sequence .entrance-core{
+    transform-origin:50% 46%;
+  }
+}
 @media(prefers-reduced-motion:reduce){.opening-sequence{height:auto}.opening-stage{position:relative;display:flex;flex-direction:column}.opening-sequence .particle-entrance{position:relative;order:-1}.opening-hero{clip-path:none!important}.hero-reveal{opacity:1!important;transform:none!important}.opening-destination{top:100svh}}
 .particle-entrance{height:150svh;position:relative;z-index:40;background:#fff}
 @supports(height:100dvh){.particle-entrance{height:150dvh}}

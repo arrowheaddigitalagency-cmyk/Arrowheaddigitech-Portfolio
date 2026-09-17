@@ -37,8 +37,51 @@ html,body{
   max-height:none!important;
   object-fit:cover!important;
   object-position:center center!important;
+  transform:none;
+  transform-origin:center center!important;
   touch-action:pan-y!important;
 }
+/* QHD / 2K */
+#arrowhead-motion.is-qhd canvas{
+  transform:scale(1.06)!important;
+}
+/* 4K and retina large displays — fill bleed, keep brand weight */
+#arrowhead-motion.is-4k canvas{
+  transform:scale(1.12)!important;
+  object-position:center 46%!important;
+}
+#arrowhead-motion.is-ultrawide canvas{
+  transform:scale(1.18)!important;
+  object-position:center center!important;
+}
+#arrowhead-motion.is-4k.is-ultrawide canvas{
+  transform:scale(1.22)!important;
+}
+#arrowhead-motion.is-tall canvas{
+  object-position:center 42%!important;
+  transform:scale(1.04)!important;
+}
+@media (min-width:2560px){
+  #arrowhead-motion canvas{transform:scale(1.06)!important}
+}
+@media (min-width:3200px){
+  #arrowhead-motion canvas{
+    transform:scale(1.1)!important;
+    object-position:center 46%!important;
+  }
+}
+@media (min-width:3840px){
+  #arrowhead-motion canvas{
+    transform:scale(1.14)!important;
+    object-position:center 45%!important;
+  }
+}
+@media (min-width:5120px){
+  #arrowhead-motion canvas{
+    transform:scale(1.2)!important;
+  }
+}
+
 @media (pointer:coarse){
   #arrowhead-motion,#arrowhead-motion canvas{pointer-events:none!important}
 }
@@ -99,6 +142,9 @@ window.arrowheadPreview={startDemo(){demo=true;reset()},stopDemo(){demo=false;mo
     var size = viewport();
     var w = size.w + 'px';
     var h = size.h + 'px';
+    var ratio = size.w / size.h;
+    var dpr = Math.min(window.devicePixelRatio || 1, 3);
+
     document.documentElement.style.width = w;
     document.documentElement.style.height = h;
     document.body.style.width = w;
@@ -107,6 +153,16 @@ window.arrowheadPreview={startDemo(){demo=true;reset()},stopDemo(){demo=false;mo
     root.style.height = h;
     canvas.style.width = w;
     canvas.style.height = h;
+
+    // Tier classes for QHD / 4K / ultrawide framing
+    root.classList.toggle('is-qhd', size.w >= 2560 || size.h >= 1440);
+    root.classList.toggle('is-4k', size.w >= 3500 || size.h >= 2000 || (size.w >= 3000 && dpr >= 1.5));
+    root.classList.toggle('is-ultrawide', ratio >= 2.05);
+    root.classList.toggle('is-tall', ratio <= 1.4);
+
+    document.documentElement.style.setProperty('--entrance-dpr', String(dpr));
+    document.documentElement.style.setProperty('--entrance-vw', w);
+    document.documentElement.style.setProperty('--entrance-vh', h);
   }
 
   fit();
