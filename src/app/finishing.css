@@ -274,7 +274,7 @@ html.work-filters-top .portfolio-filters{top:0!important;margin-top:0!important;
 /* Overall smoother motion */
 html{scroll-behavior:auto}
 .experience a,.experience button{transition:color .25s ease,background .25s ease,border-color .25s ease,opacity .25s ease,transform .25s ease}
-.site-nav{transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .4s ease,background .4s ease,border-color .4s ease,box-shadow .4s ease}
+.site-nav{transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .25s ease,background .35s ease,border-color .35s ease,box-shadow .35s ease}
 
 .about-section{background:linear-gradient(180deg,#f5f7f8,#e1ebf2 55%,#f5f4f0);color:#152d40}
 .about-editorial{display:grid;grid-template-columns:.9fr 1.1fr;gap:9%;padding:65px 0 90px;align-items:start}
@@ -475,7 +475,7 @@ html.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
 html.lenis.lenis-stopped{overflow:clip}
 .experience{-webkit-overflow-scrolling:touch}
 .experience a,.experience button{transition:color .25s ease,background .25s ease,border-color .25s ease,opacity .25s ease,transform .25s ease}
-.site-nav{transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .4s ease,background .4s ease,border-color .4s ease,box-shadow .4s ease}
+.site-nav{transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .25s ease,background .35s ease,border-color .35s ease,box-shadow .35s ease}
 @media (pointer:coarse){
   .experience .portfolio-card,.experience .project-window{will-change:auto}
 }
