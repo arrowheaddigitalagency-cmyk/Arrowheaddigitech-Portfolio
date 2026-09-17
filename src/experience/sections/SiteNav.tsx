@@ -35,34 +35,42 @@ export default function SiteNav({ navLinks, menuOpen, onMenuToggle, onNavClick }
     // Hysteresis locks — stop sticky/nav class chatter on threshold edges.
     let showLocked = false;
     let filtersLocked = false;
+    let solidLocked = false;
 
     const sync = () => {
       frame = 0;
       const heroRect = heroContent.getBoundingClientRect();
       const heroTop = heroRect.top;
       const heroBottom = heroRect.bottom;
-      const entrancePassed = heroAnchor.getBoundingClientRect().top <= 8;
+      const entrancePassed = heroAnchor.getBoundingClientRect().top <= 4;
 
       // Wide dead-zones so Lenis/iOS rubber-band can't flip classes every frame.
       if (!showLocked) {
-        if (entrancePassed && heroTop < 90 && heroBottom > 180) showLocked = true;
-      } else if (heroBottom <= 110 || !entrancePassed) {
+        if (entrancePassed && heroTop < 40 && heroBottom > 220) showLocked = true;
+      } else if (heroBottom <= 80 || !entrancePassed) {
         showLocked = false;
       }
 
       if (!filtersLocked) {
-        if (heroBottom <= 120) filtersLocked = true;
-      } else if (heroBottom > 240) {
+        if (heroBottom <= 60) filtersLocked = true;
+      } else if (heroBottom > 280) {
         filtersLocked = false;
       }
 
       const workRect = work?.getBoundingClientRect();
       const workTop = workRect?.top ?? Number.POSITIVE_INFINITY;
       const workBottom = workRect?.bottom ?? Number.NEGATIVE_INFINITY;
-      const inWork = Boolean(work) && workTop <= 80 && workBottom > 140;
+      const inWork = Boolean(work) && workTop <= 40 && workBottom > 180;
+
+      if (!solidLocked) {
+        if (filtersLocked || inWork || workTop < 160) solidLocked = true;
+      } else if (!filtersLocked && !inWork && workTop > 280) {
+        solidLocked = false;
+      }
 
       const show = menuOpenRef.current || showLocked;
-      const nextSolid = filtersLocked || inWork || workTop < 220;
+      const nextSolid = solidLocked;
+      // Filters stay pinned at top:0 always — class only for non-layout hooks.
       const filtersTop = filtersLocked || inWork;
 
       if (show !== previousShow) {

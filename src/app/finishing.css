@@ -40,34 +40,10 @@ html:not(.entrance-covering) .hero-reveal{will-change:auto;opacity:1}
 .particle-entrance{height:150svh;position:relative;z-index:40;background:#fff}
 .particle-entrance-stage{
   position:sticky;top:0;height:100svh;min-height:100svh;
-  display:flex;flex-direction:column;align-items:stretch;justify-content:stretch;
+  display:block;
   background:#fafbfc;overflow:hidden;color:#142332;
-  padding-top:env(safe-area-inset-top, 0px);
+  padding:0;
   box-sizing:border-box;
-}
-.entrance-scroll{
-  display:flex;align-items:center;justify-content:center;gap:18px;
-  position:absolute;left:0;right:0;bottom:clamp(72px,12svh,110px);
-  z-index:3;margin:0;font-size:9px;letter-spacing:.16em;color:#304d62;padding:16px;
-  pointer-events:auto;
-}
-.entrance-scroll svg{animation:entrance-nudge 2s ease-in-out infinite}
-.entrance-baseline{
-  position:absolute;bottom:max(16px, env(safe-area-inset-bottom, 0px));left:var(--pad);right:var(--pad);
-  display:flex;justify-content:space-between;align-items:center;z-index:3;
-  border-top:1px solid #d5e2ec;padding-top:14px;
-  font-size:9px;letter-spacing:.14em;color:#6b8799;font-weight:500;
-  pointer-events:none;
-}
-@keyframes entrance-nudge{50%{transform:translateY(7px)}}
-
-@media(max-width:1024px){
-  .entrance-scroll{bottom:clamp(64px,11svh,96px);gap:12px;font-size:8px}
-  .entrance-baseline{font-size:8px;bottom:max(12px, env(safe-area-inset-bottom, 0px))}
-}
-
-@media(max-width:430px){
-  .entrance-scroll{bottom:clamp(58px,10svh,84px)}
 }
 
 /* Fixed site nav — fills the band above sticky portfolio filters */
@@ -79,7 +55,8 @@ html:not(.entrance-covering) .hero-reveal{will-change:auto;opacity:1}
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
   transform:translateY(-110%);opacity:0;pointer-events:none;
-  transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .35s ease,background .35s ease,border-color .35s ease,box-shadow .35s ease;
+  transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .25s ease,background .35s ease,border-color .35s ease,box-shadow .35s ease;
+  will-change:transform,opacity;
 }
 .site-nav.is-visible{transform:translateY(0);opacity:1;pointer-events:auto}
 .site-nav.is-concealed{transform:translateY(-110%)!important;opacity:0!important;pointer-events:none!important}
@@ -530,7 +507,7 @@ html.lenis.lenis-stopped{overflow:clip}
 @media(max-width:760px){
   .site-nav{height:70px}
   .portfolio-filters{top:0!important}
-  .about-editorial{grid-template-columns:1fr;gap:55px;padding:40px 0 50px}.about-editorial-heading{position:relative;top:auto}.about-editorial-heading h2{font-size:44px}.about-reading p{font-size:25px}.about-reading{padding-bottom:40px;margin-bottom:40px}.entrance-baseline{font-size:8px;gap:20px}.particle-entrance-stage{min-height:100svh}.footer-full-wordmark{font-size:14.5vw;padding-top:30px}.studio-footer .footer-back{position:static;align-self:end;justify-self:end}
+  .about-editorial{grid-template-columns:1fr;gap:55px;padding:40px 0 50px}.about-editorial-heading{position:relative;top:auto}.about-editorial-heading h2{font-size:44px}.about-reading p{font-size:25px}.about-reading{padding-bottom:40px;margin-bottom:40px}.particle-entrance-stage{min-height:100svh}.footer-full-wordmark{font-size:14.5vw;padding-top:30px}.studio-footer .footer-back{position:static;align-self:end;justify-self:end}
   .footer.footer-merged .footer-wordmark{font-size:clamp(40px,18vw,120px);letter-spacing:-.06em}
   .footer.footer-merged .footer-top{flex-direction:column;align-items:flex-start;gap:16px}
   .footer.footer-merged .footer-bottom{flex-direction:column;align-items:flex-start;gap:12px}
@@ -952,11 +929,10 @@ html.nav-concealed .portfolio-filters{
 }
 @media(min-width:901px){
   .portfolio-filters{
-    width:100vw!important;
-    max-width:100vw!important;
-    margin-left:calc(50% - 50vw)!important;
-    margin-right:calc(50% - 50vw)!important;
-    padding:12px max(var(--pad),24px)!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:12px 0!important;
     background:#f6f4ef!important;
     backdrop-filter:none!important;
     -webkit-backdrop-filter:none!important;
@@ -968,7 +944,7 @@ html.nav-concealed .portfolio-filters{
   }
   html.work-filters-top .portfolio-filters,
   html.nav-concealed .portfolio-filters{
-    padding:12px max(var(--pad),24px)!important;
+    padding:12px 0!important;
     background:#f6f4ef!important;
   }
 }

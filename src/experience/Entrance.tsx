@@ -2,7 +2,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowDown } from 'lucide-react';
 import EntranceMotion from './EntranceMotion';
 
 /** A scroll-led opening chapter using the Interactive / Mobile canvas openings. */
@@ -58,8 +57,7 @@ export default function Entrance({ children }: { children: ReactNode }) {
         timeline
           .fromTo('.hero-reveal', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0.2)
           .fromTo('.hero-atmosphere', { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power1.out' }, 0.16)
-          .to('.entrance-core', { scale: 1.06, opacity: 0, duration: 0.45, ease: 'power2.in' }, 0.1)
-          .to('.entrance-scroll, .entrance-baseline', { opacity: 0, y: -12, duration: 0.22 }, 0)
+          .to('.entrance-core', { scale: 1.04, opacity: 0, duration: 0.45, ease: 'power2.in' }, 0.1)
           .to(cover, { autoAlpha: 0, duration: 0.45, ease: 'power1.inOut' }, 0.22);
       }, element);
       return () => {
@@ -85,14 +83,6 @@ export default function Entrance({ children }: { children: ReactNode }) {
           <div className="particle-entrance-stage">
             <div className="entrance-core">
               <EntranceMotion />
-            </div>
-            <a className="entrance-scroll" href="#home">
-              <span>SCROLL TO DISCOVER</span>
-              <ArrowDown size={20} />
-            </a>
-            <div className="entrance-baseline">
-              <span>SOFTWARE · DESIGN · AI · GROWTH</span>
-              <span>EVERYWHERE</span>
             </div>
           </div>
         </section>

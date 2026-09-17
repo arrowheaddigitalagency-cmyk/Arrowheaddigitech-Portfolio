@@ -1,21 +1,27 @@
 from pathlib import Path
-import re
 
 root = Path(r"d:/Projects/Arrowhead Portfolio Website")
 out = root / "public" / "entrance"
 out.mkdir(parents=True, exist_ok=True)
 
 
-def extract(src_name: str, root_id: str, out_name: str, canvas_fit_css: str) -> None:
+def extract(
+    src_name: str,
+    root_id: str,
+    out_name: str,
+    object_position: str,
+    scale: str,
+) -> None:
     raw = (root / src_name).read_text(encoding="utf-8", errors="replace")
     start = raw.find(f'<div id="{root_id}">')
     if start < 0:
         raise SystemExit(f"root not found: {root_id}")
-    # take from root div to the matching close before EOF (file ends with </div>)
     body = raw[start:].strip()
     if not body.endswith("</div>"):
         body = body + "\n</div>"
 
+    # Full-bleed cover: fill the iframe edge-to-edge (no side letterboxing).
+    # Fixed canvas sizes get CSS cover + mild scale to crop designed white margins.
     inject = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -25,13 +31,23 @@ def extract(src_name: str, root_id: str, out_name: str, canvas_fit_css: str) -> 
 <style>
 html,body{{margin:0;padding:0;width:100%;height:100%;background:#fafbfc;overflow:hidden}}
 #{root_id}{{
-  width:100%!important;max-width:none!important;height:100%!important;margin:0!important;
-  display:flex!important;flex-direction:column!important;justify-content:center!important;
-  align-items:center!important;overflow:hidden!important;box-sizing:border-box!important;
-  padding-top:max(12px, env(safe-area-inset-top, 0px))!important;
-  padding-bottom:max(8px, env(safe-area-inset-bottom, 0px))!important;
+  position:relative!important;
+  width:100%!important;max-width:none!important;
+  height:100%!important;min-height:100%!important;
+  margin:0!important;padding:0!important;
+  display:block!important;overflow:hidden!important;
+  box-sizing:border-box!important;
 }}
-#{root_id} canvas{{{canvas_fit_css}}}
+#{root_id} canvas{{
+  position:absolute!important;inset:0!important;
+  display:block!important;
+  width:100%!important;height:100%!important;
+  max-width:none!important;max-height:none!important;
+  object-fit:cover!important;
+  object-position:{object_position}!important;
+  transform:scale({scale})!important;
+  transform-origin:center center!important;
+}}
 #{root_id} .controls{{display:none!important}}
 </style>
 </head>
@@ -49,12 +65,14 @@ extract(
     "Arrowhead_Interactive.html",
     "arrowhead-motion",
     "desktop.html",
-    "display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center center",
+    "center center",
+    "1.12",
 )
 extract(
     "Arrowhead_Mobile.html",
     "arrowhead-mobile",
     "mobile.html",
-    "display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center top",
+    "center top",
+    "1.06",
 )
 print("done")
